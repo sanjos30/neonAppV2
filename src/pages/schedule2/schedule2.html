@@ -1,0 +1,112 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>SELECT PICKUP DATE-TIME</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <form #f="ngForm" (ngSubmit)="createOrder(f)">
+    <ion-list>
+      <ion-item>
+        <ion-label floating>Name</ion-label>
+        <ion-input
+          type="text"
+          ngModel
+          name="name"
+          required
+          ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Phone</ion-label>
+        <ion-input
+          type="text"
+          ngModel
+          name="phone"
+          required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Email</ion-label>
+        <ion-input
+          type="text"
+          ngModel
+          name="email"
+          required></ion-input>
+      </ion-item>
+    </ion-list>
+    <ion-list>
+      <ion-label>
+        <h2>Pick and Drop time</h2>
+      </ion-label>
+      <ion-item>
+        <ion-label>Pickup Date</ion-label>
+        <ion-datetime displayFormat="MMM DD YYYY" [(ngModel)]="order.pickupDate" [ngModelOptions]="{standalone: true}"></ion-datetime>
+      </ion-item>
+      <ion-item>
+        <ion-label>Pickup Time</ion-label>
+        <ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" [(ngModel)]="order.pickupTime" [ngModelOptions]="{standalone: true}"></ion-datetime>
+      </ion-item>
+
+
+      <ion-item>
+        <ion-label>Drop-off Date</ion-label>
+        <ion-datetime displayFormat="MMM DD YYYY" [(ngModel)]="order.dropDate" [ngModelOptions]="{standalone: true}"></ion-datetime>
+      </ion-item>
+
+
+
+      <ion-item>
+        <ion-label>Drop-off Time</ion-label>
+        <ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" [(ngModel)]="order.dropTime" [ngModelOptions]="{standalone: true}"></ion-datetime>
+      </ion-item>
+
+
+
+    </ion-list>
+    <button ion-button
+            block type="submit"
+            [disabled]="!f.valid">PLACE ORDER</button>
+  </form>
+    <!--<ion-list>
+      <ion-label>
+        <h2>Pick and Drop time</h2>
+      </ion-label>
+      <ion-item>
+        <ion-label>Pickup Date</ion-label>
+        <ion-datetime displayFormat="MMM DD YYYY" [(ngModel)]="event.pickupDate"></ion-datetime>
+      </ion-item>
+    <ion-item>
+      <ion-label>Pickup Time</ion-label>
+      <ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" [(ngModel)]="event.pickupTime"></ion-datetime>
+    </ion-item>
+
+
+      <ion-item>
+        <ion-label>Drop-off Date</ion-label>
+        <ion-datetime displayFormat="MMM DD YYYY" [(ngModel)]="event.dropDate"></ion-datetime>
+      </ion-item>
+
+
+
+    <ion-item>
+      <ion-label>Drop-off Time</ion-label>
+      <ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" [(ngModel)]="event.dropTime"></ion-datetime>
+    </ion-item>
+
+
+
+  </ion-list>-->
+
+</ion-content>
+
+<ion-footer>
+  <button
+    ion-button
+    full
+    [disabled] = '!event'
+    (click)="goToStep3()">
+    NEXT
+  </button>
+</ion-footer>

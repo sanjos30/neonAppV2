@@ -1,0 +1,57 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Select {{mode}} Date and Time</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+      <ion-list no-border>
+
+        <ion-item-divider color="light">SCHEDULE PICKUP</ion-item-divider>
+
+        <ion-item>
+          <ion-label>Pickup Date</ion-label>
+          <ion-datetime displayFormat="MMM DD YYYY" [(ngModel)]="event.pickupDate"></ion-datetime>
+        </ion-item>
+
+
+        <ion-item>
+          <ion-label>Pickup Time</ion-label>
+          <ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" [(ngModel)]="event.pickupTime"></ion-datetime>
+        </ion-item>
+      </ion-list>
+
+      <ion-list no-border>
+
+        <ion-item-divider color="light">SCHEDULE DROPOFF</ion-item-divider>
+        <ion-item>
+          <ion-label>Dropoff Date</ion-label>
+          <ion-datetime displayFormat="MMM DD YYYY" [(ngModel)]="event.dropOffDate"></ion-datetime>
+        </ion-item>
+
+      <ion-item>
+        <ion-label>Dropoff Time</ion-label>
+        <ion-datetime required displayFormat="h:mm A" pickerFormat="h mm A" [(ngModel)]="event.dropOffTime"></ion-datetime>
+      </ion-item>
+      </ion-list>
+    <ion-row>
+      <ion-col>
+        <button
+          ion-button
+          block
+          color="danger"
+          (click)="onAbort()">Cancel</button>
+      </ion-col>
+      <ion-col>
+        <button
+          ion-button
+          block
+          color="secondary"
+          (click)="onConfirm()">Confirm</button>
+      </ion-col>
+
+    </ion-row>
+</ion-content>

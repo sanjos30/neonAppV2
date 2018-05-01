@@ -1,0 +1,75 @@
+<!--
+  Generated template for the Schedule3Page page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>schedule3</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <h2>Select Pickup & Drop Timing</h2>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <h2 class="center-grey-small-text">Pickup</h2>
+      </ion-col>
+    </ion-row>
+      <ion-row>
+        <button
+          ion-button
+          block
+          outline
+          type="button"
+          icon-left
+          (click)="onOpenMap()">
+          <ion-icon name="return-right"></ion-icon>
+          Select Order Pick-up time
+        </button>
+      </ion-row>
+    <ion-row>
+      <ion-col>
+        <h2 class="center-grey-small-text">Delivery</h2>
+      </ion-col>
+    </ion-row>
+      <ion-row>
+        <button
+          ion-button
+          block
+          outline
+          type="button"
+          icon-left
+          (click)="onOpenMap()">
+          <ion-icon name="map"></ion-icon>
+          Select Order Pick-up time
+        </button>
+      </ion-row>
+
+    <ion-row>
+      <ion-item>
+        <ion-label>Operating System</ion-label>
+        <ion-select [(ngModel)]="os" submitText="Okay" cancelText="Nah">
+          <ion-option value="3">Wednesday, 3rd March</ion-option>
+          <ion-option value="4">Wednesday, 3rd March</ion-option>
+          <ion-option value="5">Wednesday, 3rd March</ion-option>
+          <ion-option value="6">Wednesday, 3rd March</ion-option>
+          <ion-option value="7">Wednesday, 3rd March</ion-option>
+          <ion-option value="8">Wednesday, 3rd March</ion-option>
+          <ion-option value="9">Wednesday, 3rd March</ion-option>
+        </ion-select>
+      </ion-item>
+
+    </ion-row>
+  </ion-grid>
+</ion-content>
