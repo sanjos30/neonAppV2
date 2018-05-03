@@ -23,12 +23,20 @@ export class SchedulePage {
   public orderTypeNote: string ="MIN 2 DAYS DELIVERY";
   newOrder:Order;
   //address:string;
-  address:Address;
+
   location: Location = {
     lat: 24.623299562653035,
     lng: 73.40927124023438
   };
-
+  address:Address = {
+    street:"26 Panchwati",
+    city:"Udaipur",
+    postCode:"313001",
+    location:{
+      lat: 24.623299562653035,
+      lng: 73.40927124023438
+    }
+  };
   public event = {
     pickupDate: '',
     pickupTime: '',
@@ -82,17 +90,16 @@ export class SchedulePage {
     console.log("Schedule Page : placeFinalOrderFireBase Function Starts");
     //this.recipesService.addRecipe(value.title, value.description, value.difficulty, ingredients);
     // this.orders.push(new Order(orderType, location,address,pickupDate,pickupTime,dropDate,dropTime,customerId));
-    this.newOrder=new Order(this.orderType,
-                            //this.location,
+/*    this.newOrder=new Order(this.orderType,
                             this.address,
                             this.event.pickupDate,
                             this.event.pickupTime,
                             this.event.dropOffDate,
                             this.event.dropOffTime,
                             this.getRandomStringId()
-                            );
-/*    this.newOrder=new Order(this.orderType, this.location,"sasas",this.event.pickupDate,this.event.pickupTime,
-      this.event.dropOffDate,this.event.dropOffTime,'asas');*/
+                            );*/
+    this.newOrder=new Order(this.orderType, this.address,this.event.pickupDate,this.event.pickupTime,
+      this.event.dropOffDate,this.event.dropOffTime,'asas');
 
     console.log("Schedule Page : placeFinalOrderFireBase Function Ends");
   }

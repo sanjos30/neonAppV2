@@ -22,6 +22,8 @@ import {SetOrderTimePage} from "../pages/set-order-time/set-order-time";
 import { DatePicker } from '@ionic-native/date-picker';
 import {Geolocation} from "@ionic-native/geolocation";
 import {Order} from "../models/order";
+import {Address} from "../models/address";
+import {Location} from "../models/location";
 
 mobiscroll.apiKey = '0433483d';
 
@@ -69,6 +71,8 @@ mobiscroll.apiKey = '0433483d';
     StatusBar,
     SplashScreen,
     OrderService,
+    Location,
+    Address,
     Order,
     DatePicker,
     {provide: ErrorHandler, useClass: IonicErrorHandler}

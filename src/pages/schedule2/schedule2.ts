@@ -17,8 +17,8 @@ export class Schedule2Page {
               public navParams: NavParams ) {
      this.newOrder= this.navParams.get('newOrder')
       console.log ("Order is "  + this.newOrder.orderType + " - "
-      + this.newOrder.location.lng + " - "
-      + this.newOrder.location.lat + " - "
+      + this.newOrder.address.location.lng + " - "
+      + this.newOrder.address.location.lat + " - "
       + this.newOrder.address + " - "
       + this.newOrder.pickupDate + " - "
       + this.newOrder.pickupTime + " - "

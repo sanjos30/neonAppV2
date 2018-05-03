@@ -4,7 +4,6 @@ import {Address} from "./address";
 export class Order {
   constructor(
     public orderType: string,
-   // public location: Location,
     public address: Address,
     public pickupDate:string,
     public pickupTime: string,
