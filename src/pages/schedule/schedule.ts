@@ -4,10 +4,10 @@ import { SetLocationPage } from "../set-location/set-location";
 import { Location } from "../../models/location";
 import {Order} from "../../models/order";
 import { Geolocation } from '@ionic-native/geolocation';
-import {Schedule3Page} from "../schedule3/schedule3";
 import {SetOrderTimePage} from "../set-order-time/set-order-time";
 import {OrderService} from "../../services/orders";
 import {Schedule2Page} from "../schedule2/schedule2";
+import {Address} from "../../models/address";
 
 @IonicPage()
 @Component({
@@ -22,7 +22,8 @@ export class SchedulePage {
   orderType:string;
   public orderTypeNote: string ="MIN 2 DAYS DELIVERY";
   newOrder:Order;
-  address:string;
+  //address:string;
+  address:Address;
   location: Location = {
     lat: 24.623299562653035,
     lng: 73.40927124023438
@@ -64,7 +65,7 @@ export class SchedulePage {
     //this.recipesService.addRecipe(value.title, value.description, value.difficulty, ingredients);
    // this.orders.push(new Order(orderType, location,address,pickupDate,pickupTime,dropDate,dropTime,customerId));
 
-    this.orderService.addOrder(
+/*    this.orderService.addOrder(
       this.orderType,
       this.location,
       this.address,
@@ -73,7 +74,7 @@ export class SchedulePage {
       this.event.dropOffDate,
       this.event.dropOffTime,
       this.getRandomStringId()
-      )
+      )*/
     console.log("Schedule Page : placeFinalOrder Function Ends");
   }
 
@@ -81,17 +82,17 @@ export class SchedulePage {
     console.log("Schedule Page : placeFinalOrderFireBase Function Starts");
     //this.recipesService.addRecipe(value.title, value.description, value.difficulty, ingredients);
     // this.orders.push(new Order(orderType, location,address,pickupDate,pickupTime,dropDate,dropTime,customerId));
-/*    this.newOrder=new Order(this.orderType,
-                            this.location,
+    this.newOrder=new Order(this.orderType,
+                            //this.location,
                             this.address,
                             this.event.pickupDate,
                             this.event.pickupTime,
                             this.event.dropOffDate,
                             this.event.dropOffTime,
-                            this.customerId
-                            );*/
-    this.newOrder=new Order(this.orderType, this.location,"sasas",this.event.pickupDate,this.event.pickupTime,
-      this.event.dropOffDate,this.event.dropOffTime,'asas');
+                            this.getRandomStringId()
+                            );
+/*    this.newOrder=new Order(this.orderType, this.location,"sasas",this.event.pickupDate,this.event.pickupTime,
+      this.event.dropOffDate,this.event.dropOffTime,'asas');*/
 
     console.log("Schedule Page : placeFinalOrderFireBase Function Ends");
   }
@@ -176,7 +177,7 @@ export class SchedulePage {
         if (data) {
           console.log('selected location from overlay page was - '+ data.location.lat + '--' + data.location.lng
           +'--' + data.locationIsSet);
-          this.location = data.location;
+          this.address.location = data.location;
           this.locationIsSet = true;
         }else{
           console.log('No location is selected'+this.locationIsSet);
@@ -191,8 +192,8 @@ export class SchedulePage {
       .then(
         location => {
          // loader.dismiss();
-          this.location.lat = location.coords.latitude;
-          this.location.lng = location.coords.longitude;
+          this.address.location.lat = location.coords.latitude;
+          this.address.location.lng = location.coords.longitude;
         }
       )
       .catch(
@@ -215,7 +216,7 @@ export class SchedulePage {
       title: 'Enter Your Address',
       inputs: [
         {
-          name: 'address',
+          name: 'addrLine1',
           placeholder: 'Street Address'
         },
         {
@@ -223,8 +224,8 @@ export class SchedulePage {
           placeholder: 'City'
         },
         {
-          name: 'pincode',
-          placeholder: 'Pincode'
+          name: 'postCode',
+          placeholder: 'PostCode'
         }
       ],
       buttons: [
@@ -235,7 +236,7 @@ export class SchedulePage {
         {
           text: 'Add',
           handler: data => {
-            if ((data.address.trim() == '' || data.address == null)) {
+            if ((data.addrLine1.trim() == '' || data.addrLine1 == null)) {
               const toast = this.toastCtrl.create({
                 message: 'Please enter a valid street address!',
                 duration: 1500,
@@ -253,6 +254,9 @@ export class SchedulePage {
               toast.present();
               return;
             };
+            this.address.street=data.addrLine1;
+            this.address.city=data.city;
+            this.address.postCode=data.postCode;
             //(<FormArray>this.recipeForm.get('ingredients'))
             //  .push(new FormControl(data.name, Validators.required));
             const toast = this.toastCtrl.create({
@@ -261,7 +265,9 @@ export class SchedulePage {
               position: 'bottom'
             });
             this.locationIsSet=true;
-            console.log('location selected manually in schedule page ' +this.locationIsSet);
+            //console.log('location selected manually in schedule page ' +this.locationIsSet);
+            console.log('Manually entered address is -  ' +this.address.street + '-' +this.address.city+
+                        '-' +this.address.postCode);
             toast.present();
           }
         }
