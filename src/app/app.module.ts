@@ -21,6 +21,7 @@ import {Schedule3Page} from "../pages/schedule3/schedule3";
 import {SetOrderTimePage} from "../pages/set-order-time/set-order-time";
 import { DatePicker } from '@ionic-native/date-picker';
 import {Geolocation} from "@ionic-native/geolocation";
+import {Order} from "../models/order";
 
 mobiscroll.apiKey = '0433483d';
 
@@ -68,6 +69,7 @@ mobiscroll.apiKey = '0433483d';
     StatusBar,
     SplashScreen,
     OrderService,
+    Order,
     DatePicker,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]

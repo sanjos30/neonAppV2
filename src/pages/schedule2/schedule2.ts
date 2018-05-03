@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams,LoadingController } from 'ionic-ang
 import {Schedule3Page} from "../schedule3/schedule3";
 import { NgForm } from "@angular/forms";
 import {Order} from "../../models/order";
+import {OrderService} from "../../services/orders";
 
 @IonicPage()
 @Component({
@@ -10,10 +11,22 @@ import {Order} from "../../models/order";
   templateUrl: 'schedule2.html',
 })
 export class Schedule2Page {
-
+  newOrder: Order;
   constructor(public navCtrl: NavController,
               private loadingCtrl: LoadingController,
-              public navParams: NavParams) {
+              public navParams: NavParams ) {
+     this.newOrder= this.navParams.get('newOrder')
+      console.log ("Order is "  + this.newOrder.orderType + " - "
+      + this.newOrder.location.lng + " - "
+      + this.newOrder.location.lat + " - "
+      + this.newOrder.address + " - "
+      + this.newOrder.pickupDate + " - "
+      + this.newOrder.pickupTime + " - "
+      + this.newOrder.dropDate + " - "
+      + this.newOrder.dropTime + " - "
+      + this.newOrder.customerId
+    );
+
   }
 
   public order = Order;
@@ -29,7 +42,7 @@ export class Schedule2Page {
     const loading = this.loadingCtrl.create({
       content: 'Signing you in...'
     });
-    loading.present();
+    //loading.present();
 
   }
 

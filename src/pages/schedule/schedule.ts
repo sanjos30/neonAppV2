@@ -1,14 +1,13 @@
 import { Component } from '@angular/core';
-import { ModalController,
-  ToastController,IonicPage,AlertController,LoadingController,NavController } from 'ionic-angular';
+import { ModalController, ToastController,IonicPage,AlertController,LoadingController,NavController } from 'ionic-angular';
 import { SetLocationPage } from "../set-location/set-location";
 import { Location } from "../../models/location";
 import {Order} from "../../models/order";
 import { Geolocation } from '@ionic-native/geolocation';
-import {Schedule2Page} from "../schedule2/schedule2";
 import {Schedule3Page} from "../schedule3/schedule3";
 import {SetOrderTimePage} from "../set-order-time/set-order-time";
 import {OrderService} from "../../services/orders";
+import {Schedule2Page} from "../schedule2/schedule2";
 
 @IonicPage()
 @Component({
@@ -22,7 +21,7 @@ export class SchedulePage {
   public isExpressDelivery : boolean = false;
   orderType:string;
   public orderTypeNote: string ="MIN 2 DAYS DELIVERY";
-  neonOrder:Order;
+  newOrder:Order;
   address:string;
   location: Location = {
     lat: 24.623299562653035,
@@ -45,11 +44,21 @@ export class SchedulePage {
               private orderService:OrderService,
               private loadingCtrl: LoadingController,
               private navCtrl: NavController
-              ) {
+              ) {  }
 
-
+  ionViewDidLoad() {
+    console.log("Schedule Page : IonViewDidLoad Function");
+  }
+  ionViewWillLeave() {
+    console.log("Schedule Page : ionViewWillLeave Function");
   }
 
+  ionViewWillEnter(){
+    console.log("Schedule Page : ionViewWillEnter Function. Getting User current location here.");
+    this.getUserLocation();
+    console.log("Schedule Page : ionViewWillEnter Function. The user location is - "
+      + this.location.lat + ' - '  + this.location.lng);
+  }
   placeFinalOrder(){
     console.log("Schedule Page : placeFinalOrder Function Starts");
     //this.recipesService.addRecipe(value.title, value.description, value.difficulty, ingredients);
@@ -68,6 +77,25 @@ export class SchedulePage {
     console.log("Schedule Page : placeFinalOrder Function Ends");
   }
 
+  placeFinalOrderFireBase(){
+    console.log("Schedule Page : placeFinalOrderFireBase Function Starts");
+    //this.recipesService.addRecipe(value.title, value.description, value.difficulty, ingredients);
+    // this.orders.push(new Order(orderType, location,address,pickupDate,pickupTime,dropDate,dropTime,customerId));
+/*    this.newOrder=new Order(this.orderType,
+                            this.location,
+                            this.address,
+                            this.event.pickupDate,
+                            this.event.pickupTime,
+                            this.event.dropOffDate,
+                            this.event.dropOffTime,
+                            this.customerId
+                            );*/
+    this.newOrder=new Order(this.orderType, this.location,"sasas",this.event.pickupDate,this.event.pickupTime,
+      this.event.dropOffDate,this.event.dropOffTime,'asas');
+
+    console.log("Schedule Page : placeFinalOrderFireBase Function Ends");
+  }
+
   getRandomNumberId() {
     return Math.floor((Math.random()*6)+1);
   }
@@ -83,26 +111,15 @@ export class SchedulePage {
   goToStep2(){
     console.log('Before going to page 2 - lets print what we are sending '+this.isExpressDelivery + this.location.lat);
     //this.navCtrl.push(Schedule2Page, {isExpressDelivery: this.isExpressDelivery, location: this.location});
-    this.navCtrl.push(Schedule3Page, {
+    this.navCtrl.push(Schedule2Page, {
       testStr:'Hi',
       orderType: this.isExpressDelivery,
       lat: this.location.lat,
-      lng:this.location.lng});
+      lng:this.location.lng,
+      newOrder:this.newOrder});
   }
 
-  ionViewDidLoad() {
-    console.log("Schedule Page : IonViewDidLoad Function");
-  }
-  ionViewWillLeave() {
-    console.log("Schedule Page : ionViewWillLeave Function");
-  }
 
-  ionViewWillEnter(){
-    console.log("Schedule Page : ionViewWillEnter Function. Getting User current location here.");
-    this.getUserLocation();
-    console.log("Schedule Page : ionViewWillEnter Function. The user location is - "
-      + this.location.lat + ' - '  + this.location.lng);
-  }
 
   public toggleBackgroundColor(): void {
     console.log("Schedule Page : toggleBackgroundColor Function Starts");
