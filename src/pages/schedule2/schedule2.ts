@@ -28,13 +28,10 @@ export class Schedule2Page {
     );
 
   }
-
-  public order = Order;
-
   goToStep3(){
     console.log('Lets go to the step 3 of ordering');
     //this.navCtrl.push(Schedule2Page, {selectedDateTime: this.order});
-    this.navCtrl.push(Schedule3Page, {order:this.order});
+    this.navCtrl.push(Schedule3Page, {order:this.newOrder});
   }
 
   createOrder(form: NgForm){

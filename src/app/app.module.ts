@@ -71,9 +71,6 @@ mobiscroll.apiKey = '0433483d';
     StatusBar,
     SplashScreen,
     OrderService,
-    Location,
-    Address,
-    Order,
     DatePicker,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]

@@ -5,7 +5,6 @@ import { Location } from "../../models/location";
 import {Order} from "../../models/order";
 import { Geolocation } from '@ionic-native/geolocation';
 import {SetOrderTimePage} from "../set-order-time/set-order-time";
-import {OrderService} from "../../services/orders";
 import {Schedule2Page} from "../schedule2/schedule2";
 import {Address} from "../../models/address";
 
@@ -28,14 +27,11 @@ export class SchedulePage {
     lat: 24.623299562653035,
     lng: 73.40927124023438
   };
-  address:Address = {
+  address:Address= {
     street:"26 Panchwati",
     city:"Udaipur",
     postCode:"313001",
-    location:{
-      lat: 24.623299562653035,
-      lng: 73.40927124023438
-    }
+    location:null
   };
   public event = {
     pickupDate: '',
@@ -50,7 +46,6 @@ export class SchedulePage {
               private alertCtrl: AlertController,
               private toastCtrl: ToastController,
               private geolocation: Geolocation,
-              private orderService:OrderService,
               private loadingCtrl: LoadingController,
               private navCtrl: NavController
               ) {  }
@@ -62,12 +57,12 @@ export class SchedulePage {
     console.log("Schedule Page : ionViewWillLeave Function");
   }
 
-  ionViewWillEnter(){
+/*  ionViewWillEnter(){
     console.log("Schedule Page : ionViewWillEnter Function. Getting User current location here.");
     this.getUserLocation();
     console.log("Schedule Page : ionViewWillEnter Function. The user location is - "
       + this.location.lat + ' - '  + this.location.lng);
-  }
+  }*/
   placeFinalOrder(){
     console.log("Schedule Page : placeFinalOrder Function Starts");
     //this.recipesService.addRecipe(value.title, value.description, value.difficulty, ingredients);
@@ -90,16 +85,16 @@ export class SchedulePage {
     console.log("Schedule Page : placeFinalOrderFireBase Function Starts");
     //this.recipesService.addRecipe(value.title, value.description, value.difficulty, ingredients);
     // this.orders.push(new Order(orderType, location,address,pickupDate,pickupTime,dropDate,dropTime,customerId));
-/*    this.newOrder=new Order(this.orderType,
+    this.newOrder=new Order(this.orderType,
                             this.address,
                             this.event.pickupDate,
                             this.event.pickupTime,
                             this.event.dropOffDate,
                             this.event.dropOffTime,
                             this.getRandomStringId()
-                            );*/
-    this.newOrder=new Order(this.orderType, this.address,this.event.pickupDate,this.event.pickupTime,
-      this.event.dropOffDate,this.event.dropOffTime,'asas');
+                            );
+/*    this.newOrder=new Order(this.orderType, this.address,this.event.pickupDate,this.event.pickupTime,
+      this.event.dropOffDate,this.event.dropOffTime,'asas');*/
 
     console.log("Schedule Page : placeFinalOrderFireBase Function Ends");
   }
@@ -120,10 +115,6 @@ export class SchedulePage {
     console.log('Before going to page 2 - lets print what we are sending '+this.isExpressDelivery + this.location.lat);
     //this.navCtrl.push(Schedule2Page, {isExpressDelivery: this.isExpressDelivery, location: this.location});
     this.navCtrl.push(Schedule2Page, {
-      testStr:'Hi',
-      orderType: this.isExpressDelivery,
-      lat: this.location.lat,
-      lng:this.location.lng,
       newOrder:this.newOrder});
   }
 
@@ -184,7 +175,7 @@ export class SchedulePage {
         if (data) {
           console.log('selected location from overlay page was - '+ data.location.lat + '--' + data.location.lng
           +'--' + data.locationIsSet);
-          this.address.location = data.location;
+          this.location = data.location;
           this.locationIsSet = true;
         }else{
           console.log('No location is selected'+this.locationIsSet);
@@ -199,8 +190,8 @@ export class SchedulePage {
       .then(
         location => {
          // loader.dismiss();
-          this.address.location.lat = location.coords.latitude;
-          this.address.location.lng = location.coords.longitude;
+          this.location.lat = location.coords.latitude;
+          this.location.lng = location.coords.longitude;
         }
       )
       .catch(
@@ -223,7 +214,7 @@ export class SchedulePage {
       title: 'Enter Your Address',
       inputs: [
         {
-          name: 'addrLine1',
+          name: 'street',
           placeholder: 'Street Address'
         },
         {
@@ -243,7 +234,7 @@ export class SchedulePage {
         {
           text: 'Add',
           handler: data => {
-            if ((data.addrLine1.trim() == '' || data.addrLine1 == null)) {
+            if ((data.street.trim() == '' || data.street == null)) {
               const toast = this.toastCtrl.create({
                 message: 'Please enter a valid street address!',
                 duration: 1500,
@@ -261,7 +252,7 @@ export class SchedulePage {
               toast.present();
               return;
             };
-            this.address.street=data.addrLine1;
+            this.address.street=data.street;
             this.address.city=data.city;
             this.address.postCode=data.postCode;
             //(<FormArray>this.recipeForm.get('ingredients'))
