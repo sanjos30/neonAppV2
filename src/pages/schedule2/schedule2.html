@@ -65,9 +65,9 @@
 
 
     </ion-list>-->
-    <button ion-button
+    <!--<button ion-button
             block type="submit"
-            [disabled]="!f.valid">PLACE ORDER</button>
+            [disabled]="!f.valid">PLACE ORDER</button>-->
   </form>
     <!--<ion-list>
       <ion-label>
@@ -102,11 +102,11 @@
 </ion-content>
 
 <ion-footer>
-  <button
-    ion-button
-    full
-    [disabled] = '!event'
-    (click)="goToStep3()">
-    NEXT
+
+  <button ion-button
+          block type="submit"
+          [disabled]="!f.valid"
+          (click)="f.ngSubmit.emit()">PLACE ORDER
   </button>
+
 </ion-footer>
