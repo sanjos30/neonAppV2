@@ -15,10 +15,10 @@ export class Schedule2Page {
   constructor(public navCtrl: NavController,
               private loadingCtrl: LoadingController,
               public navParams: NavParams ) {
-     this.newOrder= this.navParams.get('newOrder')
+     this.newOrder= this.navParams.get('newOrder');
       console.log ("Order is "  + this.newOrder.orderType + " - "
-      + this.newOrder.address.location.lng + " - "
-      + this.newOrder.address.location.lat + " - "
+      //+ this.newOrder.address.location.lng + " - "
+      //+ this.newOrder.address.location.lat + " - "
       + this.newOrder.address + " - "
       + this.newOrder.pickupDate + " - "
       + this.newOrder.pickupTime + " - "

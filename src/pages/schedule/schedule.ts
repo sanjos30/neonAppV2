@@ -113,6 +113,19 @@ export class SchedulePage {
 
   goToStep2(){
     console.log('Before going to page 2 - lets print what we are sending '+this.isExpressDelivery + this.location.lat);
+
+    console.log ("Order is "  + this.newOrder.orderType + " - "
+      + this.newOrder.address.location.lng + " - "
+      + this.newOrder.address.location.lat + " - "
+      + this.newOrder.address + " - "
+      + this.newOrder.pickupDate + " - "
+      + this.newOrder.pickupTime + " - "
+      + this.newOrder.dropDate + " - "
+      + this.newOrder.dropTime + " - "
+      + this.newOrder.customerId
+    );
+
+
     //this.navCtrl.push(Schedule2Page, {isExpressDelivery: this.isExpressDelivery, location: this.location});
     this.navCtrl.push(Schedule2Page, {
       newOrder:this.newOrder});
@@ -175,7 +188,7 @@ export class SchedulePage {
         if (data) {
           console.log('selected location from overlay page was - '+ data.location.lat + '--' + data.location.lng
           +'--' + data.locationIsSet);
-          this.location = data.location;
+          this.address.location = data.location;
           this.locationIsSet = true;
         }else{
           console.log('No location is selected'+this.locationIsSet);
