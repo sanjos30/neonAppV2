@@ -17,8 +17,8 @@ export class Schedule2Page {
               public navParams: NavParams ) {
      this.newOrder= this.navParams.get('newOrder');
       console.log ("Order is "  + this.newOrder.orderType + " - "
-      //+ this.newOrder.address.location.lng + " - "
-      //+ this.newOrder.address.location.lat + " - "
+      + this.newOrder.address.location.lng + " - "
+      + this.newOrder.address.location.lat + " - "
       + this.newOrder.address + " - "
       + this.newOrder.pickupDate + " - "
       + this.newOrder.pickupTime + " - "
@@ -39,6 +39,17 @@ export class Schedule2Page {
     const loading = this.loadingCtrl.create({
       content: 'Signing you in...'
     });
+
+    console.log ("Submitting Order. Details are - "  + this.newOrder.orderType + " - "
+      + this.newOrder.address.location.lng + " - "
+      + this.newOrder.address.location.lat + " - "
+      + this.newOrder.address.street + ", " + this.newOrder.address.city+", " + this.newOrder.address.postCode+ " - "
+      + this.newOrder.pickupDate + " - "
+      + this.newOrder.pickupTime + " - "
+      + this.newOrder.dropDate + " - "
+      + this.newOrder.dropTime + " - "
+      + this.newOrder.customerId
+    );
     //loading.present();
 
   }
