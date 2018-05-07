@@ -28,16 +28,16 @@ export class SchedulePage {
     lng: 73.40927124023438
   };
   address:Address= {
-    street:"26 Panchwati",
-    city:"Udaipur",
-    postCode:"313001",
+    street:'26 Panchwati',
+    city:'Udaipur',
+    postCode:'313001',
     location:null
   };
   public event = {
-    pickupDate: '',
-    pickupTime: '',
-    dropOffDate: '',
-    dropOffTime: ''
+    pickupDate: '08-07-15',
+    pickupTime: '09:00',
+    dropOffDate: '08-07-16',
+    dropOffTime: '10:00'
   }
 
   locationIsSet = false;
@@ -112,7 +112,15 @@ export class SchedulePage {
   }
 
   goToStep2(){
-    console.log('Before going to page 2 - lets print what we are sending '+this.isExpressDelivery + this.location.lat);
+  console.log("Setup the order object");
+    this.newOrder=new Order(this.orderType,
+      this.address,
+      this.event.pickupDate,
+      this.event.pickupTime,
+      this.event.dropOffDate,
+      this.event.dropOffTime,
+      this.getRandomStringId()
+    );
 
     console.log ("Order is "  + this.newOrder.orderType + " - "
       + this.newOrder.address.location.lng + " - "
@@ -218,6 +226,7 @@ export class SchedulePage {
         }
       );
   }
+
   onInputAddress(){
     console.log('Manually entering address');
     this.createAddressManuallyAlert().present();

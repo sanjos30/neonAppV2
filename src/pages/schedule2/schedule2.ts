@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams,LoadingController } from 'ionic-angular';
+import {IonicPage, NavController, NavParams, LoadingController, AlertController} from 'ionic-angular';
 import {Schedule3Page} from "../schedule3/schedule3";
 import { NgForm } from "@angular/forms";
 import {Order} from "../../models/order";
@@ -19,7 +19,8 @@ export class Schedule2Page {
   mode = 'New'; //existing for returning customers
   constructor(public navCtrl: NavController,
               private loadingCtrl: LoadingController,
-              public navParams: NavParams ) {
+              public navParams: NavParams,
+              private alertCtrl: AlertController) {
      this.newOrder= this.navParams.get('newOrder');
       console.log ("Order is "  + this.newOrder.orderType + " - "
       + this.newOrder.address.location.lng + " - "
@@ -71,8 +72,37 @@ export class Schedule2Page {
     const value = this.custDetailsForm.value;
 
     console.log('Name: '+value.name + " Email: "+value.email + " Phone:" + value.phone);
+    this.orderPlacedAlert();
 
   }
+
+  private orderPlacedAlert(){
+      let prompt = this.alertCtrl.create({
+        title: 'Order Placed Successfully',
+        message: "Thanks for placing an order with us.",
+/*        inputs: [
+          {
+            name: 'title',
+            placeholder: 'Title'
+          },
+        ],*/
+        buttons: [
+          {
+            text: 'Refer a friend',
+            handler: data => {
+              console.log('Referred a friend');
+            }
+          },
+          {
+            text: 'View past orders',
+            handler: data => {
+              console.log('Route to past orders page');
+            }
+          }
+        ]
+      });
+      prompt.present();
+    }
 
   private initializeForm() {
     let name = null;
