@@ -14,25 +14,27 @@ export class SetOrderTimePage {
   order:Order;
   alertText:string;
   public event = {
-    pickupDate: null,
-    pickupTime: '09:00',
-    dropOffDate: null,
-    dropOffTime: '09:00'
+    pickupDate: '',
+    pickupTime: '',
+    dropOffDate: '',
+    dropOffTime: ''
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad Set Order Page');
+    console.log('ionViewDidLoad Select Order Date and Time');
     this.alertText='';
-    this.event.pickupDate=null;
-    this.event.dropOffDate=null;
+    this.event.dropOffDate='05-05-2018';
   }
 
   constructor(public navParams: NavParams,
               private viewCtrl: ViewController,
               private alertCtrl: AlertController) {
+    console.log('Set Order Date and Time Page Constructor');
     this.orderType=this.navParams.get('isExpressDelivery');
+    this.event=this.navParams.get('event');
     this.alertText='';
-    console.log('SetLocationPage: Selected Order Type '+ this.orderType);
+    console.log('SetLocationPage: Selected Order Type '+ this.event.dropOffDate+this.event.dropOffTime
+                +this.event.pickupDate+this.event.pickupTime);
   }
 
 

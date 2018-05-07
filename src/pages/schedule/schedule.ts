@@ -28,15 +28,15 @@ export class SchedulePage {
     lng: 73.40927124023438
   };
   address:Address= {
-    street:'26 Panchwati',
-    city:'Udaipur',
-    postCode:'313001',
+    street:'DEFAULT STREET',
+    city:'DEFAULT CITY',
+    postCode:'DEFAULT POSTCODE',
     location:null
   };
   public event = {
-    pickupDate: '08-07-15',
+    pickupDate: '2018-05-09',
     pickupTime: '09:00',
-    dropOffDate: '08-07-16',
+    dropOffDate: '2018-05-07',
     dropOffTime: '10:00'
   }
 
@@ -158,7 +158,9 @@ export class SchedulePage {
 
   selectOrderDateTime() {
     const modal = this.modalCtrl.create(SetOrderTimePage,
-      {orderType: this.isExpressDelivery});
+      {orderType: this.isExpressDelivery,
+            event:this.event
+          });
     modal.present();
     modal.onDidDismiss(
       data => {
@@ -237,15 +239,18 @@ export class SchedulePage {
       inputs: [
         {
           name: 'street',
-          placeholder: 'Street Address'
+          placeholder: 'Street Address',
+          value:this.address.street
         },
         {
           name: 'city',
-          placeholder: 'City'
+          placeholder: 'City',
+          value:this.address.city
         },
         {
           name: 'postCode',
-          placeholder: 'PostCode'
+          placeholder: 'PostCode',
+          value:this.address.postCode
         }
       ],
       buttons: [

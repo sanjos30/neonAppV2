@@ -14,13 +14,13 @@
 
         <ion-item>
           <ion-label>Pickup Date</ion-label>
-          <ion-datetime displayFormat="MMM DD YYYY" [(ngModel)]="event.pickupDate"></ion-datetime>
+          <ion-datetime displayFormat="MMM DD YYYY" [(ngModel)]="event.pickupDate" value="event.pickupDate">{{event.pickupDate}}</ion-datetime>
         </ion-item>
 
 
         <ion-item>
           <ion-label>Pickup Time</ion-label>
-          <ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" [(ngModel)]="event.pickupTime"></ion-datetime>
+          <ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" [(ngModel)]="event.pickupTime">{{event.pickupTime}}</ion-datetime>
         </ion-item>
       </ion-list>
 
@@ -29,14 +29,18 @@
         <ion-item-divider color="light">SCHEDULE DROPOFF</ion-item-divider>
         <ion-item>
           <ion-label>Dropoff Date</ion-label>
-          <ion-datetime displayFormat="MMM DD YYYY" [(ngModel)]="event.dropOffDate"></ion-datetime>
+          <ion-datetime displayFormat="MMM DD YYYY" [(ngModel)]="event.dropOffDate" >{{event.dropOffDate}}</ion-datetime>
         </ion-item>
 
       <ion-item>
         <ion-label>Dropoff Time</ion-label>
-        <ion-datetime required displayFormat="h:mm A" pickerFormat="h mm A" [(ngModel)]="event.dropOffTime"></ion-datetime>
+        <ion-datetime required displayFormat="h:mm A" pickerFormat="h mm A" [(ngModel)]="event.dropOffTime">{{event.dropOffTime}}</ion-datetime>
       </ion-item>
       </ion-list>
+  <ion-row>{{event.pickupDate}}</ion-row>
+  <ion-row>{{event.pickupTime}}</ion-row>
+  <ion-row>{{event.dropOffDate}}</ion-row>
+  <ion-row>{{event.dropOffTime}}</ion-row>
     <ion-row>
       <ion-col>
         <button
