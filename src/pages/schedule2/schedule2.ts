@@ -3,7 +3,9 @@ import { IonicPage, NavController, NavParams,LoadingController } from 'ionic-ang
 import {Schedule3Page} from "../schedule3/schedule3";
 import { NgForm } from "@angular/forms";
 import {Order} from "../../models/order";
+import {Customer} from "../../models/customer";
 import {OrderService} from "../../services/orders";
+import { FormGroup, FormControl, Validators, FormArray } from "@angular/forms";
 
 @IonicPage()
 @Component({
@@ -12,6 +14,9 @@ import {OrderService} from "../../services/orders";
 })
 export class Schedule2Page {
   newOrder: Order;
+  custDetailsForm: FormGroup;
+  customer:Customer;
+  mode = 'New'; //existing for returning customers
   constructor(public navCtrl: NavController,
               private loadingCtrl: LoadingController,
               public navParams: NavParams ) {
@@ -28,6 +33,17 @@ export class Schedule2Page {
     );
 
   }
+
+  ngOnInit() {
+    console.log("Inside the NG ON INIT METHOD");
+    //If customer exists, set to Existing
+    this.mode = this.navParams.get('mode');
+    if (this.mode == 'Existing') {
+      this.customer = this.navParams.get('customer');
+    }
+    this.initializeForm();
+  }
+
   goToStep3(){
     console.log('Lets go to the step 3 of ordering');
     //this.navCtrl.push(Schedule2Page, {selectedDateTime: this.order});
@@ -52,6 +68,28 @@ export class Schedule2Page {
     );
     //loading.present();
 
+    const value = this.custDetailsForm.value;
+
+    console.log('Name: '+value.name + " Email: "+value.email + " Phone:" + value.phone);
+
+  }
+
+  private initializeForm() {
+    let name = null;
+    let email = null;
+    let phone = null;
+
+    if (this.mode == 'Existing') {
+      name = this.customer.name;
+      email = this.customer.email;
+      phone = this.customer.phone;
+    }
+
+    this.custDetailsForm = new FormGroup({
+      'name': new FormControl(name, Validators.required),
+      'email': new FormControl(email, Validators.required),
+      'phone': new FormControl(phone, Validators.required)
+    });
   }
 
 }

@@ -8,14 +8,13 @@
 
 
 <ion-content padding>
-  <form #f="ngForm" (ngSubmit)="createOrder(f)">
+  <form #f="ngForm" [formGroup]="custDetailsForm" (ngSubmit)="createOrder(f)">
     <ion-list>
       <ion-item>
         <ion-label floating>Name</ion-label>
         <ion-input
           type="text"
-          ngModel
-          name="name"
+          formControlName="name"
           required
           ></ion-input>
       </ion-item>
@@ -23,16 +22,14 @@
         <ion-label floating>Phone</ion-label>
         <ion-input
           type="text"
-          ngModel
-          name="phone"
+          formControlName="phone"
           required></ion-input>
       </ion-item>
       <ion-item>
         <ion-label floating>Email</ion-label>
         <ion-input
           type="text"
-          ngModel
-          name="email"
+          formControlName="email"
           required></ion-input>
       </ion-item>
     </ion-list>
