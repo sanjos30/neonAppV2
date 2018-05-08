@@ -35,9 +35,9 @@ export class SchedulePage {
   };
   public event = {
     pickupDate: '2018-05-09',
-    pickupTime: '09:00',
+    pickupTime: '10:00',
     dropOffDate: '2018-05-07',
-    dropOffTime: '10:00'
+    dropOffTime: '10:30'
   }
 
   locationIsSet = false;
