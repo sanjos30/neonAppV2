@@ -129,7 +129,7 @@ export class SchedulePage {
       + this.newOrder.pickupDate + " - "
       + this.newOrder.pickupTime + " - "
       + this.newOrder.dropDate + " - "
-      + this.newOrder.dropTime + " - "
+      + this.newOrder.dropTime + " -- "
       + this.newOrder.customerId
     );
 
