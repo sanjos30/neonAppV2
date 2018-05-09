@@ -28,15 +28,15 @@ export class SchedulePage {
     lng: 73.40927124023438
   };
   address:Address= {
-    street:'DEFAULT STREET',
-    city:'DEFAULT CITY',
-    postCode:'DEFAULT POSTCODE',
+    street:'Your Street Address',
+    city:'Your City',
+    postCode:'Postcode',
     location:null
   };
   public event = {
-    pickupDate: '2018-05-09',
+    pickupDate: '2018-05-01',
     pickupTime: '10:00',
-    dropOffDate: '2018-05-07',
+    dropOffDate: '2018-05-04',
     dropOffTime: '10:30'
   }
 
