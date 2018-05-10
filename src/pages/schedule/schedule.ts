@@ -165,7 +165,7 @@ export class SchedulePage {
     modal.onDidDismiss(
       data => {
         if (data) {
-          console.log('Selected Time AND Date -  '+
+          console.log('Selected Time and date is -  '+
             data.event.pickupDate +' - ' +
             data.event.pickupTime  +' - ' +
             data.event.dropOffDate + ' - ' +
