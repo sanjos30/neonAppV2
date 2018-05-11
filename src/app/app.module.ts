@@ -24,6 +24,7 @@ import {Geolocation} from "@ionic-native/geolocation";
 import {Order} from "../models/order";
 import {Address} from "../models/address";
 import {Location} from "../models/location";
+import { AuthService } from "../services/auth";
 
 mobiscroll.apiKey = '0433483d';
 
@@ -72,6 +73,7 @@ mobiscroll.apiKey = '0433483d';
     SplashScreen,
     OrderService,
     DatePicker,
+    AuthService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

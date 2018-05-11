@@ -30,6 +30,7 @@
     "@mobiscroll/angular-trial": "^4.0.0-beta3.1",
     "cordova-plugin-datepicker": "^0.9.3",
     "cordova-plugin-geolocation": "^4.0.1",
+    "firebase": "^5.0.2",
     "ion-datetime-picker": "^0.5.2",
     "ionic-angular": "3.9.2",
     "ionicons": "3.0.0",
