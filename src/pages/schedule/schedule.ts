@@ -57,12 +57,6 @@ export class SchedulePage {
     console.log("Schedule Page : ionViewWillLeave Function");
   }
 
-/*  ionViewWillEnter(){
-    console.log("Schedule Page : ionViewWillEnter Function. Getting User current location here.");
-    this.getUserLocation();
-    console.log("Schedule Page : ionViewWillEnter Function. The user location is - "
-      + this.location.lat + ' - '  + this.location.lng);
-  }*/
   placeFinalOrder(){
     console.log("Schedule Page : placeFinalOrder Function Starts");
     //this.recipesService.addRecipe(value.title, value.description, value.difficulty, ingredients);
