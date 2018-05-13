@@ -106,7 +106,7 @@ export class SchedulePage {
   }
 
   goToStep2(){
-  console.log("Setup the order object");
+  console.log("Schedule Page: Setup the order object");
     this.newOrder=new Order(this.orderType,
       this.address,
       this.event.pickupDate,
