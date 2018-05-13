@@ -46,7 +46,7 @@ mobiscroll.apiKey = '0433483d';
     BrowserModule,
     IonicModule.forRoot(MyApp),
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyDrY4TNNseW0m1Lpw4h9COEx4eA2RFaZkI'
+      apiKey: '22222'
     })
   ],
   bootstrap: [IonicApp],
