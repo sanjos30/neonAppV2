@@ -22,6 +22,7 @@ import {SetOrderTimePage} from "../pages/set-order-time/set-order-time";
 import { DatePicker } from '@ionic-native/date-picker';
 import {Geolocation} from "@ionic-native/geolocation";
 import { AuthService } from "../services/auth";
+import { HttpModule } from '@angular/http';
 
 mobiscroll.apiKey = '0433483d';
 
@@ -44,9 +45,10 @@ mobiscroll.apiKey = '0433483d';
     FormsModule,
     MbscModule,
     BrowserModule,
+    HttpModule,
     IonicModule.forRoot(MyApp),
     AgmCoreModule.forRoot({
-      apiKey: '22222'
+      apiKey: 'AIzaSyDrY4TNNseW0m1Lpw4h9COEx4eA2RFaZkI'
     })
   ],
   bootstrap: [IonicApp],

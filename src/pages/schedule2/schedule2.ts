@@ -125,7 +125,7 @@ export class Schedule2Page {
   private orderPlacedAlert(){
       let prompt = this.alertCtrl.create({
         title: 'Order Placed Successfully',
-        message: "Thanks for placing an order with us.",
+        message: "Thanks for placing an order with us",
 /*        inputs: [
           {
             name: 'title',
