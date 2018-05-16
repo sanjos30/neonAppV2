@@ -136,7 +136,7 @@ export class Schedule2Page {
           {
             text: 'Refer a friend',
             handler: data => {
-              console.log('Referred a friend');
+              console.log('Refer a friend');
             }
           },
           {
