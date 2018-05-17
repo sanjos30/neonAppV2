@@ -142,7 +142,7 @@ export class Schedule2Page {
           {
             text: 'View past orders',
             handler: data => {
-              console.log('Route to past orders page');
+              console.log('Route to past orders page.');
             }
           }
         ]
