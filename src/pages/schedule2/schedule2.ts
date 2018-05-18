@@ -79,7 +79,7 @@ export class Schedule2Page {
     //Create order in firebase
 
     this.createFireBaseOrder();
-    console.log('Name: ' + value.name + " Email: " + value.email + " Phone:" + value.phone);
+    console.log('Name: ' + value.name + " Email: " + value.email + " Phone: " + value.phone);
     this.orderPlacedAlert();
 
   }
