@@ -10,11 +10,21 @@ import firebase from "firebase";
 })
 export class MyApp {
   rootPage:any = TabsPage;
-
+  isAuthenticated = false;
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
     firebase.initializeApp({
       apiKey: "AIzaSyC4b_qyg3xGPWXEdH4B-VLCRu1ClbjNBwk",
-      authDomain: "neonappservertest.firebaseapp.com"
+      authDomain: "neonappservertest.firebaseapp.com",
+      databaseURL: "https://neonappservertest.firebaseio.com",
+    });
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        this.isAuthenticated = true;
+        console.log('user authenticated');
+      } else {
+        this.isAuthenticated = false;
+        console.log('user unauthenticated');
+      }
     });
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.

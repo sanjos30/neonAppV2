@@ -9,6 +9,7 @@ import { FormGroup, FormControl, Validators, FormArray } from "@angular/forms";
 import { AuthService } from "../../services/auth";
 import { Http, Response } from "@angular/http";
 import 'rxjs/Rx';
+import firebase from "firebase";
 
 @IonicPage()
 @Component({
@@ -80,7 +81,9 @@ export class Schedule2Page {
     const value = this.custDetailsForm.value;
     //Create order in firebase
 
-    this.createFireBaseOrder();
+    //this.createFireBaseOrder(value.name,value.email,value.phone);
+    this.newUserSignIn(value.name,value.email,value.phone);
+
     console.log('Name: ' + value.name +
                 " Email: " + value.email +
                 " Phone: " + value.phone);
@@ -88,26 +91,74 @@ export class Schedule2Page {
 
   }
 
-  private createFireBaseOrder() {
+
+
+  private newUserSignIn(name: string,email: string,phone:string){
     const loading = this.loadingCtrl.create({
       content: 'Please wait...'
     });
     loading.present();
+    console.log('signing in started');
+    this.authService.signinAnonymous(name,email, phone)
+      .then(data => {
+        this.createFireBaseOrder(name,email, phone);
+        loading.dismiss();
+      })
+      .catch(error => {
+        loading.dismiss();
+        const alert = this.alertCtrl.create({
+          title: 'Signin failed!',
+          message: error.message,
+          buttons: ['Ok']
+        });
+        alert.present();
+      });
+
+    console.log('User signed in is '+firebase.auth().currentUser)
+  }
+
+  private createFireBaseOrder(name: string,email: string,phone:string) {
+    console.log('create firebase order');
     this.authService.getActiveUser().getIdToken()
       .then(
         (token: string) => {
-          this.storeList(token)
-            .subscribe(
-              () => loading.dismiss(),
-              error => {
-                loading.dismiss();
-                this.handleError(error.json().error);
-              }
-            );
+          this.createNewOrderUsingCustomerModel(token)
         }
       );
   }
 
+  private createNewOrder(token:string) {
+
+    // A post entry.
+    var postData = {
+      author: 'saneep',
+      uid: 'uid',
+      body: 'body',
+      title: 'title',
+      starCount: 0,
+      authorPic: 'nopicture'
+    };
+
+
+    console.log('preparing a request to firebase database');
+    // Get a key for a new Post.
+    var newOrderKey = firebase.database().ref().child('orders').push().key;
+    console.log('THe pushed key is ' + newOrderKey);
+
+    // Write the new post's data simultaneously in the posts list and the user's post list.
+    var updates = {};
+    updates['/orders/' + newOrderKey] = postData;
+    updates['/user-orders/' + token + '/' + newOrderKey] = postData;
+    console.log('sending a request to firebase database' + updates);
+
+    return firebase.database().ref().update(updates);
+  }
+
+private createNewOrderUsingCustomerModel(token:string){
+    firebase.database().ref('users/' + token).set({
+      orderType : this.newOrder.orderType
+    });
+}
   private storeList(token: string) {
     const userId = this.authService.getActiveUser().uid;
     return this.http

@@ -9,6 +9,9 @@ export class AuthService {
     return firebase.auth().signInWithEmailAndPassword(email, password);
   }
 
+  signinAnonymous(email: string, phone: string,name:string) {
+    return firebase.auth().signInAnonymously();
+  }
   logout() {
     firebase.auth().signOut();
   }
