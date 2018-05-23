@@ -1,12 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the HistoryPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import {AlertController, IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
+import {AuthService} from "../../services/auth";
+import {Order} from "../../models/order";
 
 @IonicPage()
 @Component({
@@ -15,11 +10,31 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class HistoryPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  firebaseCustUid:string;
+  previousOrders:any;
+
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              private authService: AuthService) {
+            this.firebaseCustUid = this.navParams.get('firebaseCustUid');
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad HistoryPage');
+  ngOnInit() {
+    console.log("Inside the NG ON INIT METHOD");
+    //this.previousOrders=this.authService.getPreviousOrders(this.firebaseCustUid);
+    var orders = this.authService.getPreviousOrders(this.firebaseCustUid);
+    orders.on('value', itemSnapshot => {
+      this.previousOrders = [];
+      itemSnapshot.forEach( itemSnap => {
+        this.previousOrders.push(itemSnap.val());
+        return false;
+      });
+    });
+
+    console.log(orders + 'getting from firebase');
   }
 
+  itemSelected(item: string) {
+    console.log("Selected Item", item);
+  }
 }

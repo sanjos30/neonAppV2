@@ -50,12 +50,6 @@ export class SchedulePage {
               private navCtrl: NavController
               ) {  }
 
-  ionViewDidLoad() {
-    console.log("Schedule Page : IonViewDidLoad Function");
-  }
-  ionViewWillLeave() {
-    console.log("Schedule Page : ionViewWillLeave Function");
-  }
 
   placeFinalOrder(){
     console.log("Schedule Page : placeFinalOrder Function Starts");
@@ -85,7 +79,9 @@ export class SchedulePage {
                             this.event.pickupTime,
                             this.event.dropOffDate,
                             this.event.dropOffTime,
-                            this.getRandomStringId()
+                            this.getRandomStringId(),
+                            null,
+                            new Date().toISOString()
                             );
 /*    this.newOrder=new Order(this.orderType, this.address,this.event.pickupDate,this.event.pickupTime,
       this.event.dropOffDate,this.event.dropOffTime,'asas');*/
@@ -113,7 +109,9 @@ export class SchedulePage {
       this.event.pickupTime,
       this.event.dropOffDate,
       this.event.dropOffTime,
-      this.getRandomStringId()
+      this.getRandomStringId(),
+      null,
+      new Date().toISOString()
     );
 
     console.log ("Order is "  + this.newOrder.orderType + " - "

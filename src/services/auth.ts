@@ -9,7 +9,7 @@ export class AuthService {
     return firebase.auth().signInWithEmailAndPassword(email, password);
   }
 
-  signinAnonymous(email: string, phone: string,name:string) {
+  signinAnonymous() {
     return firebase.auth().signInAnonymously();
   }
   logout() {
@@ -18,5 +18,9 @@ export class AuthService {
 
   getActiveUser() {
     return firebase.auth().currentUser;
+  }
+
+  getPreviousOrders(uid:string){
+    return firebase.database().ref('user-orders/'+uid);
   }
 }

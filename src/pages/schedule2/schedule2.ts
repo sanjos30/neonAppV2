@@ -4,12 +4,13 @@ import {Schedule3Page} from "../schedule3/schedule3";
 import { NgForm } from "@angular/forms";
 import {Order} from "../../models/order";
 import {Customer} from "../../models/customer";
-import {OrderService} from "../../services/orders";
 import { FormGroup, FormControl, Validators, FormArray } from "@angular/forms";
 import { AuthService } from "../../services/auth";
-import { Http, Response } from "@angular/http";
+
 import 'rxjs/Rx';
 import firebase from "firebase";
+import {HistoryPage} from "../history/history";
+import {ProfilePage} from "../profile/profile";
 
 @IonicPage()
 @Component({
@@ -21,24 +22,14 @@ export class Schedule2Page {
   custDetailsForm: FormGroup;
   customer: Customer;
   mode = 'New'; //existing for returning customers
+  firebaseCustUid:string;
+
   constructor(public navCtrl: NavController,
               private loadingCtrl: LoadingController,
               public navParams: NavParams,
               private alertCtrl: AlertController,
-              private authService: AuthService,
-              private http: Http) {
+              private authService: AuthService) {
     this.newOrder = this.navParams.get('newOrder');
-    console.log("Order is " + this.newOrder.orderType + " - "
-      + this.newOrder.address.location.lng + " - "
-      + this.newOrder.address.location.lat + " - "
-      + this.newOrder.address + " - "
-      + this.newOrder.pickupDate + " - "
-      + this.newOrder.pickupTime + " - "
-      + this.newOrder.dropDate + " - "
-      + this.newOrder.dropTime + " - "
-      + this.newOrder.customerId
-    );
-
   }
 
   ngOnInit() {
@@ -82,7 +73,16 @@ export class Schedule2Page {
     //Create order in firebase
 
     //this.createFireBaseOrder(value.name,value.email,value.phone);
-    this.newUserSignIn(value.name,value.email,value.phone);
+    console.log('Name: ' + value.name +
+      " Email: " + value.email +
+      " Phone: " + value.phone);
+
+    this.customer=new Customer(value.name,value.email,value.phone);
+  /*  this.customer.name=value.name;
+    this.customer.email=value.email;
+    this.customer.phone=value.phone;*/
+    this.newOrder.customer=this.customer;
+    this.newUserSignIn();
 
     console.log('Name: ' + value.name +
                 " Email: " + value.email +
@@ -91,17 +91,16 @@ export class Schedule2Page {
 
   }
 
-
-
-  private newUserSignIn(name: string,email: string,phone:string){
+  private newUserSignIn(){
     const loading = this.loadingCtrl.create({
       content: 'Please wait...'
     });
     loading.present();
     console.log('signing in started');
-    this.authService.signinAnonymous(name,email, phone)
+    this.authService.signinAnonymous()
       .then(data => {
-        this.createFireBaseOrder(name,email, phone);
+        this.firebaseCustUid = firebase.auth().currentUser.uid;
+        this.createFireBaseOrder();
         loading.dismiss();
       })
       .catch(error => {
@@ -113,60 +112,30 @@ export class Schedule2Page {
         });
         alert.present();
       });
+    }
 
-    console.log('User signed in is '+firebase.auth().currentUser)
-  }
-
-  private createFireBaseOrder(name: string,email: string,phone:string) {
-    console.log('create firebase order');
+  private createFireBaseOrder() {
     this.authService.getActiveUser().getIdToken()
       .then(
         (token: string) => {
-          this.createNewOrderUsingCustomerModel(token)
+          this.createNewOrder()
         }
       );
   }
 
-  private createNewOrder(token:string) {
-
-    // A post entry.
-    var postData = {
-      author: 'saneep',
-      uid: 'uid',
-      body: 'body',
-      title: 'title',
-      starCount: 0,
-      authorPic: 'nopicture'
-    };
 
 
-    console.log('preparing a request to firebase database');
+  private createNewOrder() {
     // Get a key for a new Post.
     var newOrderKey = firebase.database().ref().child('orders').push().key;
-    console.log('THe pushed key is ' + newOrderKey);
 
     // Write the new post's data simultaneously in the posts list and the user's post list.
     var updates = {};
-    updates['/orders/' + newOrderKey] = postData;
-    updates['/user-orders/' + token + '/' + newOrderKey] = postData;
-    console.log('sending a request to firebase database' + updates);
-
+    updates['/orders/' + newOrderKey] = this.newOrder;
+    updates['/user-orders/' + this.firebaseCustUid + '/' + newOrderKey] = this.newOrder;
     return firebase.database().ref().update(updates);
   }
 
-private createNewOrderUsingCustomerModel(token:string){
-    firebase.database().ref('users/' + token).set({
-      orderType : this.newOrder.orderType
-    });
-}
-  private storeList(token: string) {
-    const userId = this.authService.getActiveUser().uid;
-    return this.http
-      .put('https://neonappservertest.firebaseio.com/' + userId + '/shopping-list.json?auth=' + token, this.newOrder)
-      .map((response: Response) => {
-        return response.json();
-      });
-  }
 
   private handleError(errorMessage: string) {
     const alert = this.alertCtrl.create({
@@ -192,12 +161,14 @@ private createNewOrderUsingCustomerModel(token:string){
             text: 'Refer a friend',
             handler: data => {
               console.log('Refer a friend');
+              this.navCtrl.push(ProfilePage, {firebaseCustUid:this.firebaseCustUid});
             }
           },
           {
             text: 'View past orders',
             handler: data => {
               console.log('Route to past orders page.');
+              this.navCtrl.push(HistoryPage, {firebaseCustUid:this.firebaseCustUid});
             }
           }
         ]
@@ -223,4 +194,11 @@ private createNewOrderUsingCustomerModel(token:string){
     });
   }
 
+  private createNewOrderUsingCustomerModel(token:string,uid:string){
+    /*firebase.database().ref('users/' + token).set({
+      orderType : this.newOrder.orderType
+    });*/
+    //firebase.database().ref('users').push(this.newOrder);
+    firebase.database().ref('users/'+uid).set(this.newOrder);
+  }
 }

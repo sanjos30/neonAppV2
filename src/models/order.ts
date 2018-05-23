@@ -1,4 +1,3 @@
-import {Location} from "./location";
 import {Customer} from "./customer"
 import {Address} from "./address";
 export class Order {
@@ -9,5 +8,7 @@ export class Order {
     public pickupTime: string,
     public dropDate:string,
     public dropTime: string,
-    public customerId : string) {}
+    public customerId : string,
+    public customer : Customer,
+    public creationDate:string) {}
 }

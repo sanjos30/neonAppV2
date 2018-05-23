@@ -13,9 +13,12 @@ export class OrderService {
             pickupTime: string,
             dropDate:string,
             dropTime: string,
-            customer : string) {
+            customerId:string,
+            customer : Customer,
+            creationDate:string
+            ) {
     console.log("OrderService : addOrder Function : Starts");
-    this.orders.push(new Order(orderType, address,pickupDate,pickupTime,dropDate,dropTime,customer));
+    this.orders.push(new Order(orderType, address,pickupDate,pickupTime,dropDate,dropTime,customerId,null,creationDate));
     console.log("OrderService : addOrder Function : Ends");
     console.log ("Order is "  + this.orders[0].orderType + " - "
                               + this.orders[0].address.location.lng + " - "
@@ -40,8 +43,10 @@ export class OrderService {
               pickupTime: string,
               dropDate:string,
               dropTime: string,
-              customer : string) {
-    this.orders[index] = new Order(orderType,address,pickupDate,pickupTime,dropDate,dropTime,customer);
+              customerId : string,
+              customer:Customer,
+              creationDate:string) {
+    this.orders[index] = new Order(orderType,address,pickupDate,pickupTime,dropDate,dropTime,customerId,customer,creationDate);
   }
 
   removeOrder(index: number) {
