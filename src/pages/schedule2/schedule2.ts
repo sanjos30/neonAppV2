@@ -21,7 +21,7 @@ export class Schedule2Page {
   newOrder: Order;
   custDetailsForm: FormGroup;
   customer: Customer;
-  mode = 'New'; //existing for returning customers
+  isAuthenticated = false; //existing for returning customers
   firebaseCustUid:string;
 
   constructor(public navCtrl: NavController,
@@ -29,16 +29,19 @@ export class Schedule2Page {
               public navParams: NavParams,
               private alertCtrl: AlertController,
               private authService: AuthService) {
+    this.customer=new Customer('','','',null);
     this.newOrder = this.navParams.get('newOrder');
+    this.isAuthenticated = this.navParams.get('isUserAuthenticate');
+    console.log('Is this a returing user '+this.isAuthenticated);
+    if (this.isAuthenticated) {
+      this.customer = this.navParams.get('signedInCustomer');
+    }
+    console.log('details of customer --' + this.customer.name + this.customer.phone + this.customer.email)
   }
 
   ngOnInit() {
     console.log("Inside the NG ON INIT METHOD");
     //If customer exists, set to Existing
-    this.mode = this.navParams.get('mode');
-    if (this.mode == 'Existing') {
-      this.customer = this.navParams.get('customer');
-    }
     this.initializeForm();
   }
 
@@ -77,7 +80,7 @@ export class Schedule2Page {
       " Email: " + value.email +
       " Phone: " + value.phone);
 
-    this.customer=new Customer(value.name,value.email,value.phone);
+    this.customer=new Customer(value.name,value.email,value.phone,this.newOrder.address);
   /*  this.customer.name=value.name;
     this.customer.email=value.email;
     this.customer.phone=value.phone;*/
@@ -133,6 +136,7 @@ export class Schedule2Page {
     var updates = {};
     updates['/orders/' + newOrderKey] = this.newOrder;
     updates['/user-orders/' + this.firebaseCustUid + '/' + newOrderKey] = this.newOrder;
+    updates['/users/' + this.firebaseCustUid] = this.newOrder.customer;
     return firebase.database().ref().update(updates);
   }
 
@@ -158,10 +162,11 @@ export class Schedule2Page {
         ],*/
         buttons: [
           {
-            text: 'Refer a friend',
+            text: 'Done',
             handler: data => {
               console.log('Refer a friend');
-              this.navCtrl.push(ProfilePage, {firebaseCustUid:this.firebaseCustUid});
+              this.navCtrl.popToRoot();
+              //this.navCtrl.push(ProfilePage, {firebaseCustUid:this.firebaseCustUid});
             }
           },
           {
@@ -181,7 +186,7 @@ export class Schedule2Page {
     let email = null;
     let phone = null;
 
-    if (this.mode == 'Existing') {
+    if (this.isAuthenticated) {
       name = this.customer.name;
       email = this.customer.email;
       phone = this.customer.phone;

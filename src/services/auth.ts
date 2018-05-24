@@ -23,4 +23,8 @@ export class AuthService {
   getPreviousOrders(uid:string){
     return firebase.database().ref('user-orders/'+uid);
   }
+
+  getCurrentUserDetails(uid:string){
+    return firebase.database().ref('users/'+uid);
+  }
 }

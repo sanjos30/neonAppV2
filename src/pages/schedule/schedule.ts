@@ -7,6 +7,8 @@ import { Geolocation } from '@ionic-native/geolocation';
 import {SetOrderTimePage} from "../set-order-time/set-order-time";
 import {Schedule2Page} from "../schedule2/schedule2";
 import {Address} from "../../models/address";
+import {AuthService} from "../../services/auth";
+import {Customer} from "../../models/customer";
 
 @IonicPage()
 @Component({
@@ -21,6 +23,7 @@ export class SchedulePage {
   orderType:string;
   public orderTypeNote: string ="MIN 2 DAYS DELIVERY";
   newOrder:Order;
+  customer:Customer;
   //address:string;
 
   location: Location = {
@@ -42,14 +45,68 @@ export class SchedulePage {
 
   locationIsSet = false;
 
+  isAuthenticated=false;userPersonalDetails:any;
+
   constructor(private modalCtrl: ModalController,
               private alertCtrl: AlertController,
               private toastCtrl: ToastController,
               private geolocation: Geolocation,
               private loadingCtrl: LoadingController,
-              private navCtrl: NavController
-              ) {  }
+              private navCtrl: NavController,
+              private authService: AuthService
 
+              ) { this.customer=new Customer('','','',null);
+    var currentUser=this.authService.getActiveUser();
+    if (currentUser) {
+      // User is signed in.
+      this.isAuthenticated=true;
+      var currentUserDetails=this.authService.getCurrentUserDetails(currentUser.uid);
+
+      currentUserDetails.on('value', itemSnapshot => {
+        itemSnapshot.forEach( itemSnap => {
+          if(itemSnap.key=='name'){
+            this.customer.name=itemSnap.val();
+          }
+          if(itemSnap.key=='email'){
+            this.customer.email=itemSnap.val();
+          }
+          if(itemSnap.key=='phone'){
+            this.customer.phone=itemSnap.val();
+          }
+          return false;
+        });
+      });
+    } else {
+      // No user is signed in.
+      this.isAuthenticated=false;
+    }}
+
+  ionViewWillEnter() {
+    var currentUser=this.authService.getActiveUser();
+    if (currentUser) {
+      // User is signed in.
+      this.isAuthenticated=true;
+      var currentUserDetails=this.authService.getCurrentUserDetails(currentUser.uid);
+
+      currentUserDetails.on('value', itemSnapshot => {
+        itemSnapshot.forEach( itemSnap => {
+          if(itemSnap.key=='name'){
+            this.customer.name=itemSnap.val();
+          }
+          if(itemSnap.key=='email'){
+            this.customer.email=itemSnap.val();
+          }
+          if(itemSnap.key=='phone'){
+            this.customer.phone=itemSnap.val();
+          }
+          return false;
+        });
+      });
+    } else {
+      // No user is signed in.
+      this.isAuthenticated=false;
+    }
+  }
 
   placeFinalOrder(){
     console.log("Schedule Page : placeFinalOrder Function Starts");
@@ -128,7 +185,9 @@ export class SchedulePage {
 
     //this.navCtrl.push(Schedule2Page, {isExpressDelivery: this.isExpressDelivery, location: this.location});
     this.navCtrl.push(Schedule2Page, {
-      newOrder:this.newOrder});
+      newOrder:this.newOrder,
+      signedInCustomer:this.customer,
+      isUserAuthenticate:this.isAuthenticated});
   }
 
 
