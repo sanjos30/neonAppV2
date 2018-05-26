@@ -22,10 +22,10 @@ export class MyApp {
       if (user) {
         this.isAuthenticated = true;
 
-        console.log('user authenticated');
+        console.log('user authenticated.');
       } else {
         this.isAuthenticated = false;
-        console.log('user unauthenticated');
+        console.log('user unauthenticated.');
       }
     });
     platform.ready().then(() => {
