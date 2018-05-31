@@ -9,6 +9,7 @@ import {Schedule2Page} from "../schedule2/schedule2";
 import {Address} from "../../models/address";
 import {AuthService} from "../../services/auth";
 import {Customer} from "../../models/customer";
+import firebase from "firebase";
 
 @IonicPage()
 @Component({
@@ -56,56 +57,59 @@ export class SchedulePage {
               private authService: AuthService
 
               ) { this.customer=new Customer('','','',null);
-    var currentUser=this.authService.getActiveUser();
-    if (currentUser) {
-      // User is signed in.
-      this.isAuthenticated=true;
-      var currentUserDetails=this.authService.getCurrentUserDetails(currentUser.uid);
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        console.log('user authenticated.');
+      } else {
+        console.log('user unauthenticated.');
+      }
+    });
+    console.log('constructor:');
+    var user = firebase.auth().currentUser;
 
-      currentUserDetails.on('value', itemSnapshot => {
-        itemSnapshot.forEach( itemSnap => {
-          if(itemSnap.key=='name'){
-            this.customer.name=itemSnap.val();
-          }
-          if(itemSnap.key=='email'){
-            this.customer.email=itemSnap.val();
-          }
-          if(itemSnap.key=='phone'){
-            this.customer.phone=itemSnap.val();
-          }
-          return false;
-        });
-      });
+    if (user) {
+      // User is signed in.
+      console.log('constructor:User is signed in.');
+
     } else {
       // No user is signed in.
-      this.isAuthenticated=false;
-    }}
-
-  ionViewWillEnter() {
-    var currentUser=this.authService.getActiveUser();
-    if (currentUser) {
-      // User is signed in.
-      this.isAuthenticated=true;
-      var currentUserDetails=this.authService.getCurrentUserDetails(currentUser.uid);
-
-      currentUserDetails.on('value', itemSnapshot => {
-        itemSnapshot.forEach( itemSnap => {
-          if(itemSnap.key=='name'){
-            this.customer.name=itemSnap.val();
-          }
-          if(itemSnap.key=='email'){
-            this.customer.email=itemSnap.val();
-          }
-          if(itemSnap.key=='phone'){
-            this.customer.phone=itemSnap.val();
-          }
-          return false;
-        });
-      });
-    } else {
-      // No user is signed in.
-      this.isAuthenticated=false;
+      console.log('constructor:No User is signed in.');
     }
+/*    var currentUser=this.authService.getActiveUser();
+    if (currentUser) {
+      // User is signed in.
+      this.isAuthenticated=true;
+      var currentUserDetails=this.authService.getCurrentUserDetails(currentUser.uid);
+
+      currentUserDetails.on('value', itemSnapshot => {
+        itemSnapshot.forEach( itemSnap => {
+          if(itemSnap.key=='name'){
+            this.customer.name=itemSnap.val();
+          }
+          if(itemSnap.key=='email'){
+            this.customer.email=itemSnap.val();
+          }
+          if(itemSnap.key=='phone'){
+            this.customer.phone=itemSnap.val();
+          }
+          return false;
+        });
+      });
+    } else {
+      // No user is signed in.
+      this.isAuthenticated=false;
+    }*/}
+
+  ionViewDidEnter() {
+    console.log('schedule1 page: ionViewDidEnter');
+    var isUserAuthenticated=false;
+    if(firebase.auth().currentUser!=null) {
+      isUserAuthenticated=this.authService.isUserLoggedIn();
+      console.log('schedule1 page. User logged in flag is ' + isUserAuthenticated);
+    }else{
+      console.log('schedule1 page. User logged in flag is ' + isUserAuthenticated);
+    }
+    this.isAuthenticated=isUserAuthenticated;
   }
 
   placeFinalOrder(){
@@ -349,5 +353,26 @@ export class SchedulePage {
         }
       ]
     });
+  }
+
+  ionViewCanEnter(){
+    console.log('ionViewCanEnter()');
+  }
+
+  ionViewDidLoad(){
+    console.log('ionViewDidLoad()');
+  }
+
+
+  ionViewCanLeave(){
+    console.log('ionViewCanLeave()');
+  }
+
+  ionViewDidLeave(){
+    console.log('ionViewCanLeave()');
+  }
+
+  ionViewWillUnload(){
+    console.log('ionViewCanLeave()');
   }
 }

@@ -11,23 +11,19 @@ import {AuthService} from "../services/auth";
 })
 export class MyApp {
   rootPage:any = TabsPage;
-  isAuthenticated = false;
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
     firebase.initializeApp({
       apiKey: "",
       authDomain: "neonappservertest.firebaseapp.com",
       databaseURL: "https://neonappservertest.firebaseio.com",
     });
-    firebase.auth().onAuthStateChanged(user => {
+/*    firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        this.isAuthenticated = true;
-
         console.log('user authenticated.');
       } else {
-        this.isAuthenticated = false;
         console.log('user unauthenticated.');
       }
-    });
+    });*/
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.

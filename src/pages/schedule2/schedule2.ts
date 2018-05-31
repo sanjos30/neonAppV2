@@ -39,6 +39,7 @@ export class Schedule2Page {
     console.log('details of customer --' + this.customer.name + this.customer.phone + this.customer.email)
   }
 
+
   ngOnInit() {
     console.log("Inside the NG ON INIT METHOD");
     //If customer exists, set to Existing
@@ -173,7 +174,7 @@ export class Schedule2Page {
             text: 'View past orders',
             handler: data => {
               console.log('Route to past orders page.');
-              this.navCtrl.push(HistoryPage, {firebaseCustUid:this.firebaseCustUid});
+              this.navCtrl.push(HistoryPage);
             }
           }
         ]
@@ -187,9 +188,12 @@ export class Schedule2Page {
     let phone = null;
 
     if (this.isAuthenticated) {
+      console.log('user authenticated ' + this.customer.name);
       name = this.customer.name;
       email = this.customer.email;
       phone = this.customer.phone;
+    }else {
+      console.log('New User');
     }
 
     this.custDetailsForm = new FormGroup({

@@ -18,8 +18,32 @@ export class HelpPage {
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad HelpPage');
+  ionViewCanEnter(){
+    console.log('ionViewCanEnter()');
+  }
+
+  ionViewDidLoad(){
+    console.log('ionViewDidLoad()');
+  }
+
+  ionViewDidEnter(){
+    console.log('Help Page - ionViewDidEnter()');
+  }
+
+  ionViewCanLeave(){
+    console.log('ionViewCanLeave()');
+  }
+
+  ionViewWillLeave(){
+    console.log('ionViewCanLeave()');
+  }
+
+  ionViewDidLeave(){
+    console.log('ionViewCanLeave()');
+  }
+
+  ionViewWillUnload(){
+    console.log('ionViewCanLeave()');
   }
 
 }

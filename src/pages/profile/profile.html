@@ -7,12 +7,83 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>profile</ion-title>
+    <ion-title>PROFILE</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
-
+  <ion-list>
+    <ion-item>
+      <ion-label floating>Name</ion-label>
+      <ion-input
+        type="text"
+        value="{{userProfileData.name}}"
+        [(ngModel)]="userProfileData.name"
+        required
+      ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Phone</ion-label>
+      <ion-input
+        type="text"
+        value="{{userProfileData.phone}}"
+        [(ngModel)]="userProfileData.phone"
+        required></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Email</ion-label>
+      <ion-input
+        type="text"
+        value="{{userProfileData.email}}"
+        [(ngModel)]="userProfileData.email"
+        required></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Address</ion-label>
+      <ion-textarea
+        value="{{userProfileData.lastUsedAddressed}}"
+        name="description">
+      </ion-textarea>
+    </ion-item>
+  </ion-list>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <button
+          ion-button
+          block
+          outline
+          type="button"
+          icon-left
+          (click)="onInputAddress()">
+          <ion-icon name="return-right"></ion-icon>
+          My Address
+        </button>
+      </ion-col>
+      <ion-col>
+        <button
+          ion-button
+          block
+          outline
+          type="button"
+          icon-left
+          (click)="onOpenMap()">
+          <ion-icon name="map"></ion-icon>
+          My location
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
+<ion-footer>
+
+  <button
+    ion-button
+    full
+    [disabled] = '!isUserAuthenticated'
+    (click)="updateUserProfileInFirebase()">
+    SAVE
+  </button>
+</ion-footer>

@@ -18,8 +18,8 @@ export class PricingPage {
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad PricingPage');
+  ionViewDidEnter(){
+    console.log('Pricing Page - ionViewDidEnter()');
   }
 
 }

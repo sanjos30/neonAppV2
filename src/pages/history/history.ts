@@ -15,14 +15,12 @@ export class HistoryPage {
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
-              private authService: AuthService) {
-            this.firebaseCustUid = this.navParams.get('firebaseCustUid');
-  }
+              private authService: AuthService) { }
 
   ngOnInit() {
     console.log("Inside the NG ON INIT METHOD");
     //this.previousOrders=this.authService.getPreviousOrders(this.firebaseCustUid);
-    var orders = this.authService.getPreviousOrders(this.firebaseCustUid);
+    /*var orders = this.authService.getPreviousOrders(this.firebaseCustUid);
     orders.on('value', itemSnapshot => {
       this.previousOrders = [];
       itemSnapshot.forEach( itemSnap => {
@@ -31,8 +29,25 @@ export class HistoryPage {
       });
     });
 
-    console.log(orders + 'getting from firebase');
+    console.log(orders + 'getting from firebase');*/
   }
+
+   ionViewDidEnter(){
+     //this.previousOrders=this.authService.getPreviousOrders(this.firebaseCustUid);
+     this.firebaseCustUid=this.authService.getActiveUserId();
+     console.log('History Page - ionViewDidEnter(). Active user is - ' + this.firebaseCustUid);
+     var orders = this.authService.getPreviousOrders(this.firebaseCustUid);
+     orders.on('value', itemSnapshot => {
+       this.previousOrders = [];
+       itemSnapshot.forEach( itemSnap => {
+         this.previousOrders.push(itemSnap.val());
+         return false;
+       });
+     });
+
+   }
+
+
 
   itemSelected(item: string) {
     console.log("Selected Item", item);
