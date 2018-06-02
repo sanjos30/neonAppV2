@@ -21,22 +21,23 @@ export class Schedule2Page {
   newOrder: Order;
   custDetailsForm: FormGroup;
   customer: Customer;
-  isAuthenticated = false; //existing for returning customers
+  isUserAuthenticated = false; //existing for returning customers
   firebaseCustUid:string;
-
+  public userProfileData = {};
   constructor(public navCtrl: NavController,
               private loadingCtrl: LoadingController,
               public navParams: NavParams,
               private alertCtrl: AlertController,
               private authService: AuthService) {
-    this.customer=new Customer('','','',null);
+/*    this.customer=new Customer('','','',null);
     this.newOrder = this.navParams.get('newOrder');
     this.isAuthenticated = this.navParams.get('isUserAuthenticate');
     console.log('Is this a returing user '+this.isAuthenticated);
     if (this.isAuthenticated) {
+      console.log('set the customer to local profile');
       this.customer = this.navParams.get('signedInCustomer');
     }
-    console.log('details of customer --' + this.customer.name + this.customer.phone + this.customer.email)
+    console.log('details of customer --' + this.customer + this.customer.phone + this.customer.email)*/
   }
 
 
@@ -44,6 +45,23 @@ export class Schedule2Page {
     console.log("Inside the NG ON INIT METHOD");
     //If customer exists, set to Existing
     this.initializeForm();
+  }
+
+  ionViewDidEnter(){
+    this.isUserAuthenticated=this.authService.isUserLoggedIn();
+    console.log(('User login info from schedule2 page is '+this.isUserAuthenticated));
+    this.newOrder = this.navParams.get('newOrder');
+    if(this.isUserAuthenticated) {
+      console.log('User is logged in');
+      this.firebaseCustUid = this.authService.getActiveUserId();
+      console.log('Profile Page - ionViewDidEnter(). Active user is - ' + this.firebaseCustUid);
+      var userProfileDataFirebase = this.authService.getCurrentUserDetails(this.firebaseCustUid);
+      userProfileDataFirebase.on('value', userSnapshot => {
+        this.userProfileData = userSnapshot.val();
+      });
+    }else{
+      console.log('User is not logged in');
+    }
   }
 
   goToStep3() {
@@ -59,7 +77,7 @@ export class Schedule2Page {
       content: 'Signing you in...'
     });
 
-    console.log("Submitting Order. Details are - " + this.newOrder.orderType + " - "
+/*    console.log("Submitting Order. Details are - " + this.newOrder.orderType + " - "
       + this.newOrder.address.location.lng + " - "
       + this.newOrder.address.location.lat + " - "
       + this.newOrder.address.street + ", "
@@ -70,7 +88,7 @@ export class Schedule2Page {
       + this.newOrder.dropDate + " - "
       + this.newOrder.dropTime + " - "
       + this.newOrder.customerId
-    );
+    );*/
     //loading.present();
 
     const value = this.custDetailsForm.value;
@@ -79,7 +97,9 @@ export class Schedule2Page {
     //this.createFireBaseOrder(value.name,value.email,value.phone);
     console.log('Name: ' + value.name +
       " Email: " + value.email +
-      " Phone: " + value.phone);
+      " Phone: " + value.phone +
+      " OrderType" + this.newOrder.orderType +
+      " City " + this.newOrder.address.city);
 
     this.customer=new Customer(value.name,value.email,value.phone,this.newOrder.address);
   /*  this.customer.name=value.name;
@@ -174,7 +194,7 @@ export class Schedule2Page {
             text: 'View past orders',
             handler: data => {
               console.log('Route to past orders page.');
-              this.navCtrl.push(HistoryPage);
+              this.navCtrl.push(HistoryPage).then(this.navCtrl.parent.select(1));
             }
           }
         ]
@@ -187,7 +207,7 @@ export class Schedule2Page {
     let email = null;
     let phone = null;
 
-    if (this.isAuthenticated) {
+    if (this.isUserAuthenticated) {
       console.log('user authenticated ' + this.customer.name);
       name = this.customer.name;
       email = this.customer.email;

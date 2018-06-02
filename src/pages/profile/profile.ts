@@ -17,7 +17,21 @@ import {Address} from "../../models/address";
 export class ProfilePage {
 
   firebaseCustUid:string;
-  public userProfileData = {};
+  //public userProfileData = {};
+  public userProfileData = {
+    name:'',
+    phone:'',
+    email:'',
+    lastUsedAddressed:{
+      city:'',
+      street:'',
+      postCode:'',
+      location:{
+        lat:'',
+        lng:''
+      }
+    }
+  };
   isUserAuthenticated:boolean;
   location: Location = {
     lat: 24.623299562653035,
@@ -57,29 +71,17 @@ export class ProfilePage {
     console.log(('User login info from profile page is '+this.isUserAuthenticated));
     if(this.isUserAuthenticated) {
       console.log('User is logged in');
-      this.firebaseCustUid = this.authService.getActiveUserId();
+      this.userProfileData =this.authService.getActiveUserProfile();
+      console.log(this.userProfileData);
+/*      this.firebaseCustUid = this.authService.getActiveUserId();
       console.log('Profile Page - ionViewDidEnter(). Active user is - ' + this.firebaseCustUid);
       var userProfileDataFirebase = this.authService.getCurrentUserDetails(this.firebaseCustUid);
       userProfileDataFirebase.on('value', userSnapshot => {
         this.userProfileData = userSnapshot.val();
-      });
+      });*/
     }else{
       console.log('User is not logged in');
     }
-/*    userProfileDataFirebase.on('value', userSnapshot => {
-      this.userProfileData = [];
-      userSnapshot.forEach( userProfile => {
-        console.log('User profile from firebase '+userProfile.val() + '-' + userProfile.key);
-        var key1=userProfile.key;
-        var val1=userProfile.val();
-/!*        this.userProfileData.splice(0,0,{
-          [key1]:val1
-        });*!/
-        this.userProfileData.push({key1:val1});
-        return false;
-      });
-      console.log((this.userProfileData));
-    });*/
   }
 
   updateUserProfileInFirebase(){
@@ -112,7 +114,12 @@ export class ProfilePage {
     console.log('Manually entering address');
     //todo
     var city='udaipur',street='26 panchwati',postcode = '313001';
-    this.createAddressManuallyAlert(city,street,postcode).present();
+    var addressObject={
+      street:'',
+      city:'',
+      postCode:''};
+    addressObject=this.userProfileData.lastUsedAddressed;
+    this.createAddressManuallyAlert(addressObject.street,addressObject.city,addressObject.postCode).present();
   }
   private createAddressManuallyAlert(street:string,city:string,postCode:string) {
     return this.alertCtrl.create({
