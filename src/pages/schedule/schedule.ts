@@ -25,18 +25,19 @@ export class SchedulePage {
   public orderTypeNote: string ="MIN 2 DAYS DELIVERY";
   newOrder:Order;
   customer:Customer;
-  //address:string;
 
-  location: Location = {
+  defaultLocation: Location = {
     lat: 24.623299562653035,
     lng: 73.40927124023438
   };
+
   address:Address= {
     street:'Your Street Address',
     city:'Your City',
     postCode:'Postcode',
-    location:null
+    location:this.defaultLocation
   };
+
   public event = {
     pickupDate: '2018-05-01',
     pickupTime: '10:00',
@@ -46,7 +47,9 @@ export class SchedulePage {
 
   locationIsSet = false;
 
-  isAuthenticated=false;userPersonalDetails:any;
+  isAuthenticated=false;
+
+  userPersonalDetails:any;
 
   constructor(private modalCtrl: ModalController,
               private alertCtrl: AlertController,
@@ -56,8 +59,9 @@ export class SchedulePage {
               private navCtrl: NavController,
               private authService: AuthService
 
-              ) { this.customer=new Customer('','','',null);
-    firebase.auth().onAuthStateChanged(user => {
+              ) {
+  //  this.customer=new Customer('','','',null);
+/*    firebase.auth().onAuthStateChanged(user => {
       if (user) {
         console.log('user authenticated.');
       } else {
@@ -74,7 +78,7 @@ export class SchedulePage {
     } else {
       // No user is signed in.
       console.log('constructor:No User is signed in.');
-    }
+    }*/
 /*    var currentUser=this.authService.getActiveUser();
     if (currentUser) {
       // User is signed in.
@@ -197,7 +201,6 @@ export class SchedulePage {
 
 
   public toggleBackgroundColor(): void {
-    console.log("Schedule Page : toggleBackgroundColor Function Starts");
     if(this.isExpressDelivery) {
       this.isExpressDelivery=false;
       this.orderTypeNote="MIN 2 DAYS DELIVERY";
@@ -207,8 +210,6 @@ export class SchedulePage {
       this.orderTypeNote="NEXT DAY DELIVERY";
       this.orderType='Express';
     }
-    console.log("Schedule Page : toggleBackgroundColor Function Ends. OrderType from model is "
-                + this.orderType);
   }
 
   selectOrderDateTime() {
@@ -246,7 +247,7 @@ export class SchedulePage {
     //loader.dismiss();
     //console.log('Opening Google Map - current location getting'+this.location.lat);
     const modal = this.modalCtrl.create(SetLocationPage,
-      {location: this.location, locationIsSet: this.locationIsSet});
+      {location: this.defaultLocation, locationIsSet: this.locationIsSet});
     modal.present();
     modal.onDidDismiss(
       data => {
@@ -268,8 +269,8 @@ export class SchedulePage {
       .then(
         location => {
          // loader.dismiss();
-          this.location.lat = location.coords.latitude;
-          this.location.lng = location.coords.longitude;
+          this.defaultLocation.lat = location.coords.latitude;
+          this.defaultLocation.lng = location.coords.longitude;
         }
       )
       .catch(
@@ -355,24 +356,4 @@ export class SchedulePage {
     });
   }
 
-  ionViewCanEnter(){
-    console.log('ionViewCanEnter()');
-  }
-
-  ionViewDidLoad(){
-    console.log('ionViewDidLoad()');
-  }
-
-
-  ionViewCanLeave(){
-    console.log('ionViewCanLeave()');
-  }
-
-  ionViewDidLeave(){
-    console.log('ionViewCanLeave()');
-  }
-
-  ionViewWillUnload(){
-    console.log('ionViewCanLeave()');
-  }
 }

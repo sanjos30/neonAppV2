@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import {IonicPage, NavController, NavParams, LoadingController, AlertController} from 'ionic-angular';
-import {Schedule3Page} from "../schedule3/schedule3";
 import { NgForm } from "@angular/forms";
 import {Order} from "../../models/order";
 import {Customer} from "../../models/customer";
@@ -10,7 +9,6 @@ import { AuthService } from "../../services/auth";
 import 'rxjs/Rx';
 import firebase from "firebase";
 import {HistoryPage} from "../history/history";
-import {ProfilePage} from "../profile/profile";
 
 @IonicPage()
 @Component({
@@ -24,22 +22,15 @@ export class Schedule2Page {
   isUserAuthenticated = false; //existing for returning customers
   firebaseCustUid:string;
   public userProfileData = {};
+
+  //Constructor
   constructor(public navCtrl: NavController,
               private loadingCtrl: LoadingController,
               public navParams: NavParams,
               private alertCtrl: AlertController,
               private authService: AuthService) {
-/*    this.customer=new Customer('','','',null);
-    this.newOrder = this.navParams.get('newOrder');
-    this.isAuthenticated = this.navParams.get('isUserAuthenticate');
-    console.log('Is this a returing user '+this.isAuthenticated);
-    if (this.isAuthenticated) {
-      console.log('set the customer to local profile');
-      this.customer = this.navParams.get('signedInCustomer');
-    }
-    console.log('details of customer --' + this.customer + this.customer.phone + this.customer.email)*/
-  }
 
+  }
 
   ngOnInit() {
     console.log("Inside the NG ON INIT METHOD");
@@ -62,12 +53,6 @@ export class Schedule2Page {
     }else{
       console.log('User is not logged in');
     }
-  }
-
-  goToStep3() {
-    console.log('Lets go to the step 3 of ordering');
-    //this.navCtrl.push(Schedule2Page, {selectedDateTime: this.order});
-    this.navCtrl.push(Schedule3Page, {order: this.newOrder});
   }
 
   createOrder(form: NgForm) {
@@ -194,7 +179,10 @@ export class Schedule2Page {
             text: 'View past orders',
             handler: data => {
               console.log('Route to past orders page.');
-              this.navCtrl.push(HistoryPage).then(this.navCtrl.parent.select(1));
+              this.navCtrl.remove(this.navCtrl.getPrevious().index);
+              this.navCtrl.push(HistoryPage).then(
+              this.navCtrl.parent.select(1));
+
             }
           }
         ]

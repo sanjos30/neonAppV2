@@ -32,8 +32,15 @@ export class ProfilePage {
       }
     }
   };
+
   isUserAuthenticated:boolean;
+
   location: Location = {
+    lat: 24.623299562653035,
+    lng: 73.40927124023438
+  };
+
+  defaultLocation: Location = {
     lat: 24.623299562653035,
     lng: 73.40927124023438
   };
@@ -42,8 +49,10 @@ export class ProfilePage {
     street:'Your Street Address',
     city:'Your City',
     postCode:'Postcode',
-    location:null
+    location:this.defaultLocation
   };
+
+  locationIsSet=false;
 
   constructor(private modalCtrl: ModalController,
               private toastCtrl: ToastController,
@@ -85,24 +94,30 @@ export class ProfilePage {
   }
 
   updateUserProfileInFirebase(){
+    console.log('USER PROFILE');
     console.log(this.userProfileData);
+    console.log('ADDRESS FROM GPS');
+    console.log(this.address)
   }
 
   onOpenMap() {
-    console.log("Schedule Page : onOpenMap Function Starts");
+    console.log("Profile Page : onOpenMap Function Starts");
     const loader = this.loadingCtrl.create({
       content: 'Getting your Location...'
     });
-    //this.userProfileData.lastUsedAddressed.location==null?true:false;
+    var GoogleLocation=this.userProfileData.lastUsedAddressed;
+    var isLocationSet=GoogleLocation.location.lat=='24.623299562653035'?true:false;
     const modal = this.modalCtrl.create(SetLocationPage,
-      {userProfileData: this.userProfileData});
+      {location: GoogleLocation.location, locationIsSet: isLocationSet});
     modal.present();
     modal.onDidDismiss(
       data => {
         if (data) {
           console.log('selected location from overlay page was - '+ data.location.lat + '--' + data.location.lng
             +'--' + data.locationIsSet);
-          this.userProfileData = data.userProfileData;
+          //this.userProfileData = data.userProfileData;
+          this.address.location = data.location;
+          this.locationIsSet = true;
         }else{
           console.log('No location is edited');
         }
@@ -121,6 +136,8 @@ export class ProfilePage {
     addressObject=this.userProfileData.lastUsedAddressed;
     this.createAddressManuallyAlert(addressObject.street,addressObject.city,addressObject.postCode).present();
   }
+
+
   private createAddressManuallyAlert(street:string,city:string,postCode:string) {
     return this.alertCtrl.create({
       title: 'Enter Your Address',

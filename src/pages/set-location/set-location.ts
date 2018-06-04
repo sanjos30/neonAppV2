@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavParams,ViewController,LoadingController,ToastController } from 'ionic-angular';
 import { Location } from "../../models/location";
 import {Geolocation} from "@ionic-native/geolocation";
+import {AuthService} from "../../services/auth";
 
 @IonicPage()
 @Component({
@@ -13,32 +14,24 @@ export class SetLocationPage {
   location: Location;
   marker: Location;
   locationIsSet = false;
-
+  isUserAuthenticated=false;
+  firebaseCustUid:string;
 
   constructor(public navParams: NavParams,
               private viewCtrl: ViewController,
               private loadingCtrl: LoadingController,
               private toastCtrl: ToastController,
-              private geolocation: Geolocation) {
-    console.log('Inside the constrctor 1'+ this.navParams.get('location').lat +'----'+ this.navParams.get('location').lng);
-    console.log('Location selected previously -- '+ this.navParams.get('locationIsSet'));
-    this.location=this.navParams.get('location');
+              private geolocation: Geolocation,
+              private authService: AuthService) {
 
-    if (this.navParams.get('locationIsSet')) {
-      this.marker = this.location;
-      console.log('location is set previously');
-    }else{
-      console.log('location is not set');
-    }
-    /*    this.location=this.navParams.get('location');
+        this.location=this.navParams.get('location');
         this.locationIsSet==this.navParams.get('locationIsSet');
         this.marker=this.location;
         console.log("location is set: "+this.locationIsSet+ ' - ' + this.location.lat+ ' - '+ this.location.lng);
         if(this.navParams.get('locationIsSet')) {
           this.marker=this.location;
-        }*/
+        }
   }
-
 
   onSetMarker(event: any) {
     console.log(event);
