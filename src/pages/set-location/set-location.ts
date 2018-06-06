@@ -11,8 +11,22 @@ import {AuthService} from "../../services/auth";
 })
 export class SetLocationPage {
 
-  location: Location;
-  marker: Location;
+  location: any = {
+    street: '',
+    city: '',
+    postCode: '',
+    lat: 24.623299562653035,
+    lng: 73.40927124023438
+  };
+
+  marker: any = {
+    street: '',
+    city: '',
+    postCode: '',
+    lat: 24.623299562653035,
+    lng: 73.40927124023438
+  };
+
   locationIsSet = false;
   isUserAuthenticated=false;
   firebaseCustUid:string;
@@ -24,13 +38,33 @@ export class SetLocationPage {
               private geolocation: Geolocation,
               private authService: AuthService) {
 
-        this.location=this.navParams.get('location');
-        this.locationIsSet==this.navParams.get('locationIsSet');
-        this.marker=this.location;
-        console.log("location is set: "+this.locationIsSet+ ' - ' + this.location.lat+ ' - '+ this.location.lng);
-        if(this.navParams.get('locationIsSet')) {
-          this.marker=this.location;
-        }
+
+  }
+
+  ionViewDidEnter() {
+/*    if(this.navParams.get('customerAddress')==null || this.navParams.get('customerAddress')==''){
+      console.log('The user previous location data does not exists');
+    }else{
+      this.location=this.navParams.get('customerAddress');
+      console.log('The user previous location data is present');
+    }
+
+    this.locationIsSet=this.navParams.get('locationIsSet');
+    this.marker=this.location;
+    console.log("Setlocation:IonViewDidEnter location is set: "+this.locationIsSet);*/
+    this.locationIsSet=this.navParams.get('locationIsSet');
+    if(this.navParams.get('locationIsSet')) {
+      this.location=this.navParams.get('location');
+      this.marker=this.location;
+      console.log('The user previous location data is present');
+      console.log(this.marker);
+      console.log(this.location);
+
+
+    }else{
+      console.log('The user previous location data does not exists');
+      this.marker=this.location;
+    }
   }
 
   onSetMarker(event: any) {

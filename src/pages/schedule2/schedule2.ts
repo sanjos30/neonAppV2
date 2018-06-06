@@ -21,7 +21,23 @@ export class Schedule2Page {
   customer: Customer;
   isUserAuthenticated = false; //existing for returning customers
   firebaseCustUid:string;
-  public userProfileData = {};
+
+  address: any = {
+    street: 'Your Street Address',
+    city: 'Your City',
+    postCode: 'Postcode',
+    lat: 24.623299562653035,
+    lng: 73.40927124023438
+    //location: this.defaultLocation
+  };
+
+  public userProfileData = {
+    name: '',
+    phone: '',
+    email: '',
+    address: this.address
+  };
+
 
   //Constructor
   constructor(public navCtrl: NavController,
@@ -45,11 +61,16 @@ export class Schedule2Page {
     if(this.isUserAuthenticated) {
       console.log('User is logged in');
       this.firebaseCustUid = this.authService.getActiveUserId();
-      console.log('Profile Page - ionViewDidEnter(). Active user is - ' + this.firebaseCustUid);
+      console.log('Schedule2 Page - ionViewDidEnter(). Active user is - ' + this.firebaseCustUid);
       var userProfileDataFirebase = this.authService.getCurrentUserDetails(this.firebaseCustUid);
-      userProfileDataFirebase.on('value', userSnapshot => {
-        this.userProfileData = userSnapshot.val();
-      });
+      //For users who are registered but haven't ordered yet or their first order with us failed.
+      if(userProfileDataFirebase!=null){
+        console.log(userProfileDataFirebase);
+        userProfileDataFirebase.on('value', userSnapshot => {
+          this.userProfileData = userSnapshot.val();
+        });
+      }
+
     }else{
       console.log('User is not logged in');
     }
@@ -62,20 +83,6 @@ export class Schedule2Page {
       content: 'Signing you in...'
     });
 
-/*    console.log("Submitting Order. Details are - " + this.newOrder.orderType + " - "
-      + this.newOrder.address.location.lng + " - "
-      + this.newOrder.address.location.lat + " - "
-      + this.newOrder.address.street + ", "
-      + this.newOrder.address.city + ", "
-      + this.newOrder.address.postCode + " - "
-      + this.newOrder.pickupDate + " - "
-      + this.newOrder.pickupTime + " - "
-      + this.newOrder.dropDate + " - "
-      + this.newOrder.dropTime + " - "
-      + this.newOrder.customerId
-    );*/
-    //loading.present();
-
     const value = this.custDetailsForm.value;
     //Create order in firebase
 
@@ -86,7 +93,7 @@ export class Schedule2Page {
       " OrderType" + this.newOrder.orderType +
       " City " + this.newOrder.address.city);
 
-    this.customer=new Customer(value.name,value.email,value.phone,this.newOrder.address);
+    this.customer=new Customer(value.name,value.phone,value.email,this.newOrder.address);
   /*  this.customer.name=value.name;
     this.customer.email=value.email;
     this.customer.phone=value.phone;*/
@@ -124,6 +131,7 @@ export class Schedule2Page {
     }
 
   private createFireBaseOrder() {
+    console.log('before creating fb order');
     this.authService.getActiveUser().getIdToken()
       .then(
         (token: string) => {
@@ -140,6 +148,7 @@ export class Schedule2Page {
 
     // Write the new post's data simultaneously in the posts list and the user's post list.
     var updates = {};
+    console.log(this.newOrder);
     updates['/orders/' + newOrderKey] = this.newOrder;
     updates['/user-orders/' + this.firebaseCustUid + '/' + newOrderKey] = this.newOrder;
     updates['/users/' + this.firebaseCustUid] = this.newOrder.customer;
@@ -191,18 +200,26 @@ export class Schedule2Page {
     }
 
   private initializeForm() {
+    console.log('In the initialize form method on schedule2 page');
     let name = null;
     let email = null;
     let phone = null;
 
-    if (this.isUserAuthenticated) {
+    name = this.userProfileData.name;
+    email = this.userProfileData.email;
+    phone = this.userProfileData.phone;
+
+/*    if (this.isUserAuthenticated) {
       console.log('user authenticated ' + this.customer.name);
       name = this.customer.name;
       email = this.customer.email;
       phone = this.customer.phone;
     }else {
       console.log('New User');
-    }
+      name = '';
+      email = '';
+      phone = '';
+    }*/
 
     this.custDetailsForm = new FormGroup({
       'name': new FormControl(name, Validators.required),

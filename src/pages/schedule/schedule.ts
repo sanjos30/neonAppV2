@@ -1,9 +1,16 @@
-import { Component } from '@angular/core';
-import { ModalController, ToastController,IonicPage,AlertController,LoadingController,NavController } from 'ionic-angular';
-import { SetLocationPage } from "../set-location/set-location";
-import { Location } from "../../models/location";
+import {Component} from '@angular/core';
+import {
+  ModalController,
+  ToastController,
+  IonicPage,
+  AlertController,
+  LoadingController,
+  NavController
+} from 'ionic-angular';
+import {SetLocationPage} from "../set-location/set-location";
+import {Location} from "../../models/location";
 import {Order} from "../../models/order";
-import { Geolocation } from '@ionic-native/geolocation';
+import {Geolocation} from '@ionic-native/geolocation';
 import {SetOrderTimePage} from "../set-order-time/set-order-time";
 import {Schedule2Page} from "../schedule2/schedule2";
 import {Address} from "../../models/address";
@@ -20,22 +27,20 @@ import firebase from "firebase";
 
 export class SchedulePage {
 
-  public isExpressDelivery : boolean = false;
-  orderType:string;
-  public orderTypeNote: string ="MIN 2 DAYS DELIVERY";
-  newOrder:Order;
-  customer:Customer;
+  //Order type is normal by default
+  public isExpressDelivery: boolean = false;
+  orderType: string='Normal';
+  firebaseCustUid: string;
+  public orderTypeNote: string = "MIN 2 DAYS DELIVERY";
+  newOrder: Order;
 
-  defaultLocation: Location = {
+  address: any = {
+    street: 'Your Street Address',
+    city: 'Your City',
+    postCode: 'Postcode',
     lat: 24.623299562653035,
     lng: 73.40927124023438
-  };
-
-  address:Address= {
-    street:'Your Street Address',
-    city:'Your City',
-    postCode:'Postcode',
-    location:this.defaultLocation
+    //location: this.defaultLocation
   };
 
   public event = {
@@ -45,11 +50,16 @@ export class SchedulePage {
     dropOffTime: '10:30'
   }
 
+  public userProfileData = {
+    name: '',
+    phone: '',
+    email: '',
+    address: this.address
+  };
+
   locationIsSet = false;
 
-  isAuthenticated=false;
-
-  userPersonalDetails:any;
+  isUserAuthenticated = false;
 
   constructor(private modalCtrl: ModalController,
               private alertCtrl: AlertController,
@@ -57,118 +67,36 @@ export class SchedulePage {
               private geolocation: Geolocation,
               private loadingCtrl: LoadingController,
               private navCtrl: NavController,
-              private authService: AuthService
-
-              ) {
-  //  this.customer=new Customer('','','',null);
-/*    firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        console.log('user authenticated.');
-      } else {
-        console.log('user unauthenticated.');
-      }
-    });
-    console.log('constructor:');
-    var user = firebase.auth().currentUser;
-
-    if (user) {
-      // User is signed in.
-      console.log('constructor:User is signed in.');
-
-    } else {
-      // No user is signed in.
-      console.log('constructor:No User is signed in.');
-    }*/
-/*    var currentUser=this.authService.getActiveUser();
-    if (currentUser) {
-      // User is signed in.
-      this.isAuthenticated=true;
-      var currentUserDetails=this.authService.getCurrentUserDetails(currentUser.uid);
-
-      currentUserDetails.on('value', itemSnapshot => {
-        itemSnapshot.forEach( itemSnap => {
-          if(itemSnap.key=='name'){
-            this.customer.name=itemSnap.val();
+              private authService: AuthService) {
+        firebase.auth().onAuthStateChanged(user => {
+          if (user) {
+            console.log('constructor - user authenticated.');
+            this.isUserAuthenticated=true;
+            this.userProfileData = this.authService.getActiveUserProfile();
+          } else {
+            console.log('constructor -  user unauthenticated.');
           }
-          if(itemSnap.key=='email'){
-            this.customer.email=itemSnap.val();
-          }
-          if(itemSnap.key=='phone'){
-            this.customer.phone=itemSnap.val();
-          }
-          return false;
         });
-      });
-    } else {
-      // No user is signed in.
-      this.isAuthenticated=false;
-    }*/}
+  }
+
+  ionViewDidLoad() {
+    this.userProfileData = this.authService.getActiveUserProfile();
+    this.firebaseCustUid = this.authService.getActiveUserId();
+  }
 
   ionViewDidEnter() {
     console.log('schedule1 page: ionViewDidEnter');
-    var isUserAuthenticated=false;
-    if(firebase.auth().currentUser!=null) {
-      isUserAuthenticated=this.authService.isUserLoggedIn();
-      console.log('schedule1 page. User logged in flag is ' + isUserAuthenticated);
-    }else{
-      console.log('schedule1 page. User logged in flag is ' + isUserAuthenticated);
+    this.isUserAuthenticated = this.authService.isUserLoggedIn();
+    if (this.isUserAuthenticated) {
+      this.userProfileData = this.authService.getActiveUserProfile();
+      console.log('schedule1 page ionViewDidEnter. User logged in flag is ' + this.isUserAuthenticated);
+    } else {
+      console.log('schedule1 page ionViewDidEnter. User logged in flag is ' + this.isUserAuthenticated);
     }
-    this.isAuthenticated=isUserAuthenticated;
   }
 
-  placeFinalOrder(){
-    console.log("Schedule Page : placeFinalOrder Function Starts");
-    //this.recipesService.addRecipe(value.title, value.description, value.difficulty, ingredients);
-   // this.orders.push(new Order(orderType, location,address,pickupDate,pickupTime,dropDate,dropTime,customerId));
-
-/*    this.orderService.addOrder(
-      this.orderType,
-      this.location,
-      this.address,
-      this.event.pickupDate,
-      this.event.pickupTime,
-      this.event.dropOffDate,
-      this.event.dropOffTime,
-      this.getRandomStringId()
-      )*/
-    console.log("Schedule Page : placeFinalOrder Function Ends");
-  }
-
-  placeFinalOrderFireBase(){
-    console.log("Schedule Page : placeFinalOrderFireBase Function Starts");
-    //this.recipesService.addRecipe(value.title, value.description, value.difficulty, ingredients);
-    // this.orders.push(new Order(orderType, location,address,pickupDate,pickupTime,dropDate,dropTime,customerId));
-    this.newOrder=new Order(this.orderType,
-                            this.address,
-                            this.event.pickupDate,
-                            this.event.pickupTime,
-                            this.event.dropOffDate,
-                            this.event.dropOffTime,
-                            this.getRandomStringId(),
-                            null,
-                            new Date().toISOString()
-                            );
-/*    this.newOrder=new Order(this.orderType, this.address,this.event.pickupDate,this.event.pickupTime,
-      this.event.dropOffDate,this.event.dropOffTime,'asas');*/
-
-    console.log("Schedule Page : placeFinalOrderFireBase Function Ends");
-  }
-
-  getRandomNumberId() {
-    return Math.floor((Math.random()*6)+1);
-  }
-
-  getRandomStringId() {
-    var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    for (var i = 0; i < 5; i++)
-      text += possible.charAt(Math.floor(Math.random() * possible.length));
-      return text;
-  }
-
-  goToStep2(){
-  console.log("Schedule Page: Setup the order object");
-    this.newOrder=new Order(this.orderType,
+  goToStep2() {
+    this.newOrder = new Order(this.orderType,
       this.address,
       this.event.pickupDate,
       this.event.pickupTime,
@@ -179,9 +107,10 @@ export class SchedulePage {
       new Date().toISOString()
     );
 
-    console.log ("Order is "  + this.newOrder.orderType + " - "
-      + this.newOrder.address.location.lng + " - "
-      + this.newOrder.address.location.lat + " - "
+    console.log('Passing the below order details to the schedule 2 page');
+    console.log(this.newOrder.orderType + " - "
+      + this.newOrder.address.lng + " - "
+      + this.newOrder.address.lat + " - "
       + this.newOrder.address + " - "
       + this.newOrder.pickupDate + " - "
       + this.newOrder.pickupTime + " - "
@@ -190,87 +119,92 @@ export class SchedulePage {
       + this.newOrder.customerId
     );
 
-
-    //this.navCtrl.push(Schedule2Page, {isExpressDelivery: this.isExpressDelivery, location: this.location});
     this.navCtrl.push(Schedule2Page, {
-      newOrder:this.newOrder,
-      signedInCustomer:this.customer,
-      isUserAuthenticate:this.isAuthenticated});
+      newOrder: this.newOrder
+    });
   }
 
 
-
   public toggleBackgroundColor(): void {
-    if(this.isExpressDelivery) {
-      this.isExpressDelivery=false;
-      this.orderTypeNote="MIN 2 DAYS DELIVERY";
-      this.orderType='Normal';
+    if (this.isExpressDelivery) {
+      this.isExpressDelivery = false;
+      this.orderTypeNote = "MIN 2 DAYS DELIVERY";
+      this.orderType = 'Normal';
     } else {
-      this.isExpressDelivery=true;
-      this.orderTypeNote="NEXT DAY DELIVERY";
-      this.orderType='Express';
+      this.isExpressDelivery = true;
+      this.orderTypeNote = "NEXT DAY DELIVERY";
+      this.orderType = 'Express';
     }
   }
 
   selectOrderDateTime() {
     const modal = this.modalCtrl.create(SetOrderTimePage,
-      {orderType: this.isExpressDelivery,
-            event:this.event
-          });
+      {
+        orderType: this.isExpressDelivery,
+        event: this.event
+      });
     modal.present();
     modal.onDidDismiss(
       data => {
         if (data) {
-          console.log('Selected Time and date is -  '+
-            data.event.pickupDate +' - ' +
-            data.event.pickupTime  +' - ' +
-            data.event.dropOffDate + ' - ' +
-            data.event.dropOffTime
- );
-
-          this.event=data.event;
-        }else{
-
+          this.event = data.event;
+        } else {
+          //Todo DoNothing for now
         }
       }
     );
   }
 
   onOpenMap() {
-    console.log("Schedule Page : onOpenMap Function Starts");
-    const loader = this.loadingCtrl.create({
-      content: 'Getting your Location...'
-    });
-    //loader.present();
-
-    //this.getUserLocation();
-    //loader.dismiss();
-    //console.log('Opening Google Map - current location getting'+this.location.lat);
+    var customerAddress=this.address;
+    if(this.userProfileData.address!=null){
+      customerAddress = this.userProfileData.address;
+    }
+    var isLocationSet = false;
+    if(customerAddress.lat==null || customerAddress.lng ==null){
+      console.log('Location was not selected previously');
+      isLocationSet=false;
+    }else{
+      console.log('Location was selected previously'+customerAddress.lat+customerAddress.lng);
+      isLocationSet=true;
+    }
     const modal = this.modalCtrl.create(SetLocationPage,
-      {location: this.defaultLocation, locationIsSet: this.locationIsSet});
+      {location: customerAddress, locationIsSet: isLocationSet});
     modal.present();
     modal.onDidDismiss(
       data => {
         if (data) {
-          console.log('selected location from overlay page was - '+ data.location.lat + '--' + data.location.lng
-          +'--' + data.locationIsSet);
-          this.address.location = data.location;
+          console.log('selected location from overlay page was - ' + data.location.lat + '--' + data.location.lng
+            + '--' + data.locationIsSet);
+          this.address.lat = data.location.lat;
+          this.address.lng = data.location.lng;
           this.locationIsSet = true;
-        }else{
-          console.log('No location is selected'+this.locationIsSet);
+        } else {
+          console.log('No location is selected' + this.locationIsSet);
         }
       }
     );
   }
 
-  getUserLocation(){
+  loadUserProfile() {
+    const loader = this.loadingCtrl.create({
+      content: 'loading...'
+    });
+    loader.present();
+    if (this.isUserAuthenticated) {
+      this.userProfileData = this.authService.getActiveUserProfile();
+      console.log('schedule1 page ionViewDidEnter. User logged in flag is ' + this.isUserAuthenticated);
+    }
+    loader.dismiss();
+  }
 
+  getUserLocation() {
     this.geolocation.getCurrentPosition()
       .then(
         location => {
-         // loader.dismiss();
-          this.defaultLocation.lat = location.coords.latitude;
-          this.defaultLocation.lng = location.coords.longitude;
+          // loader.dismiss();
+          this.address.lat = location.coords.latitude;
+          this.address.lng = location.coords.longitude;
         }
       )
       .catch(
@@ -285,28 +219,37 @@ export class SchedulePage {
       );
   }
 
-  onInputAddress(){
-    console.log('Manually entering address');
-    this.createAddressManuallyAlert().present();
+  onInputAddress() {
+    var addressObject = this.address;
+    if (this.isUserAuthenticated) {
+      console.log('User is authenticated. So using his last populated address');
+      console.log(this.userProfileData);
+      addressObject = this.userProfileData.address;
+      console.log(addressObject);
+    } else {
+      console.log('User is NOT authenticated. So using his last populated address');
+    }
+    this.createAddressManuallyAlert(addressObject.street, addressObject.city, addressObject.postCode).present();
   }
-  private createAddressManuallyAlert() {
+
+  private createAddressManuallyAlert(street: string, city: string, postCode: string) {
     return this.alertCtrl.create({
       title: 'Enter Your Address',
       inputs: [
         {
           name: 'street',
           placeholder: 'Street Address',
-          value:this.address.street
+          value: street
         },
         {
           name: 'city',
           placeholder: 'City',
-          value:this.address.city
+          value: city
         },
         {
           name: 'postCode',
           placeholder: 'PostCode',
-          value:this.address.postCode
+          value: postCode
         }
       ],
       buttons: [
@@ -325,7 +268,8 @@ export class SchedulePage {
               });
               toast.present();
               return;
-            };
+            }
+            ;
             if ((data.city.trim() == '' || data.city == null)) {
               const toast = this.toastCtrl.create({
                 message: 'Please enter a valid city!',
@@ -334,10 +278,11 @@ export class SchedulePage {
               });
               toast.present();
               return;
-            };
-            this.address.street=data.street;
-            this.address.city=data.city;
-            this.address.postCode=data.postCode;
+            }
+            ;
+            this.address.street = data.street;
+            this.address.city = data.city;
+            this.address.postCode = data.postCode;
             //(<FormArray>this.recipeForm.get('ingredients'))
             //  .push(new FormControl(data.name, Validators.required));
             const toast = this.toastCtrl.create({
@@ -345,10 +290,9 @@ export class SchedulePage {
               duration: 1500,
               position: 'bottom'
             });
-            this.locationIsSet=true;
-            //console.log('location selected manually in schedule page ' +this.locationIsSet);
-            console.log('Manually entered address is -  ' +this.address.street + '-' +this.address.city+
-                        '-' +this.address.postCode);
+            this.locationIsSet = true;
+            console.log('Manually entered address is -  ' + this.address.street + '-' + this.address.city +
+              '-' + this.address.postCode);
             toast.present();
           }
         }
@@ -356,4 +300,15 @@ export class SchedulePage {
     });
   }
 
+  getRandomNumberId() {
+    return Math.floor((Math.random() * 6) + 1);
+  }
+
+  getRandomStringId() {
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    for (var i = 0; i < 5; i++)
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+    return text;
+  }
 }

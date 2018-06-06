@@ -1,6 +1,16 @@
 import firebase from 'firebase';
 
 export class AuthService {
+
+  private address: any = {};
+
+  private userProfileData = {
+    name: '',
+    phone: '',
+    email: '',
+    address: this.address
+  };
+
   signup(email: string, password: string) {
     return firebase.auth().createUserWithEmailAndPassword(email, password);
   }
@@ -52,13 +62,12 @@ export class AuthService {
 
   getActiveUserProfile() {
     var activeUserId = this.getActiveUserId();
-    var userProfileData;
-    console.log('Profile Page - ionViewDidEnter(). Active user is - ' + activeUserId);
+    console.log('AUTH Service - ionViewDidEnter(). Active user is - ' + activeUserId);
     var userProfileDataFirebase = this.getCurrentUserDetails(activeUserId);
     userProfileDataFirebase.on('value', userSnapshot => {
-      userProfileData = userSnapshot.val();
+      this.userProfileData = userSnapshot.val();
     })
-    return userProfileData;
+    return this.userProfileData;
   }
 }
 /*  userProfileDataFirebase.on('value', userSnapshot => {

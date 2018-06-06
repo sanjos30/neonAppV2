@@ -20,16 +20,6 @@ export class OrderService {
     console.log("OrderService : addOrder Function : Starts");
     this.orders.push(new Order(orderType, address,pickupDate,pickupTime,dropDate,dropTime,customerId,null,creationDate));
     console.log("OrderService : addOrder Function : Ends");
-    console.log ("Order is "  + this.orders[0].orderType + " - "
-                              + this.orders[0].address.location.lng + " - "
-                              + this.orders[0].address.location.lat + " - "
-                              + this.orders[0].address + " - "
-                              + this.orders[0].pickupDate + " - "
-                              + this.orders[0].pickupTime + " - "
-                              + this.orders[0].dropDate + " - "
-                              + this.orders[0].dropTime + " - "
-                              + this.orders[0].customerId
-    );
   }
 
   getOrders() {

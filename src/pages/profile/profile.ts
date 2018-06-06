@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {
   AlertController, IonicPage, LoadingController, ModalController, NavController, NavParams,
   ToastController
@@ -8,6 +8,7 @@ import {SetLocationPage} from "../set-location/set-location";
 import {Geolocation} from "@ionic-native/geolocation";
 import {Location} from "../../models/location";
 import {Address} from "../../models/address";
+import firebase from "firebase";
 
 @IonicPage()
 @Component({
@@ -16,43 +17,28 @@ import {Address} from "../../models/address";
 })
 export class ProfilePage {
 
-  firebaseCustUid:string;
+  firebaseCustUid: string;
   //public userProfileData = {};
+
+
+  isUserAuthenticated: boolean = false;
+
+  address: any = {
+    street: 'Your Street Address',
+    city: 'Your City',
+    postCode: 'Postcode',
+    lat: 24.623299562653035,
+    lng: 73.40927124023438
+  };
+
   public userProfileData = {
-    name:'',
-    phone:'',
-    email:'',
-    lastUsedAddressed:{
-      city:'',
-      street:'',
-      postCode:'',
-      location:{
-        lat:'',
-        lng:''
-      }
-    }
+    name: '',
+    phone: '',
+    email: '',
+    address: this.address
   };
 
-  isUserAuthenticated:boolean;
-
-  location: Location = {
-    lat: 24.623299562653035,
-    lng: 73.40927124023438
-  };
-
-  defaultLocation: Location = {
-    lat: 24.623299562653035,
-    lng: 73.40927124023438
-  };
-
-  address:Address= {
-    street:'Your Street Address',
-    city:'Your City',
-    postCode:'Postcode',
-    location:this.defaultLocation
-  };
-
-  locationIsSet=false;
+  locationIsSet = false;
 
   constructor(private modalCtrl: ModalController,
               private toastCtrl: ToastController,
@@ -64,98 +50,146 @@ export class ProfilePage {
               private authService: AuthService) {
   }
 
-/*
+  /*
+    ionViewDidEnter() {
+      var fbUserProfileData =this.authService.getActiveUserProfile();
+      console.log('****************  '+fbUserProfileData);
+
+
+    }
+  */
+
+
   ionViewDidEnter() {
-    var fbUserProfileData =this.authService.getActiveUserProfile();
-    console.log('****************  '+fbUserProfileData);
-
-
-  }
-*/
-
-
-
-  ionViewDidEnter(){
-    this.isUserAuthenticated=this.authService.isUserLoggedIn();
-    console.log(('User login info from profile page is '+this.isUserAuthenticated));
-    if(this.isUserAuthenticated) {
+    this.isUserAuthenticated = this.authService.isUserLoggedIn();
+    console.log(('User login info from profile page is ' + this.isUserAuthenticated));
+    if (this.isUserAuthenticated) {
       console.log('User is logged in');
-      this.userProfileData =this.authService.getActiveUserProfile();
+      this.userProfileData = this.authService.getActiveUserProfile();
+      this.firebaseCustUid = this.authService.getActiveUserId();
       console.log(this.userProfileData);
-/*      this.firebaseCustUid = this.authService.getActiveUserId();
-      console.log('Profile Page - ionViewDidEnter(). Active user is - ' + this.firebaseCustUid);
-      var userProfileDataFirebase = this.authService.getCurrentUserDetails(this.firebaseCustUid);
-      userProfileDataFirebase.on('value', userSnapshot => {
-        this.userProfileData = userSnapshot.val();
-      });*/
-    }else{
+    } else {
       console.log('User is not logged in');
     }
   }
 
-  updateUserProfileInFirebase(){
-    console.log('USER PROFILE');
+  updateUserProfileInFirebase() {
+    console.log('saving');
     console.log(this.userProfileData);
-    console.log('ADDRESS FROM GPS');
-    console.log(this.address)
+    this.updateUserFirebaseProfile();
   }
 
-  onOpenMap() {
-    console.log("Profile Page : onOpenMap Function Starts");
-    const loader = this.loadingCtrl.create({
-      content: 'Getting your Location...'
+  private updateUserFirebaseProfile() {
+    // Get a key for a new Post.
+    var newOrderKey = firebase.database().ref().child('orders').push().key;
+    // Update the users profile.
+    var updates = {};
+    updates['/users/' + this.firebaseCustUid] = this.userProfileData;
+
+    const toast = this.toastCtrl.create({
+      message: 'Profile Updated!',
+      duration: 1500,
+      position: 'bottom'
     });
-    var GoogleLocation=this.userProfileData.lastUsedAddressed;
-    var isLocationSet=GoogleLocation.location.lat=='24.623299562653035'?true:false;
+    toast.present();
+    //return firebase.database().ref().update(updates);
+    return firebase.database().ref().update(updates).then(function () {
+      toast.present();
+    }).catch(function (error) {
+      alert("Data could not be saved." + error);
+    });
+    ;
+  }
+
+
+  onOpenMap() {
+    var customerAddress=this.address;
+    if(this.userProfileData.address!=null){
+      customerAddress = this.userProfileData.address;
+    }
+    var isLocationSet = false;
+    if(customerAddress.lat==null || customerAddress.lng ==null){
+      console.log('Location was not selected previously');
+      isLocationSet=false;
+    }else{
+      console.log('Location was selected previously'+customerAddress.lat+customerAddress.lng);
+      isLocationSet=true;
+    }
     const modal = this.modalCtrl.create(SetLocationPage,
-      {location: GoogleLocation.location, locationIsSet: isLocationSet});
+      {location: customerAddress, locationIsSet: isLocationSet});
     modal.present();
     modal.onDidDismiss(
       data => {
         if (data) {
-          console.log('selected location from overlay page was - '+ data.location.lat + '--' + data.location.lng
-            +'--' + data.locationIsSet);
-          //this.userProfileData = data.userProfileData;
-          this.address.location = data.location;
+          console.log('selected location from overlay page was - ' + data.location.lat + '--' + data.location.lng
+            + '--' + data.locationIsSet);
+          this.address.lat = data.location.lat;
+          this.address.lng = data.location.lng;
           this.locationIsSet = true;
-        }else{
-          console.log('No location is edited');
+        } else {
+          console.log('No location is selected' + this.locationIsSet);
         }
       }
     );
   }
 
-  onInputAddress(){
-    console.log('Manually entering address');
-    //todo
-    var city='udaipur',street='26 panchwati',postcode = '313001';
-    var addressObject={
-      street:'',
-      city:'',
-      postCode:''};
-    addressObject=this.userProfileData.lastUsedAddressed;
-    this.createAddressManuallyAlert(addressObject.street,addressObject.city,addressObject.postCode).present();
+/*  onOpenMap() {
+    console.log("Profile Page : onOpenMap Function Starts");
+    const loader = this.loadingCtrl.create({
+      content: 'Getting your Location...'
+    });
+    var customerAddress = this.userProfileData.address;
+    var isLocationSet = customerAddress.location.lat == '24.623299562653035' ? true : false;
+    console.log(customerAddress);
+    console.log(isLocationSet);
+    const modal = this.modalCtrl.create(SetLocationPage,
+      {location: customerAddress.location, locationIsSet: isLocationSet});
+    modal.present();
+    modal.onDidDismiss(
+      data => {
+        if (data) {
+          console.log('selected location from overlay page was - ' + data.lat + '--' + data.lng
+            + '--' + data.locationIsSet);
+          //this.userProfileData = data.userProfileData;
+          this.address.lat = data.lat;
+          this.address.lng = data.lng;
+          this.locationIsSet = true;
+        } else {
+          console.log('No location is edited');
+        }
+      }
+    );
+  }*/
+
+  onInputAddress() {
+    var addressObject = this.address;
+    if (this.isUserAuthenticated) {
+      console.log('User is authenticated. So using his last populated address'+this.firebaseCustUid);
+      console.log(this.userProfileData);
+      addressObject = this.userProfileData.address;
+      console.log(addressObject);
+    }
+    this.createAddressManuallyAlert(addressObject.street, addressObject.city, addressObject.postCode).present();
   }
 
-
-  private createAddressManuallyAlert(street:string,city:string,postCode:string) {
+  private createAddressManuallyAlert(street: string, city: string, postCode: string) {
     return this.alertCtrl.create({
       title: 'Enter Your Address',
       inputs: [
         {
           name: 'street',
           placeholder: 'Street Address',
-          value:street
+          value: street
         },
         {
           name: 'city',
           placeholder: 'City',
-          value:city
+          value: city
         },
         {
           name: 'postCode',
           placeholder: 'PostCode',
-          value:postCode
+          value: postCode
         }
       ],
       buttons: [
@@ -174,7 +208,8 @@ export class ProfilePage {
               });
               toast.present();
               return;
-            };
+            }
+            ;
             if ((data.city.trim() == '' || data.city == null)) {
               const toast = this.toastCtrl.create({
                 message: 'Please enter a valid city!',
@@ -183,10 +218,11 @@ export class ProfilePage {
               });
               toast.present();
               return;
-            };
-            this.address.street=data.street;
-            this.address.city=data.city;
-            this.address.postCode=data.postCode;
+            }
+            ;
+            this.address.street = data.street;
+            this.address.city = data.city;
+            this.address.postCode = data.postCode;
             //(<FormArray>this.recipeForm.get('ingredients'))
             //  .push(new FormControl(data.name, Validators.required));
             const toast = this.toastCtrl.create({
@@ -196,8 +232,9 @@ export class ProfilePage {
             });
             //this.locationIsSet=true;
             //console.log('location selected manually in schedule page ' +this.locationIsSet);
-            console.log('Manually entered address is -  ' +this.address.street + '-' +this.address.city+
-              '-' +this.address.postCode);
+            console.log('Manually entered address is -  ' + this.address.street + '-' + this.address.city +
+              '-' + this.address.postCode);
+            this.userProfileData.address=this.address;
             toast.present();
           }
         }
