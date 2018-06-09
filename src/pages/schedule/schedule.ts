@@ -97,13 +97,13 @@ export class SchedulePage {
 
   goToStep2() {
     this.newOrder = new Order(this.orderType,
-      this.address,
+      this.userProfileData.address,
       this.event.pickupDate,
       this.event.pickupTime,
       this.event.dropOffDate,
       this.event.dropOffTime,
       this.getRandomStringId(),
-      null,
+      this.userProfileData,
       new Date().toISOString()
     );
 
@@ -111,7 +111,9 @@ export class SchedulePage {
     console.log(this.newOrder.orderType + " - "
       + this.newOrder.address.lng + " - "
       + this.newOrder.address.lat + " - "
-      + this.newOrder.address + " - "
+      + this.newOrder.address.street + " - "
+      + this.newOrder.address.city + " - "
+      + this.newOrder.address.postCode + " - "
       + this.newOrder.pickupDate + " - "
       + this.newOrder.pickupTime + " - "
       + this.newOrder.dropDate + " - "
@@ -156,6 +158,7 @@ export class SchedulePage {
   }
 
   onOpenMap() {
+    this.loadUserProfileFromFirebase();
     var customerAddress=this.address;
     if(this.userProfileData.address!=null){
       customerAddress = this.userProfileData.address;
@@ -174,11 +177,19 @@ export class SchedulePage {
     modal.onDidDismiss(
       data => {
         if (data) {
-          console.log('selected location from overlay page was - ' + data.location.lat + '--' + data.location.lng
-            + '--' + data.locationIsSet);
+
           this.address.lat = data.location.lat;
           this.address.lng = data.location.lng;
+          this.userProfileData.address.lat=data.location.lat;
+          this.userProfileData.address.lng=data.location.lng;
           this.locationIsSet = true;
+          console.log('selected location from overlay page was - ' +
+            data.location.lat + '--' + data.location.lng
+            + '--' + data.locationIsSet
+            + '--' + this.address.street
+          );
+          console.log('User profile data after map selection');
+          console.log(this.userProfileData);
         } else {
           console.log('No location is selected' + this.locationIsSet);
         }
@@ -220,10 +231,12 @@ export class SchedulePage {
   }
 
   onInputAddress() {
+    this.loadUserProfileFromFirebase();
     var addressObject = this.address;
     if (this.isUserAuthenticated) {
       console.log('User is authenticated. So using his last populated address');
       console.log(this.userProfileData);
+      //addressObject=this.newOrder.address;
       addressObject = this.userProfileData.address;
       console.log(addressObject);
     } else {
@@ -232,6 +245,26 @@ export class SchedulePage {
     this.createAddressManuallyAlert(addressObject.street, addressObject.city, addressObject.postCode).present();
   }
 
+  loadUserProfileFromFirebase(){
+    this.isUserAuthenticated=this.authService.isUserLoggedIn();
+    if(this.isUserAuthenticated) {
+      console.log('User is logged in');
+      this.firebaseCustUid = this.authService.getActiveUserId();
+      console.log('Schedule Page - loadUserProfileFromFirebase(). Active user is - ' + this.firebaseCustUid);
+      var userProfileDataFirebase = this.authService.getCurrentUserDetails(this.firebaseCustUid);
+      //For users who are registered but haven't ordered yet or their first order with us failed.
+      if(userProfileDataFirebase!=null){
+        console.log(userProfileDataFirebase);
+        userProfileDataFirebase.on('value', userSnapshot => {
+          this.userProfileData = userSnapshot.val();
+        });
+      }
+
+    }else{
+      console.log('User is not logged in');
+    }
+
+  }
   private createAddressManuallyAlert(street: string, city: string, postCode: string) {
     return this.alertCtrl.create({
       title: 'Enter Your Address',

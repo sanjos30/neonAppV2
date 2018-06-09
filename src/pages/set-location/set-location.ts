@@ -70,7 +70,11 @@ export class SetLocationPage {
   onSetMarker(event: any) {
     console.log(event);
     console.log('Set Marker');
-    this.marker = new Location(event.coords.lat, event.coords.lng);
+    //this.marker = new Location(event.coords.lat, event.coords.lng);
+    this.marker = {
+      lat:event.coords.lat,
+      lng:event.coords.lng
+    };
     this.locationIsSet=true;
   }
 

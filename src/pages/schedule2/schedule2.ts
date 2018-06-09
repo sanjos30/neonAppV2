@@ -103,6 +103,21 @@ export class Schedule2Page {
     console.log('Name: ' + value.name +
                 " Email: " + value.email +
                 " Phone: " + value.phone);
+
+    console.log('Passing the below order details to the schedule 2 page');
+    console.log(this.newOrder.orderType + " - "
+      + this.newOrder.address.lng + " - "
+      + this.newOrder.address.lat + " - "
+      + this.newOrder.address.street + " - "
+      + this.newOrder.address.city + " - "
+      + this.newOrder.address.postCode + " - "
+      + this.newOrder.pickupDate + " - "
+      + this.newOrder.pickupTime + " - "
+      + this.newOrder.dropDate + " - "
+      + this.newOrder.dropTime + " -- "
+      + this.newOrder.customerId
+    );
+
     this.orderPlacedAlert();
 
   }
@@ -143,6 +158,20 @@ export class Schedule2Page {
 
 
   private createNewOrder() {
+    console.log('SChedule 2 page -- creating the order');
+    console.log(this.newOrder.orderType + " - "
+      + this.newOrder.address.lng + " - "
+      + this.newOrder.address.lat + " - "
+      + this.newOrder.address.street + " - "
+      + this.newOrder.address.city + " - "
+      + this.newOrder.address.postCode + " - "
+      + this.newOrder.pickupDate + " - "
+      + this.newOrder.pickupTime + " - "
+      + this.newOrder.dropDate + " - "
+      + this.newOrder.dropTime + " -- "
+      + this.newOrder.customerId
+    );
+
     // Get a key for a new Post.
     var newOrderKey = firebase.database().ref().child('orders').push().key;
 

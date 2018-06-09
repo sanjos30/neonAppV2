@@ -125,6 +125,8 @@ export class ProfilePage {
             + '--' + data.locationIsSet);
           this.address.lat = data.location.lat;
           this.address.lng = data.location.lng;
+          this.userProfileData.address.lat=data.location.lat;
+          this.userProfileData.address.lng=data.location.lng;
           this.locationIsSet = true;
         } else {
           console.log('No location is selected' + this.locationIsSet);
