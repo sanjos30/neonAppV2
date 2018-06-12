@@ -13,6 +13,8 @@ export class HistoryPage {
   firebaseCustUid:string;
   previousOrders:any;
 
+  isUserAuthenticated: boolean = false;
+
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private authService: AuthService) { }
@@ -34,6 +36,7 @@ export class HistoryPage {
 
    ionViewDidEnter(){
      //this.previousOrders=this.authService.getPreviousOrders(this.firebaseCustUid);
+     this.isUserAuthenticated = this.authService.isUserLoggedIn();
      this.firebaseCustUid=this.authService.getActiveUserId();
      console.log('History Page - ionViewDidEnter(). Active user is - ' + this.firebaseCustUid);
      var orders = this.authService.getPreviousOrders(this.firebaseCustUid);

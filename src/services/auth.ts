@@ -1,8 +1,13 @@
 import firebase from 'firebase';
+  import {Customer} from "../models/customer";
 
 export class AuthService {
 
   private address: any = {};
+
+  private customer:Customer;
+
+  private userUid:string=null;
 
   private userProfileData = {
     name: '',
@@ -35,11 +40,9 @@ export class AuthService {
     var activeUserId = this.getActiveUserId();
 
     if (activeUserId == null || activeUserId == '') {
-      console.log('Auth Service : Login Check - FALSE');
       return false;
     }
     else {
-      console.log('Auth Service : Login Check - TRUE');
       return true;
     }
 
@@ -47,9 +50,9 @@ export class AuthService {
 
   getActiveUserId() {
     if (firebase.auth().currentUser != null)
-      return firebase.auth().currentUser.uid;
+      this.userUid= firebase.auth().currentUser.uid;
     else
-      return null;
+      return this.userUid;
   }
 
   getPreviousOrders(uid: string) {
@@ -62,30 +65,40 @@ export class AuthService {
 
   getActiveUserProfile() {
     var activeUserId = this.getActiveUserId();
-    console.log('AUTH Service - ionViewDidEnter(). Active user is - ' + activeUserId);
+    console.log('auth.ts - getActiveUserProfile - Active user is - '
+      + activeUserId);
     var userProfileDataFirebase = this.getCurrentUserDetails(activeUserId);
     userProfileDataFirebase.on('value', userSnapshot => {
       this.userProfileData = userSnapshot.val();
     })
     return this.userProfileData;
   }
+
+  loadUserProfileFromFirebase(userToken:string){
+    console.log('Auth.ts - loadUserProfileFromFirebase - function starts');
+    if(this.customer==null){
+      console.log('auth.ts - loadUserProfileFromFirebase function - loading user from firebase');
+      if(this.isUserLoggedIn()) {
+        var userProfileDataFirebase = firebase.database().ref('users/' + userToken);
+        //For users who are registered but haven't ordered yet or their first order with us failed.
+        if(userProfileDataFirebase!=null){
+          console.log('auth.ts - loadUserProfileFromFirebase function - Step 4');
+          userProfileDataFirebase.on('value', userSnapshot => {
+            this.customer = userSnapshot.val();
+            console.log('auth.ts - loadUserProfileFromFirebase function - Step 5');
+          });
+        }else{
+          console.log('User logged in but no data could be loaded');
+        }
+
+      }else{
+        console.log('auth.ts - loadUserProfileFromFirebase function - User is not logged in');
+      }
+      console.log(this.customer);
+      return this.customer;
+    }else{
+      console.log(' auth.ts - loadUserProfileFromFirebase function -Using previously loaded Customer from Auth Service');
+      return this.customer;
+    }
+  }
 }
-/*  userProfileDataFirebase.on('value', userSnapshot => {
-    var userProfileData = [];
-    userSnapshot.forEach( userProfile => {
-      console.log('User profile from firebase '+userProfile.val() + '-' + userProfile.key);
-      var key22=userProfile.key;
-      var val1=userProfile.val();
-      userProfileData.push({
-        [key22]:val1
-      });
-
-      //this.userProfileData.push(userProfile.val());
-      return false;
-    });
-    console.log(('Returning user profile data from service to consumer ' + userProfileData));
-    //This is a JSON object. Called can directly user userProfileData.name to get the name of  logged in customer.
-    return userProfileData;
-  });
-}*/
-

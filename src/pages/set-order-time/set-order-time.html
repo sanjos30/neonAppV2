@@ -1,6 +1,6 @@
 <ion-header>
 
-  <ion-navbar>
+  <ion-navbar class="global-top-navbar">
     <ion-title>Select {{mode}} Date and Time</ion-title>
   </ion-navbar>
 
@@ -37,10 +37,6 @@
         <ion-datetime required displayFormat="h:mm A" pickerFormat="h mm A" [(ngModel)]="event.dropOffTime">{{event.dropOffTime}}</ion-datetime>
       </ion-item>
       </ion-list>
-  <ion-row>{{event.pickupDate}}</ion-row>
-  <ion-row>{{event.pickupTime}}</ion-row>
-  <ion-row>{{event.dropOffDate}}</ion-row>
-  <ion-row>{{event.dropOffTime}}</ion-row>
     <ion-row>
       <ion-col>
         <button

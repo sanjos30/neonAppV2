@@ -1,6 +1,6 @@
 <ion-header>
 
-  <ion-navbar [hideBackButton]="true">
+  <ion-navbar [hideBackButton]="true" class="global-top-navbar">
     <ion-title>Previous Orders</ion-title>
   </ion-navbar>
 
@@ -8,6 +8,9 @@
 
 
 <ion-content padding>
+  <ion-item *ngIf="!isUserAuthenticated" no-lines>
+    <ion-label class="errorDisplay">You haven't ordered with us yet!</ion-label>
+  </ion-item>
   <ion-list>
     <button ion-item *ngFor="let order of previousOrders" (click)="itemSelected(item)">
       {{ order.creationDate }} - {{ order.orderType }}

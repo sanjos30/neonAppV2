@@ -135,41 +135,12 @@ export class ProfilePage {
     );
   }
 
-/*  onOpenMap() {
-    console.log("Profile Page : onOpenMap Function Starts");
-    const loader = this.loadingCtrl.create({
-      content: 'Getting your Location...'
-    });
-    var customerAddress = this.userProfileData.address;
-    var isLocationSet = customerAddress.location.lat == '24.623299562653035' ? true : false;
-    console.log(customerAddress);
-    console.log(isLocationSet);
-    const modal = this.modalCtrl.create(SetLocationPage,
-      {location: customerAddress.location, locationIsSet: isLocationSet});
-    modal.present();
-    modal.onDidDismiss(
-      data => {
-        if (data) {
-          console.log('selected location from overlay page was - ' + data.lat + '--' + data.lng
-            + '--' + data.locationIsSet);
-          //this.userProfileData = data.userProfileData;
-          this.address.lat = data.lat;
-          this.address.lng = data.lng;
-          this.locationIsSet = true;
-        } else {
-          console.log('No location is edited');
-        }
-      }
-    );
-  }*/
-
   onInputAddress() {
     var addressObject = this.address;
     if (this.isUserAuthenticated) {
       console.log('User is authenticated. So using his last populated address'+this.firebaseCustUid);
       console.log(this.userProfileData);
       addressObject = this.userProfileData.address;
-      console.log(addressObject);
     }
     this.createAddressManuallyAlert(addressObject.street, addressObject.city, addressObject.postCode).present();
   }
@@ -197,6 +168,13 @@ export class ProfilePage {
       buttons: [
         {
           text: 'Cancel',
+          handler:data=> {
+            if (
+              !((data.street.trim() == '' || data.street == null) ||
+                (data.city.trim() == '' || data.city == null))){
+              this.locationIsSet=true
+            }
+          },
           role: 'cancel'
         },
         {

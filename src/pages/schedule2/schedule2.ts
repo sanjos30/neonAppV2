@@ -49,19 +49,21 @@ export class Schedule2Page {
   }
 
   ngOnInit() {
-    console.log("Inside the NG ON INIT METHOD");
+    console.log("scheudle2.ts - ngOnInit Function - Inside the NG ON INIT METHOD");
+
     //If customer exists, set to Existing
     this.initializeForm();
   }
 
   ionViewDidEnter(){
     this.isUserAuthenticated=this.authService.isUserLoggedIn();
-    console.log(('User login info from schedule2 page is '+this.isUserAuthenticated));
+    console.log("scheudle2.ts - ionViewDidEnter - User login" + this.isUserAuthenticated);
+
     this.newOrder = this.navParams.get('newOrder');
     if(this.isUserAuthenticated) {
       console.log('User is logged in');
       this.firebaseCustUid = this.authService.getActiveUserId();
-      console.log('Schedule2 Page - ionViewDidEnter(). Active user is - ' + this.firebaseCustUid);
+      console.log("scheudle2.ts - ionViewDidEnter - User login token" + this.firebaseCustUid);
       var userProfileDataFirebase = this.authService.getCurrentUserDetails(this.firebaseCustUid);
       //For users who are registered but haven't ordered yet or their first order with us failed.
       if(userProfileDataFirebase!=null){
@@ -78,6 +80,7 @@ export class Schedule2Page {
 
   createOrder(form: NgForm) {
     console.log('Customer submitted the form. Lets get the backend job done !');
+    console.log("scheudle2.ts - createOrder - Customer submitted the form. Lets get the backend job done");
 
     const loading = this.loadingCtrl.create({
       content: 'Signing you in...'
@@ -87,11 +90,12 @@ export class Schedule2Page {
     //Create order in firebase
 
     //this.createFireBaseOrder(value.name,value.email,value.phone);
-    console.log('Name: ' + value.name +
+    console.log('scheudle2.ts - createOrder - Customer submitted the form - Name: ' + value.name +
       " Email: " + value.email +
       " Phone: " + value.phone +
       " OrderType" + this.newOrder.orderType +
       " City " + this.newOrder.address.city);
+
 
     this.customer=new Customer(value.name,value.phone,value.email,this.newOrder.address);
   /*  this.customer.name=value.name;
@@ -100,11 +104,7 @@ export class Schedule2Page {
     this.newOrder.customer=this.customer;
     this.newUserSignIn();
 
-    console.log('Name: ' + value.name +
-                " Email: " + value.email +
-                " Phone: " + value.phone);
-
-    console.log('Passing the below order details to the schedule 2 page');
+    console.log('scheudle2.ts - createOrder - Passing the below order details to the schedule 2 page');
     console.log(this.newOrder.orderType + " - "
       + this.newOrder.address.lng + " - "
       + this.newOrder.address.lat + " - "
@@ -127,7 +127,7 @@ export class Schedule2Page {
       content: 'Please wait...'
     });
     loading.present();
-    console.log('signing in started');
+    console.log('scheudle2.ts - newUserSignIn -  signing in started');
     this.authService.signinAnonymous()
       .then(data => {
         this.firebaseCustUid = firebase.auth().currentUser.uid;
@@ -146,7 +146,7 @@ export class Schedule2Page {
     }
 
   private createFireBaseOrder() {
-    console.log('before creating fb order');
+    console.log('scheudle2.ts - createFireBaseOrder -  creating order in firebase');
     this.authService.getActiveUser().getIdToken()
       .then(
         (token: string) => {
@@ -158,7 +158,7 @@ export class Schedule2Page {
 
 
   private createNewOrder() {
-    console.log('SChedule 2 page -- creating the order');
+    console.log('scheudle2.ts - createNewOrder');
     console.log(this.newOrder.orderType + " - "
       + this.newOrder.address.lng + " - "
       + this.newOrder.address.lat + " - "

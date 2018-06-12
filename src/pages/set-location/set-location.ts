@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavParams,ViewController,LoadingController,ToastController } from 'ionic-angular';
-import { Location } from "../../models/location";
+import {Component} from '@angular/core';
+import {IonicPage, NavParams, ViewController, LoadingController, ToastController} from 'ionic-angular';
+import {Location} from "../../models/location";
 import {Geolocation} from "@ionic-native/geolocation";
 import {AuthService} from "../../services/auth";
 
@@ -23,69 +23,55 @@ export class SetLocationPage {
     street: '',
     city: '',
     postCode: '',
-    lat: 24.623299562653035,
-    lng: 73.40927124023438
+    lat: '',
+    lng: ''
   };
 
   locationIsSet = false;
-  isUserAuthenticated=false;
-  firebaseCustUid:string;
 
   constructor(public navParams: NavParams,
               private viewCtrl: ViewController,
               private loadingCtrl: LoadingController,
               private toastCtrl: ToastController,
-              private geolocation: Geolocation,
-              private authService: AuthService) {
+              private geolocation: Geolocation) {
 
 
   }
 
   ionViewDidEnter() {
-/*    if(this.navParams.get('customerAddress')==null || this.navParams.get('customerAddress')==''){
-      console.log('The user previous location data does not exists');
-    }else{
-      this.location=this.navParams.get('customerAddress');
-      console.log('The user previous location data is present');
-    }
-
-    this.locationIsSet=this.navParams.get('locationIsSet');
-    this.marker=this.location;
-    console.log("Setlocation:IonViewDidEnter location is set: "+this.locationIsSet);*/
-    this.locationIsSet=this.navParams.get('locationIsSet');
-    if(this.navParams.get('locationIsSet')) {
-      this.location=this.navParams.get('location');
-      this.marker=this.location;
-      console.log('The user previous location data is present');
-      console.log(this.marker);
-      console.log(this.location);
-
-
-    }else{
-      console.log('The user previous location data does not exists');
-      this.marker=this.location;
+    this.locationIsSet = this.navParams.get('locationIsSet');
+    if (this.navParams.get('locationIsSet')) {
+      this.location = this.navParams.get('location');
+      this.marker = this.location;
+      console.log('set-location.ts - ionViewDidEnter - The user previous location data is present ');
+      this.locationIsSet = true;
+    } else {
+      console.log('set-location.ts - ionViewDidEnter - NO Location data exists from past ');
+      this.locationIsSet = false;
+      //this.marker=this.location;
     }
   }
 
   onSetMarker(event: any) {
     console.log(event);
-    console.log('Set Marker');
     //this.marker = new Location(event.coords.lat, event.coords.lng);
     this.marker = {
-      lat:event.coords.lat,
-      lng:event.coords.lng
+      lat: event.coords.lat,
+      lng: event.coords.lng
     };
-    this.locationIsSet=true;
+    //this.locationIsSet = true;
   }
 
   onConfirm() {
-    console.log('Confirmed');
-    this.viewCtrl.dismiss({location: this.marker ,locationIsSet:true});
+    this.viewCtrl.dismiss({location: this.marker, locationIsSet: this.locationIsSet});
   }
 
   onAbort() {
-    console.log('Aborted');
-    this.viewCtrl.dismiss();
+    this.viewCtrl.dismiss(
+      {
+        location: this.marker,
+        locationIsSet: this.locationIsSet
+      });
   }
 
   onLocate() {
@@ -94,15 +80,14 @@ export class SetLocationPage {
     });
     loader.present();
     this.geolocation.getCurrentPosition().then((resp) => {
-
       this.location.lat = resp.coords.latitude;
       this.location.lng = resp.coords.longitude;
-      console.log('current location ' + this.location.lat + ' -- ' + this.location.lng);
-
-      this.locationIsSet = true;
+      console.log('set-location.ts - ionViewDidEnter -current location '
+        + this.location.lat + ' -- ' + this.location.lng);
+      //this.locationIsSet = true;
       this.marker = this.location;
-      this.locationIsSet = true;
-      console.log('markup location ' + this.marker.lat + ' -- ' + this.marker.lng);
+      console.log('set-location.ts - ionViewDidEnter - markup location '
+        + this.marker.lat + ' -- ' + this.marker.lng);
       loader.dismiss();
       // resp.coords.latitude
       // resp.coords.longitude
@@ -117,24 +102,5 @@ export class SetLocationPage {
       toast.present();
     });
 
- /*   this.geolocation.getCurrentPosition
-      .then(
-        (resp) => {
-          loader.dismiss();
-          this.location.lat = location.coords.latitude;
-          this.location.lng = location.coords.longitude;
-          this.locationIsSet = true;
-        }
-      )
-      .catch(
-        error => {
-          loader.dismiss();
-          const toast = this.toastCtrl.create({
-            message: 'Could get location, please pick it manually!',
-            duration: 2500
-          });
-          toast.present();
-        }
-      );*/
   }
 }

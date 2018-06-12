@@ -8,15 +8,15 @@ import {
   NavController
 } from 'ionic-angular';
 import {SetLocationPage} from "../set-location/set-location";
-import {Location} from "../../models/location";
 import {Order} from "../../models/order";
 import {Geolocation} from '@ionic-native/geolocation';
 import {SetOrderTimePage} from "../set-order-time/set-order-time";
 import {Schedule2Page} from "../schedule2/schedule2";
-import {Address} from "../../models/address";
 import {AuthService} from "../../services/auth";
 import {Customer} from "../../models/customer";
 import firebase from "firebase";
+import {Address} from "../../models/address";
+import {HelperService} from "../../services/helper";
 
 @IonicPage()
 @Component({
@@ -29,10 +29,13 @@ export class SchedulePage {
 
   //Order type is normal by default
   public isExpressDelivery: boolean = false;
-  orderType: string='Normal';
-  firebaseCustUid: string;
+  orderType: string = 'Normal';
+  userToken: string;
   public orderTypeNote: string = "MIN 2 DAYS DELIVERY";
   newOrder: Order;
+
+  public userType: string;
+  public customer_fb: any = new Customer('', '', '', null);
 
   address: any = {
     street: 'Your Street Address',
@@ -67,47 +70,51 @@ export class SchedulePage {
               private geolocation: Geolocation,
               private loadingCtrl: LoadingController,
               private navCtrl: NavController,
-              private authService: AuthService) {
-        firebase.auth().onAuthStateChanged(user => {
-          if (user) {
-            console.log('constructor - user authenticated.');
-            this.isUserAuthenticated=true;
-            this.userProfileData = this.authService.getActiveUserProfile();
-          } else {
-            console.log('constructor -  user unauthenticated.');
-          }
-        });
-  }
-
-  ionViewDidLoad() {
-    this.userProfileData = this.authService.getActiveUserProfile();
-    this.firebaseCustUid = this.authService.getActiveUserId();
+              private authService: AuthService,
+              private helperService: HelperService) {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        console.log('Schedule.ts - constructor - user authenticated ');
+        this.isUserAuthenticated = true;
+        this.userToken = this.authService.getActiveUserId();
+        this.userProfileData = this.authService.getActiveUserProfile();
+        this.authService.loadUserProfileFromFirebase(this.userToken);
+      } else {
+        console.log('Schedule.ts - constructor - user NOT authenticated ');
+      }
+    });
   }
 
   ionViewDidEnter() {
-    console.log('schedule1 page: ionViewDidEnter');
+    console.log('Schedule.ts - ionViewDidEnter - Starts ');
     this.isUserAuthenticated = this.authService.isUserLoggedIn();
+    //this.authService.loadUserProfileFromFirebase(this.userToken);
+
     if (this.isUserAuthenticated) {
+      this.userToken = this.authService.getActiveUserId();
       this.userProfileData = this.authService.getActiveUserProfile();
-      console.log('schedule1 page ionViewDidEnter. User logged in flag is ' + this.isUserAuthenticated);
+      console.log('Schedule.ts - ionViewDidEnter - User logged in flag is ' + this.isUserAuthenticated);
+      Object.assign(this.customer_fb, this.authService.loadUserProfileFromFirebase(this.userToken));
+      console.log('Schedule.ts - ionViewDidEnter - User logged in name from FB is ' + this.customer_fb.name );
     } else {
-      console.log('schedule1 page ionViewDidEnter. User logged in flag is ' + this.isUserAuthenticated);
+      console.log('Schedule.ts - ionViewDidEnter - User NOT logged in - flag is ' + this.isUserAuthenticated);
     }
   }
 
   goToStep2() {
     this.newOrder = new Order(this.orderType,
-      this.userProfileData.address,
+      this.customer_fb.address,
       this.event.pickupDate,
       this.event.pickupTime,
       this.event.dropOffDate,
       this.event.dropOffTime,
-      this.getRandomStringId(),
+      this.helperService.getRandomStringId(),
       this.userProfileData,
       new Date().toISOString()
     );
-
-    console.log('Passing the below order details to the schedule 2 page');
+    console.log('Schedule.ts - goToStep2 function - Printing address');
+    console.log(this.customer_fb.address);
+    console.log('Schedule.ts - goToStep2 function - Printing the order details below: ');
     console.log(this.newOrder.orderType + " - "
       + this.newOrder.address.lng + " - "
       + this.newOrder.address.lat + " - "
@@ -158,113 +165,88 @@ export class SchedulePage {
   }
 
   onOpenMap() {
-    this.loadUserProfileFromFirebase();
-    var customerAddress=this.address;
-    if(this.userProfileData.address!=null){
-      customerAddress = this.userProfileData.address;
-    }
+    this.checkUsrProfileLoaded(this.isUserAuthenticated);
+    const loader = this.loadingCtrl.create({
+      content: 'loading...'
+    });
+    loader.present().then(
+      //Object.assign(this.customer_fb, this.authService.loadUserProfileFromFirebase(this.userToken))
+
+    );
+
+    console.log('Schedule.ts - onOpenMap function - ' + this.customer_fb.name);
+    var customerAddress;
     var isLocationSet = false;
-    if(customerAddress.lat==null || customerAddress.lng ==null){
-      console.log('Location was not selected previously');
-      isLocationSet=false;
-    }else{
-      console.log('Location was selected previously'+customerAddress.lat+customerAddress.lng);
-      isLocationSet=true;
+    if (this.customer_fb.address != null) {
+      console.log('Schedule.ts - onOpenMap function -' + this.customer_fb.address.lat);
+      this.userType = 'Existing Customer + FireBase Loaded';
+      customerAddress = this.customer_fb.address;
+      isLocationSet = true;
+    } else {
+      console.log('Schedule.ts - onOpenMap function -' + this.isUserAuthenticated);
+      this.userType = 'New Customer + FireBase Not Loaded';
+      isLocationSet = false;
+      customerAddress = new Address(
+        'Your street',
+        'your city',
+        'postcode',
+        '24.623299562653035',
+        '73.40927124023438');
     }
+    loader.dismiss();
     const modal = this.modalCtrl.create(SetLocationPage,
       {location: customerAddress, locationIsSet: isLocationSet});
     modal.present();
     modal.onDidDismiss(
       data => {
-        if (data) {
-
-          this.address.lat = data.location.lat;
-          this.address.lng = data.location.lng;
-          this.userProfileData.address.lat=data.location.lat;
-          this.userProfileData.address.lng=data.location.lng;
-          this.locationIsSet = true;
-          console.log('selected location from overlay page was - ' +
-            data.location.lat + '--' + data.location.lng
-            + '--' + data.locationIsSet
-            + '--' + this.address.street
-          );
-          console.log('User profile data after map selection');
-          console.log(this.userProfileData);
+        if (data.location.lat){
+          console.log('Schedule.ts - onOpenMap function - Selected location is '
+            + data.location.lat + '--' + data.location.lng
+            + '--' + data.locationIsSet);
+/*          this.customer_fb.address = {
+            lat: data.location.lat,
+            lng: data.location.lng
+          };*/
+          if(this.customer_fb.address==null){
+            this.customer_fb.address = {
+              lat: data.location.lat,
+              lng: data.location.lng
+            };
+          }else{
+            this.customer_fb.address.lat=data.location.lat;
+            this.customer_fb.address.lng=data.location.lng;
+          }
+          this.locationIsSet = data.locationIsSet;
         } else {
-          console.log('No location is selected' + this.locationIsSet);
+          console.log('Schedule.ts - onOpenMap function - New User - Pressed Cancel - Not selected location ');
+          this.locationIsSet = false;
         }
       }
     );
   }
 
-  loadUserProfile() {
-    const loader = this.loadingCtrl.create({
-      content: 'loading...'
-    });
-    loader.present();
-    if (this.isUserAuthenticated) {
-      this.userProfileData = this.authService.getActiveUserProfile();
-      console.log('schedule1 page ionViewDidEnter. User logged in flag is ' + this.isUserAuthenticated);
-    }
-    loader.dismiss();
-  }
-
-  getUserLocation() {
-    this.geolocation.getCurrentPosition()
-      .then(
-        location => {
-          // loader.dismiss();
-          this.address.lat = location.coords.latitude;
-          this.address.lng = location.coords.longitude;
-        }
-      )
-      .catch(
-        error => {
-          //loader.dismiss();
-          const toast = this.toastCtrl.create({
-            message: 'Could get location, please pick it manually!',
-            duration: 2500
-          });
-          toast.present();
-        }
-      );
-  }
-
   onInputAddress() {
-    this.loadUserProfileFromFirebase();
-    var addressObject = this.address;
+    this.checkUsrProfileLoaded(this.isUserAuthenticated);
+    var addressObject = this.customer_fb.address;
     if (this.isUserAuthenticated) {
-      console.log('User is authenticated. So using his last populated address');
-      console.log(this.userProfileData);
-      //addressObject=this.newOrder.address;
-      addressObject = this.userProfileData.address;
+      console.log('Schedule.ts - onInputAddress function - User is authenticated. So using his last populated address');
+      console.log(this.customer_fb);
+      addressObject = this.customer_fb.address;
       console.log(addressObject);
     } else {
-      console.log('User is NOT authenticated. So using his last populated address');
+      console.log('Schedule.ts - onInputAddress function - User is NOT authenticated.');
+      addressObject=this.address;
     }
     this.createAddressManuallyAlert(addressObject.street, addressObject.city, addressObject.postCode).present();
   }
 
-  loadUserProfileFromFirebase(){
-    this.isUserAuthenticated=this.authService.isUserLoggedIn();
-    if(this.isUserAuthenticated) {
-      console.log('User is logged in');
-      this.firebaseCustUid = this.authService.getActiveUserId();
-      console.log('Schedule Page - loadUserProfileFromFirebase(). Active user is - ' + this.firebaseCustUid);
-      var userProfileDataFirebase = this.authService.getCurrentUserDetails(this.firebaseCustUid);
-      //For users who are registered but haven't ordered yet or their first order with us failed.
-      if(userProfileDataFirebase!=null){
-        console.log(userProfileDataFirebase);
-        userProfileDataFirebase.on('value', userSnapshot => {
-          this.userProfileData = userSnapshot.val();
-        });
-      }
-
-    }else{
-      console.log('User is not logged in');
+  checkUsrProfileLoaded(isUserLoggedIn:boolean){
+    if(isUserLoggedIn){
+      Object.assign(this.customer_fb, this.authService.loadUserProfileFromFirebase(this.userToken));
     }
 
   }
+
   private createAddressManuallyAlert(street: string, city: string, postCode: string) {
     return this.alertCtrl.create({
       title: 'Enter Your Address',
@@ -288,6 +270,32 @@ export class SchedulePage {
       buttons: [
         {
           text: 'Cancel',
+          handler:data=> {
+            if(data){
+              if(this.customer_fb.address==null){
+                this.locationIsSet=false;
+                /*this.customer_fb.address = {
+                  street: data.street,
+                  city: data.city,
+                  postCode:data.postCode
+                };*/
+              }else if(this.customer_fb.address.street!=null ||
+                this.customer_fb.address.city!=null ||
+                this.customer_fb.address.postCode!=null) {
+                this.locationIsSet=true;
+              }
+            }
+
+/*            if (data){
+              console.log('Schedule.ts - onInputAddress function - cancel button '+data.street);
+              //!((data.street.trim() == '' || data.street == null) ||
+              //(data.city.trim() == '' || data.city == null))){
+                this.locationIsSet=true;
+            }else {
+              this.locationIsSet=false;
+              console.log('The user cancelled without entering address');
+            }*/
+            },
           role: 'cancel'
         },
         {
@@ -313,9 +321,35 @@ export class SchedulePage {
               return;
             }
             ;
-            this.address.street = data.street;
-            this.address.city = data.city;
-            this.address.postCode = data.postCode;
+            /*            this.address.street = data.street;
+                        this.address.city = data.city;
+                        this.address.postCode = data.postCode;*/
+
+            //If location was available, restore it
+/*            this.customer_fb.address = {
+              street: data.street,
+              city: data.city,
+              postCode: data.postCode
+            };*/
+
+            if (this.customer_fb.address != null) {
+              console.log('Schedule.ts - Add Address function - Press Add button - Customer NOT NULL' );
+              this.customer_fb.address.street=data.street;
+              this.customer_fb.address.city=data.city;
+              this.customer_fb.address.postCode=data.postCode;
+              this.locationIsSet=true;
+            } else {
+              console.log('Schedule.ts - Add Address function - Press Add button - Customer NULL');
+              this.locationIsSet = true;
+              this.customer_fb.address = {
+                street:data.street,
+                city:data.city,
+                postCode:data.postCode
+              }
+            }
+
+
+
             //(<FormArray>this.recipeForm.get('ingredients'))
             //  .push(new FormControl(data.name, Validators.required));
             const toast = this.toastCtrl.create({
@@ -324,8 +358,9 @@ export class SchedulePage {
               position: 'bottom'
             });
             this.locationIsSet = true;
-            console.log('Manually entered address is -  ' + this.address.street + '-' + this.address.city +
-              '-' + this.address.postCode);
+            console.log('Schedule.ts - CreateManuallyAddress function - Manually entered address is -' +
+              this.customer_fb.address.street + '-' + this.customer_fb.address.city +
+              '-' + this.customer_fb.address.postCode);
             toast.present();
           }
         }
@@ -333,15 +368,5 @@ export class SchedulePage {
     });
   }
 
-  getRandomNumberId() {
-    return Math.floor((Math.random() * 6) + 1);
-  }
 
-  getRandomStringId() {
-    var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    for (var i = 0; i < 5; i++)
-      text += possible.charAt(Math.floor(Math.random() * possible.length));
-    return text;
-  }
 }
