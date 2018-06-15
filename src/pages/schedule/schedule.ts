@@ -33,8 +33,6 @@ export class SchedulePage {
   userToken: string;
   public orderTypeNote: string = "MIN 2 DAYS DELIVERY";
   newOrder: Order;
-
-  public userType: string;
   public customer_fb: any = new Customer('', '', '', null);
 
   address: any = {
@@ -43,7 +41,6 @@ export class SchedulePage {
     postCode: 'Postcode',
     lat: 24.623299562653035,
     lng: 73.40927124023438
-    //location: this.defaultLocation
   };
 
   public event = {
@@ -74,7 +71,6 @@ export class SchedulePage {
               private helperService: HelperService) {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        console.log('Schedule.ts - constructor - user authenticated ');
         this.isUserAuthenticated = true;
         this.userToken = this.authService.getActiveUserId();
         this.userProfileData = this.authService.getActiveUserProfile();
@@ -86,16 +82,12 @@ export class SchedulePage {
   }
 
   ionViewDidEnter() {
-    console.log('Schedule.ts - ionViewDidEnter - Starts ');
     this.isUserAuthenticated = this.authService.isUserLoggedIn();
-    //this.authService.loadUserProfileFromFirebase(this.userToken);
-
     if (this.isUserAuthenticated) {
       this.userToken = this.authService.getActiveUserId();
       this.userProfileData = this.authService.getActiveUserProfile();
-      console.log('Schedule.ts - ionViewDidEnter - User logged in flag is ' + this.isUserAuthenticated);
       Object.assign(this.customer_fb, this.authService.loadUserProfileFromFirebase(this.userToken));
-      console.log('Schedule.ts - ionViewDidEnter - User logged in name from FB is ' + this.customer_fb.name );
+      console.log('Schedule.ts - ionViewDidEnter - User logged in name from FB is ' + this.customer_fb.name);
     } else {
       console.log('Schedule.ts - ionViewDidEnter - User NOT logged in - flag is ' + this.isUserAuthenticated);
     }
@@ -112,22 +104,6 @@ export class SchedulePage {
       this.userProfileData,
       new Date().toISOString()
     );
-    console.log('Schedule.ts - goToStep2 function - Printing address');
-    console.log(this.customer_fb.address);
-    console.log('Schedule.ts - goToStep2 function - Printing the order details below: ');
-    console.log(this.newOrder.orderType + " - "
-      + this.newOrder.address.lng + " - "
-      + this.newOrder.address.lat + " - "
-      + this.newOrder.address.street + " - "
-      + this.newOrder.address.city + " - "
-      + this.newOrder.address.postCode + " - "
-      + this.newOrder.pickupDate + " - "
-      + this.newOrder.pickupTime + " - "
-      + this.newOrder.dropDate + " - "
-      + this.newOrder.dropTime + " -- "
-      + this.newOrder.customerId
-    );
-
     this.navCtrl.push(Schedule2Page, {
       newOrder: this.newOrder
     });
@@ -171,20 +147,13 @@ export class SchedulePage {
     });
     loader.present().then(
       //Object.assign(this.customer_fb, this.authService.loadUserProfileFromFirebase(this.userToken))
-
     );
-
-    console.log('Schedule.ts - onOpenMap function - ' + this.customer_fb.name);
     var customerAddress;
     var isLocationSet = false;
     if (this.customer_fb.address != null) {
-      console.log('Schedule.ts - onOpenMap function -' + this.customer_fb.address.lat);
-      this.userType = 'Existing Customer + FireBase Loaded';
       customerAddress = this.customer_fb.address;
       isLocationSet = true;
     } else {
-      console.log('Schedule.ts - onOpenMap function -' + this.isUserAuthenticated);
-      this.userType = 'New Customer + FireBase Not Loaded';
       isLocationSet = false;
       customerAddress = new Address(
         'Your street',
@@ -199,22 +168,15 @@ export class SchedulePage {
     modal.present();
     modal.onDidDismiss(
       data => {
-        if (data.location.lat){
-          console.log('Schedule.ts - onOpenMap function - Selected location is '
-            + data.location.lat + '--' + data.location.lng
-            + '--' + data.locationIsSet);
-/*          this.customer_fb.address = {
-            lat: data.location.lat,
-            lng: data.location.lng
-          };*/
-          if(this.customer_fb.address==null){
+        if (data.location.lat) {
+          if (this.customer_fb.address == null) {
             this.customer_fb.address = {
               lat: data.location.lat,
               lng: data.location.lng
             };
-          }else{
-            this.customer_fb.address.lat=data.location.lat;
-            this.customer_fb.address.lng=data.location.lng;
+          } else {
+            this.customer_fb.address.lat = data.location.lat;
+            this.customer_fb.address.lng = data.location.lng;
           }
           this.locationIsSet = data.locationIsSet;
         } else {
@@ -229,19 +191,18 @@ export class SchedulePage {
     this.checkUsrProfileLoaded(this.isUserAuthenticated);
     var addressObject = this.customer_fb.address;
     if (this.isUserAuthenticated) {
-      console.log('Schedule.ts - onInputAddress function - User is authenticated. So using his last populated address');
       console.log(this.customer_fb);
       addressObject = this.customer_fb.address;
       console.log(addressObject);
     } else {
       console.log('Schedule.ts - onInputAddress function - User is NOT authenticated.');
-      addressObject=this.address;
+      addressObject = this.address;
     }
     this.createAddressManuallyAlert(addressObject.street, addressObject.city, addressObject.postCode).present();
   }
 
-  checkUsrProfileLoaded(isUserLoggedIn:boolean){
-    if(isUserLoggedIn){
+  checkUsrProfileLoaded(isUserLoggedIn: boolean) {
+    if (isUserLoggedIn) {
       Object.assign(this.customer_fb, this.authService.loadUserProfileFromFirebase(this.userToken));
     }
 
@@ -270,32 +231,17 @@ export class SchedulePage {
       buttons: [
         {
           text: 'Cancel',
-          handler:data=> {
-            if(data){
-              if(this.customer_fb.address==null){
-                this.locationIsSet=false;
-                /*this.customer_fb.address = {
-                  street: data.street,
-                  city: data.city,
-                  postCode:data.postCode
-                };*/
-              }else if(this.customer_fb.address.street!=null ||
-                this.customer_fb.address.city!=null ||
-                this.customer_fb.address.postCode!=null) {
-                this.locationIsSet=true;
+          handler: data => {
+            if (data) {
+              if (this.customer_fb.address == null) {
+                this.locationIsSet = false;
+              } else if (this.customer_fb.address.street != null ||
+                this.customer_fb.address.city != null ||
+                this.customer_fb.address.postCode != null) {
+                this.locationIsSet = true;
               }
             }
-
-/*            if (data){
-              console.log('Schedule.ts - onInputAddress function - cancel button '+data.street);
-              //!((data.street.trim() == '' || data.street == null) ||
-              //(data.city.trim() == '' || data.city == null))){
-                this.locationIsSet=true;
-            }else {
-              this.locationIsSet=false;
-              console.log('The user cancelled without entering address');
-            }*/
-            },
+          },
           role: 'cancel'
         },
         {
@@ -321,52 +267,31 @@ export class SchedulePage {
               return;
             }
             ;
-            /*            this.address.street = data.street;
-                        this.address.city = data.city;
-                        this.address.postCode = data.postCode;*/
-
-            //If location was available, restore it
-/*            this.customer_fb.address = {
-              street: data.street,
-              city: data.city,
-              postCode: data.postCode
-            };*/
-
             if (this.customer_fb.address != null) {
-              console.log('Schedule.ts - Add Address function - Press Add button - Customer NOT NULL' );
-              this.customer_fb.address.street=data.street;
-              this.customer_fb.address.city=data.city;
-              this.customer_fb.address.postCode=data.postCode;
-              this.locationIsSet=true;
+
+              this.customer_fb.address.street = data.street;
+              this.customer_fb.address.city = data.city;
+              this.customer_fb.address.postCode = data.postCode;
+              this.locationIsSet = true;
             } else {
               console.log('Schedule.ts - Add Address function - Press Add button - Customer NULL');
               this.locationIsSet = true;
               this.customer_fb.address = {
-                street:data.street,
-                city:data.city,
-                postCode:data.postCode
+                street: data.street,
+                city: data.city,
+                postCode: data.postCode
               }
             }
-
-
-
-            //(<FormArray>this.recipeForm.get('ingredients'))
-            //  .push(new FormControl(data.name, Validators.required));
             const toast = this.toastCtrl.create({
               message: 'Address added!',
               duration: 1500,
               position: 'bottom'
             });
             this.locationIsSet = true;
-            console.log('Schedule.ts - CreateManuallyAddress function - Manually entered address is -' +
-              this.customer_fb.address.street + '-' + this.customer_fb.address.city +
-              '-' + this.customer_fb.address.postCode);
             toast.present();
           }
         }
       ]
     });
   }
-
-
 }

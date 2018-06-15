@@ -1,15 +1,15 @@
 import firebase from 'firebase';
-  import {Customer} from "../models/customer";
+import {Customer} from "../models/customer";
 
 export class AuthService {
 
   private address: any = {};
 
-  private customer:Customer;
+  private customer: Customer;
 
-  private userUid:string=null;
+  private userUid: string = null;
 
-  private productList:any=null;
+  private productList: any = null;
 
 
   private userProfileData = {
@@ -41,14 +41,12 @@ export class AuthService {
 
   isUserLoggedIn() {
     var activeUserId = this.getActiveUserId();
-
     if (activeUserId == null || activeUserId == '') {
       return false;
     }
     else {
       return true;
     }
-
   }
 
   getActiveUserId() {
@@ -70,8 +68,6 @@ export class AuthService {
 
   getActiveUserProfile() {
     var activeUserId = this.getActiveUserId();
-    console.log('auth.ts - getActiveUserProfile - Active user is - '
-      + activeUserId);
     var userProfileDataFirebase = this.getCurrentUserDetails(activeUserId);
     userProfileDataFirebase.on('value', userSnapshot => {
       this.userProfileData = userSnapshot.val();
@@ -79,51 +75,24 @@ export class AuthService {
     return this.userProfileData;
   }
 
-  loadProductListFromFirebase(){
-    console.log('AuthService.ts - loadProductListFromFirebase - Starts');
-
-    if(this.productList==null){
-      var productList_fb = firebase.database().ref('products/');
-      if(productList_fb!=null){
-
-
-        productList_fb.on('value', products => {
-          this.productList = products.val();
-          console.log(products.val());
-        });
-      }else{
-        console.log('couldnot load products from firebase');
-      }
-    }else{
-      return this.productList;
-    }
-    return this.productList;
-  }
-
-
-  loadUserProfileFromFirebase(userToken:string){
-    console.log('Auth.ts - loadUserProfileFromFirebase - function starts');
-    if(this.customer==null){
+  loadUserProfileFromFirebase(userToken: string) {
+    if (this.customer == null) {
       console.log('auth.ts - loadUserProfileFromFirebase function - loading user from firebase');
-      if(this.isUserLoggedIn()) {
+      if (this.isUserLoggedIn()) {
         var userProfileDataFirebase = firebase.database().ref('users/' + userToken);
         //For users who are registered but haven't ordered yet or their first order with us failed.
-        if(userProfileDataFirebase!=null){
-          console.log('auth.ts - loadUserProfileFromFirebase function - Step 4');
+        if (userProfileDataFirebase != null) {
           userProfileDataFirebase.on('value', userSnapshot => {
             this.customer = userSnapshot.val();
-            console.log('auth.ts - loadUserProfileFromFirebase function - Step 5');
           });
-        }else{
-          console.log('User logged in but no data could be loaded');
+        } else {
+          console.log('Exception scenario - CHECK - User logged in but no data could be loaded');
         }
-
-      }else{
+      } else {
         console.log('auth.ts - loadUserProfileFromFirebase function - User is not logged in');
       }
-      console.log(this.customer);
       return this.customer;
-    }else{
+    } else {
       console.log(' auth.ts - loadUserProfileFromFirebase function -Using previously loaded Customer from Auth Service');
       return this.customer;
     }

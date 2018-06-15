@@ -38,11 +38,9 @@
 
   </ion-row>
   <ion-row>
-    <p>{{orderTypeNote}}</p>
     <p>fbToken: {{userToken}}</p>
     <p>isUserAuthentictd: {{isUserAuthenticated}}</p>
     <p>isLocationSet: {{locationIsSet}}</p>
-    <p *ngIf="locationIsSet">Address: {{customer_fb.address.street}} {{customer_fb.address.city}} {{customer_fb.address.lat}}</p>
   </ion-row>
   <ion-row>
     <ion-col>
@@ -74,22 +72,6 @@
         Select on Map
       </button>
     </ion-col>
-<!--    <ion-col>
-      <button
-        ion-button
-        type="button"
-        clear
-      >Enter Your Address</button>
-    </ion-col>-->
-    <!--<ion-col>
-      <button
-        ion-button
-        type="button"
-        clear
-        block
-        [style.background-color]="'primary'"
-      >Select on Map</button>
-    </ion-col>-->
   </ion-row>
 
   <!--ion-row *ngIf="locationIsSet">

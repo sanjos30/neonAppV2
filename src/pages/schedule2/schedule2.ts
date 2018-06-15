@@ -58,13 +58,10 @@ export class Schedule2Page {
 
   ionViewDidEnter(){
     this.isUserAuthenticated=this.authService.isUserLoggedIn();
-    console.log("scheudle2.ts - ionViewDidEnter - User login" + this.isUserAuthenticated);
-
     this.newOrder = this.navParams.get('newOrder');
     if(this.isUserAuthenticated) {
       console.log('User is logged in');
       this.firebaseCustUid = this.authService.getActiveUserId();
-      console.log("scheudle2.ts - ionViewDidEnter - User login token" + this.firebaseCustUid);
       var userProfileDataFirebase = this.authService.getCurrentUserDetails(this.firebaseCustUid);
       //For users who are registered but haven't ordered yet or their first order with us failed.
       if(userProfileDataFirebase!=null){
@@ -80,9 +77,6 @@ export class Schedule2Page {
   }
 
   createOrder(form: NgForm) {
-    console.log('Customer submitted the form. Lets get the backend job done !');
-    console.log("scheudle2.ts - createOrder - Customer submitted the form. Lets get the backend job done");
-
     const loading = this.loadingCtrl.create({
       content: 'Signing you in...'
     });
@@ -91,33 +85,12 @@ export class Schedule2Page {
     //Create order in firebase
 
     //this.createFireBaseOrder(value.name,value.email,value.phone);
-    console.log('scheudle2.ts - createOrder - Customer submitted the form - Name: ' + value.name +
-      " Email: " + value.email +
-      " Phone: " + value.phone +
-      " OrderType" + this.newOrder.orderType +
-      " City " + this.newOrder.address.city);
-
-
     this.customer=new Customer(value.name,value.phone,value.email,this.newOrder.address);
   /*  this.customer.name=value.name;
     this.customer.email=value.email;
     this.customer.phone=value.phone;*/
     this.newOrder.customer=this.customer;
     this.newUserSignIn();
-
-    console.log('scheudle2.ts - createOrder - Passing the below order details to the schedule 2 page');
-    console.log(this.newOrder.orderType + " - "
-      + this.newOrder.address.lng + " - "
-      + this.newOrder.address.lat + " - "
-      + this.newOrder.address.street + " - "
-      + this.newOrder.address.city + " - "
-      + this.newOrder.address.postCode + " - "
-      + this.newOrder.pickupDate + " - "
-      + this.newOrder.pickupTime + " - "
-      + this.newOrder.dropDate + " - "
-      + this.newOrder.dropTime + " -- "
-      + this.newOrder.customerId
-    );
 
     this.orderPlacedAlert();
 
@@ -128,7 +101,6 @@ export class Schedule2Page {
       content: 'Please wait...'
     });
     loading.present();
-    console.log('scheudle2.ts - newUserSignIn -  signing in started');
     this.authService.signinAnonymous()
       .then(data => {
         this.firebaseCustUid = firebase.auth().currentUser.uid;
@@ -147,7 +119,6 @@ export class Schedule2Page {
     }
 
   private createFireBaseOrder() {
-    console.log('scheudle2.ts - createFireBaseOrder -  creating order in firebase');
     this.authService.getActiveUser().getIdToken()
       .then(
         (token: string) => {
@@ -199,12 +170,6 @@ export class Schedule2Page {
       let prompt = this.alertCtrl.create({
         title: 'Order Placed Successfully',
         message: "Thanks for placing an order with us",
-/*        inputs: [
-          {
-            name: 'title',
-            placeholder: 'Title'
-          },
-        ],*/
         buttons: [
           {
             text: 'Done',
@@ -215,7 +180,7 @@ export class Schedule2Page {
             }
           },
           {
-            text: 'View past orders',
+            text: 'Order History',
             handler: data => {
               //this.navCtrl.remove(0);
               this.navCtrl.setRoot(SchedulePage).then(
@@ -229,26 +194,9 @@ export class Schedule2Page {
     }
 
   private initializeForm() {
-    console.log('In the initialize form method on schedule2 page');
-    let name = null;
-    let email = null;
-    let phone = null;
-
-    name = this.userProfileData.name;
-    email = this.userProfileData.email;
-    phone = this.userProfileData.phone;
-
-/*    if (this.isUserAuthenticated) {
-      console.log('user authenticated ' + this.customer.name);
-      name = this.customer.name;
-      email = this.customer.email;
-      phone = this.customer.phone;
-    }else {
-      console.log('New User');
-      name = '';
-      email = '';
-      phone = '';
-    }*/
+    let name = this.userProfileData.name;
+    let email = this.userProfileData.email;
+    let phone = this.userProfileData.phone;
 
     this.custDetailsForm = new FormGroup({
       'name': new FormControl(name, Validators.required),
@@ -257,11 +205,4 @@ export class Schedule2Page {
     });
   }
 
-  private createNewOrderUsingCustomerModel(token:string,uid:string){
-    /*firebase.database().ref('users/' + token).set({
-      orderType : this.newOrder.orderType
-    });*/
-    //firebase.database().ref('users').push(this.newOrder);
-    firebase.database().ref('users/'+uid).set(this.newOrder);
-  }
 }

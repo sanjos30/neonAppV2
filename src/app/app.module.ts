@@ -23,6 +23,7 @@ import {Geolocation} from "@ionic-native/geolocation";
 import { AuthService } from "../services/auth";
 import { HttpModule } from '@angular/http';
 import {HelperService} from "../services/helper";
+import {ViewOrderPage} from "../pages/view-order/view-order";
 
 mobiscroll.apiKey = '0433483d';
 
@@ -38,7 +39,8 @@ mobiscroll.apiKey = '0433483d';
     SetLocationPage,
     Schedule2Page,
     WelcomePage,
-    SetOrderTimePage
+    SetOrderTimePage,
+    ViewOrderPage
   ],
   imports: [
     FormsModule,
@@ -62,7 +64,8 @@ mobiscroll.apiKey = '0433483d';
     SetLocationPage,
     Schedule2Page,
     WelcomePage,
-    SetOrderTimePage
+    SetOrderTimePage,
+    ViewOrderPage
   ],
   providers: [
     Geolocation,

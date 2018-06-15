@@ -1,5 +1,4 @@
 import {Order} from "../models/order";
-import {Location} from "../models/location";
 import {Customer} from "../models/customer";
 import {Address} from "../models/address";
 
@@ -17,9 +16,7 @@ export class OrderService {
             customer : Customer,
             creationDate:string
             ) {
-    console.log("OrderService : addOrder Function : Starts");
     this.orders.push(new Order(orderType, address,pickupDate,pickupTime,dropDate,dropTime,customerId,null,creationDate));
-    console.log("OrderService : addOrder Function : Ends");
   }
 
   getOrders() {
