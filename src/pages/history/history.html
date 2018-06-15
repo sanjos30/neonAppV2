@@ -13,7 +13,7 @@
   </ion-item>
   <ion-list>
     <button ion-item *ngFor="let order of previousOrders" (click)="itemSelected(item)">
-      {{ order.creationDate }} - {{ order.orderType }}
+      {{ order.creationDate }} - {{ order.orderType }}- {{ order.customer.name }}
     </button>
   </ion-list>
 </ion-content>

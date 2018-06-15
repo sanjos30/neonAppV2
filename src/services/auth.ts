@@ -9,6 +9,9 @@ export class AuthService {
 
   private userUid:string=null;
 
+  private productList:any=null;
+
+
   private userProfileData = {
     name: '',
     phone: '',
@@ -49,8 +52,10 @@ export class AuthService {
   }
 
   getActiveUserId() {
-    if (firebase.auth().currentUser != null)
-      this.userUid= firebase.auth().currentUser.uid;
+    if (firebase.auth().currentUser != null) {
+      this.userUid = firebase.auth().currentUser.uid;
+      return this.userUid;
+    }
     else
       return this.userUid;
   }
@@ -73,6 +78,28 @@ export class AuthService {
     })
     return this.userProfileData;
   }
+
+  loadProductListFromFirebase(){
+    console.log('AuthService.ts - loadProductListFromFirebase - Starts');
+
+    if(this.productList==null){
+      var productList_fb = firebase.database().ref('products/');
+      if(productList_fb!=null){
+
+
+        productList_fb.on('value', products => {
+          this.productList = products.val();
+          console.log(products.val());
+        });
+      }else{
+        console.log('couldnot load products from firebase');
+      }
+    }else{
+      return this.productList;
+    }
+    return this.productList;
+  }
+
 
   loadUserProfileFromFirebase(userToken:string){
     console.log('Auth.ts - loadUserProfileFromFirebase - function starts');

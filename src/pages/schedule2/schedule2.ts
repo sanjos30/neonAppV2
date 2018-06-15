@@ -9,6 +9,7 @@ import { AuthService } from "../../services/auth";
 import 'rxjs/Rx';
 import firebase from "firebase";
 import {HistoryPage} from "../history/history";
+import {SchedulePage} from "../schedule/schedule";
 
 @IonicPage()
 @Component({
@@ -216,12 +217,11 @@ export class Schedule2Page {
           {
             text: 'View past orders',
             handler: data => {
-              console.log('Route to past orders page.');
-              this.navCtrl.remove(this.navCtrl.getPrevious().index);
-              this.navCtrl.push(HistoryPage).then(
-              this.navCtrl.parent.select(1));
-
-            }
+              //this.navCtrl.remove(0);
+              this.navCtrl.setRoot(SchedulePage).then(
+                this.navCtrl.parent.select(1)
+              );
+              }
           }
         ]
       });
