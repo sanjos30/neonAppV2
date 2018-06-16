@@ -21,11 +21,8 @@
 </ion-toolbar>-->
 <ion-content>
   <div padding>
-    <ion-toolbar>
+    <ion-toolbar class="pricing-segment">
       <ion-segment [(ngModel)]="service">
-        <!--        <ion-segment-button *ngFor="let category of categories" value="{{ category.name }}">
-                  <h2 *ngIf="category.isActive">{{ category.name }}</h2>
-                </ion-segment-button>-->
         <ion-segment-button value="ironing">
           Ironing
         </ion-segment-button>
@@ -39,182 +36,57 @@
     </ion-toolbar>
   </div>
   <div [ngSwitch]="service">
-<!--
+
     <ion-list *ngSwitchCase="'ironing'">
-      <ion-item *ngFor="let ironingItem of ironingItems">
-        <h2 *ngIf="ironingItem.isActive">{{ironingItem.name.toUpperCase()}} - {{ironingItem.currency}}
-          {{ironingItem.cost}}</h2>
-      </ion-item>
+      <ng-container *ngFor="let ironingItem of ironingItems">
+        <ion-item *ngIf="ironingItem.isActive" no-lines>
+          <ion-grid>
+            <ion-row>
+              <ion-col text-center text-align="justify">
+                <h2>{{ironingItem.name.toUpperCase()}}</h2>
+              </ion-col>
+              <ion-col text-left>
+                <h2>{{ironingItem.currency}}{{ironingItem.cost}}</h2>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-item>
+      </ng-container>
     </ion-list>
 
     <ion-list *ngSwitchCase="'dry-cleaning'">
-      <ion-item *ngFor="let dryCleanItem of dryCleanItems">
-        <h2 *ngIf="dryCleanItem.isActive">{{dryCleanItem.name.toUpperCase()}} - {{dryCleanItem.currency}}
-          {{dryCleanItem.cost}}</h2>
-      </ion-item>
-    </ion-list>
--->
-
-<!--    <ion-list *ngSwitchCase="'wash-iron'">
-      <ion-item *ngFor="let washIronItem of washIronItems">
-        <h2 *ngIf="washIronItem.isActive">{{washIronItem.name.toUpperCase()}} - {{washIronItem.currency}}{{washIronItem.cost}}</h2>
-      </ion-item>
-    </ion-list>-->
-
-    <ion-list *ngSwitchCase="'ironing'">
-    <ng-container *ngFor="let ironingItem of ironingItems">
-      <ion-item  *ngIf="ironingItem.isActive">
-        <h2>{{ironingItem.name.toUpperCase()}} - {{ironingItem.currency}}{{ironingItem.cost}}</h2>
-      </ion-item>
-    </ng-container>
-    </ion-list>
-
-    <ion-list *ngSwitchCase="'dry-cleaning'">
-    <ng-container *ngFor="let dryCleanItem of dryCleanItems">
-      <ion-item  *ngIf="dryCleanItem.isActive">
-        <h2>{{dryCleanItem.name.toUpperCase()}} - {{dryCleanItem.currency}}{{dryCleanItem.cost}}</h2>
-      </ion-item>
-    </ng-container>
+      <ng-container *ngFor="let dryCleanItem of dryCleanItems">
+        <ion-item *ngIf="dryCleanItem.isActive" no-lines>
+          <ion-grid no-border="false">
+            <ion-row>
+              <ion-col text-center>
+                <h2>{{dryCleanItem.name.toUpperCase()}}</h2>
+              </ion-col>
+              <ion-col text-left>
+                <h2>{{dryCleanItem.currency}}{{dryCleanItem.cost}}</h2>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-item>
+      </ng-container>
     </ion-list>
 
     <ion-list *ngSwitchCase="'wash-iron'">
-    <ng-container *ngFor="let washIronItem of washIronItems">
-      <ion-item  *ngIf="washIronItem.isActive">
-        <h2>{{washIronItem.name.toUpperCase()}} - {{washIronItem.currency}}{{washIronItem.cost}}</h2>
-      </ion-item>
-    </ng-container>
+      <ng-container *ngFor="let washIronItem of washIronItems">
+        <ion-item *ngIf="washIronItem.isActive" no-lines>
+          <ion-grid>
+            <ion-row>
+              <ion-col text-center>
+                <h2>{{washIronItem.name.toUpperCase()}}</h2>
+              </ion-col>
+              <ion-col text-left>
+                <h2>{{washIronItem.currency}}{{washIronItem.cost}}</h2>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-item>
+      </ng-container>
     </ion-list>
 
   </div>
 </ion-content>
-<!--
-  <div [ngSwitch]="service">
-    &lt;!&ndash;  <ion-list *ngFor="let item of items">
-        <ion-item>
-          <h2>{{item.name.toUpperCase()}} - {{item.cost}}</h2>
-        </ion-item>
-      </ion-list>&ndash;&gt;
-
-    &lt;!&ndash; Ironing &ndash;&gt;
-    <ion-list *ngSwitchCase="'ironing'">
-      <ion-item *ngFor="let item of items">
-        <h2>{{item.name.toUpperCase()}} - {{item.cost}}</h2>
-      </ion-item>
-      <ion-item>
-        <h2>Daffy 1</h2>
-      </ion-item>
-      <ion-item>
-        <h2>Huey 1</h2>
-      </ion-item>
-    </ion-list>
-
-    &lt;!&ndash; Dry Cleaning &ndash;&gt;
-    <ion-list *ngSwitchCase="'dry-cleaning'">
-      <ion-item>
-        <h2>Daffy 2</h2>
-      </ion-item>
-      <ion-item>
-        <h2>Huey 2</h2>
-      </ion-item>
-    </ion-list>
--->
-
-<!--  <ion-segment>
-    <button ion-item *ngFor="let order of products">
-      {{ order[0] }}
-    </button>
-
-  </ion-segment>-->
-<!-- <ion-segment [(ngModel)]="products">
-    <ion-segment-button value="Ironing">
-      Ironing -{{products}}
-    </ion-segment-button>
-     <ion-segment-button> ion-item *ngFor="let order of products">
-       {{ order }}
-     </ion-segment-button>
-    <ion-segment-button value="Dry Cleaning">
-      Dry Cleaning
-    </ion-segment-button>
-    <ion-segment-button value="Alterations">
-      Alterations
-    </ion-segment-button>
-  </ion-segment>-->
-
-<!--
-  <div [ngSwitch]="service">
-    <ion-list *ngFor="let item of items" *ngSwitchCase=item.valueOf().toString()>
-      <ion-item *ngFor="let product of products">
-        <h2>{{product.name}}</h2>
-      </ion-item>
-    </ion-list>
-  </div>
--->
-
-<!--
-      <ion-list *ngSwitchCase="'IRONING'">
-      <ion-item>
-        <ion-thumbnail item-start>
-          <img src="assets/img/thumbnail-puppy-1.jpg">
-        </ion-thumbnail>
-        <h2>Ruby</h2>
-      </ion-item>
-      <ion-item>
-        <ion-thumbnail item-start>
-          <img src="assets/img/thumbnail-puppy-2.jpg">
-        </ion-thumbnail>
-        <h2>Oscar</h2>
-      </ion-item>
-      <ion-item>
-        <ion-thumbnail item-start>
-          <img src="assets/img/thumbnail-puppy-4.jpg">
-        </ion-thumbnail>
-        <h2>Zoey</h2>
-      </ion-item>
-      <ion-item>
-        <ion-thumbnail item-start>
-          <img src="assets/img/thumbnail-puppy-3.jpg">
-        </ion-thumbnail>
-        <h2>Otto</h2>
-      </ion-item>
-    </ion-list>
-
-    <ion-list *ngSwitchCase="'puppies'">
-      <ion-item>
-        <ion-thumbnail item-start>
-          <img src="assets/img/thumbnail-kitten-1.jpg">
-        </ion-thumbnail>
-        <h2>Luna</h2>
-      </ion-item>
-      <ion-item>
-        <h2>Milo</h2>
-      </ion-item>
-      <ion-item>
-        <h2>Bandit</h2>
-      </ion-item>
-      <ion-item>
-        <h2>Nala</h2>
-      </ion-item>
-    </ion-list>
-
-    <ion-list *ngSwitchCase="'Alterations'">
-      <ion-item>
-        <ion-thumbnail item-start>
-          <img src="assets/img/thumbnail-duckling-1.jpg">
-        </ion-thumbnail>
-        <h2>Daffy</h2>
-      </ion-item>
-      <ion-item>
-        <h2>Huey</h2>
-      </ion-item>
-      <ion-item>
-        <h2>Dewey</h2>
-      </ion-item>
-      <ion-item>
-        <ion-thumbnail item-start>
-          <img src="assets/img/thumbnail-duckling-4.jpg">
-        </ion-thumbnail>
-        <h2>Louie</h2>
-      </ion-item>
-    </ion-list>
-  </div>-->
-

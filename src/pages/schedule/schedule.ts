@@ -284,7 +284,7 @@ export class SchedulePage {
             }
             const toast = this.toastCtrl.create({
               message: 'Address added!',
-              duration: 1500,
+              duration: 1000,
               position: 'bottom'
             });
             this.locationIsSet = true;

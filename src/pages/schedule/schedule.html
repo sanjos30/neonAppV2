@@ -1,118 +1,108 @@
 <ion-header>
-
   <ion-navbar class="global-top-navbar">
     <ion-title>PLACE AN ORDER</ion-title>
   </ion-navbar>
-
 </ion-header>
 
-
 <ion-content padding>
-<ion-grid>
-  <ion-row>
-    <ion-col>
-      <h2>Select Order Type</h2>
-    </ion-col>
-  </ion-row>
-  <ion-row>
-    <ion-col>
-      <button
-        ion-button
-        type="button"
-
-        block
-        (click)="toggleBackgroundColor()"
-        [color]="isExpressDelivery ? 'light' : 'primary'"
-      >Normal</button>
-    </ion-col>
-    <ion-col>
-      <button
-        ion-button
-        type="button"
-
-        block
-        (click)="toggleBackgroundColor()"
-        [color]="!isExpressDelivery ? 'light' : 'primary'"
-      >Express</button>
-    </ion-col>
-
-  </ion-row>
-  <ion-row>
-    <p>fbToken: {{userToken}}</p>
-    <p>isUserAuthentictd: {{isUserAuthenticated}}</p>
-    <p>isLocationSet: {{locationIsSet}}</p>
-  </ion-row>
-  <ion-row>
-    <ion-col>
-      <h2 class="center-grey-small-text">Select Address</h2>
-    </ion-col>
-  </ion-row>
-  <ion-row>
-    <ion-col>
+  <ion-grid></ion-grid>
+  <ion-grid></ion-grid>
+  <ion-grid>
+    <!--Select Order Type Zone-->
+    <ion-row>
+      <ion-col class="global-text-heading">
+        <h3>Select Order Type</h3>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <button
+          ion-button
+          type="button"
+          block
+          (click)="toggleBackgroundColor()"
+          [color]="isExpressDelivery ? 'light' : 'primary'"
+        >Normal
+        </button>
+      </ion-col>
+      <ion-col>
+        <button
+          ion-button
+          type="button"
+          block
+          (click)="toggleBackgroundColor()"
+          [color]="!isExpressDelivery ? 'light' : 'primary'"
+        >Express
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-grid></ion-grid>
+  <ion-grid>
+    <!--Address Zone-->
+    <ion-row>
+      <ion-col class="global-text-heading">
+        <h3>Select Address</h3>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <button
+          ion-button
+          block
+          outline
+          type="button"
+          icon-left
+          (click)="onInputAddress()">
+          <ion-icon name="return-right"></ion-icon>
+          Enter Address
+        </button>
+      </ion-col>
+      <ion-col>
+        <button
+          ion-button
+          block
+          outline
+          type="button"
+          icon-left
+          (click)="onOpenMap()">
+          <ion-icon name="map"></ion-icon>
+          Select on Map
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+<ion-grid></ion-grid>
+  <ion-grid>
+    <!--Date Time Select Zone-->
+    <ion-row>
+      <ion-col class="global-text-heading">
+        <h3>Select Order Date & Time</h3>
+      </ion-col>
+    </ion-row>
+    <ion-row>
       <button
         ion-button
         block
         outline
         type="button"
         icon-left
-        (click)="onInputAddress()">
-        <ion-icon name="return-right"></ion-icon>
-        Enter Address
-      </button>
-    </ion-col>
-    <ion-col>
-      <button
-        ion-button
-        block
-        outline
-        type="button"
-        icon-left
-        (click)="onOpenMap()">
+        (click)="selectOrderDateTime()">
         <ion-icon name="map"></ion-icon>
-        Select on Map
+        Select Order Pick-up time
       </button>
-    </ion-col>
-  </ion-row>
-
-  <!--ion-row *ngIf="locationIsSet">
-    <ion-col>
-      <agm-map
-        [latitude]="location.lat"
-        [longitude]="location.lng"
-        [zoom]="16">
-        <agm-marker
-          [latitude]="location.lat"
-          [longitude]="location.lng"></agm-marker>
-      </agm-map>
-    </ion-col>
-  </ion-row-->
-  <ion-row>
-    <ion-col>
-      <h2 class="center-grey-small-text">Select Order Date & Time</h2>
-    </ion-col>
-  </ion-row>
-
-  <ion-row>
-    <button
-      ion-button
-      block
-      outline
-      type="button"
-      icon-left
-      (click)="selectOrderDateTime()">
-      <ion-icon name="map"></ion-icon>
-      Select Order Pick-up time
-    </button>
-  </ion-row>
-</ion-grid>
+    </ion-row>
+  </ion-grid>
 </ion-content>
-
 <ion-footer>
+
   <button
     ion-button
+    icon-end
     full
-    [disabled] = '!locationIsSet || !event.pickupDate || !event.pickupTime || !event.dropOffDate || !event.dropOffTime'
+    [disabled]='!locationIsSet || !event.pickupDate || !event.pickupTime || !event.dropOffDate || !event.dropOffTime'
     (click)="goToStep2()">
-      NEXT
+    NEXT
+    <ion-icon name='arrow-forward'></ion-icon>
   </button>
 </ion-footer>
