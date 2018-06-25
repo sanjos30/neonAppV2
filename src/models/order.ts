@@ -1,5 +1,6 @@
 import {Customer} from "./customer"
 import {Address} from "./address";
+import {Items} from "./items";
 export class Order {
   constructor(
     public orderType: string,
@@ -10,5 +11,6 @@ export class Order {
     public dropTime: string,
     public customerId : string,
     public customer : Customer,
-    public creationDate:string) {}
+    public creationDate:string,
+    public itemList:Array<Items>) {}
 }

@@ -1,6 +1,6 @@
 <ion-header>
 
-  <ion-navbar class="global-top-navbar">
+  <ion-navbar class="global-top-navbar" color=navbar>
     <ion-title>PROFILE</ion-title>
   </ion-navbar>
 
@@ -43,6 +43,7 @@
           ion-button
           block
           outline
+          color=navbar
           type="button"
           icon-left
           (click)="onInputAddress()">
@@ -55,6 +56,7 @@
           ion-button
           block
           outline
+          color=navbar
           type="button"
           icon-left
           (click)="onOpenMap()">
@@ -70,6 +72,7 @@
   <button
     ion-button
     full
+    color=navbar
     [disabled] = '!isUserAuthenticated'
     (click)="updateUserProfileInFirebase()">
     SAVE

@@ -1,0 +1,89 @@
+<ion-header>
+
+  <ion-navbar class="global-top-navbar" color=navbar>
+    <ion-title>ADD ITEMS (OPTIONAL)</ion-title>
+  </ion-navbar>
+
+  <div class="header">
+    <ion-item>
+      <ion-row >
+        <ion-col width-15>Item</ion-col>
+        <ion-col width-25>Price</ion-col>
+        <ion-col width-25>Qty</ion-col>
+        <ion-col width-15>ServiceType</ion-col>
+        <ion-col width-20>Amount</ion-col>
+      </ion-row>
+    </ion-item>
+  </div>
+</ion-header>
+
+<ion-content class="item">
+  <!--  <ion-list *ngIf="showList">
+      <ion-item *ngFor="let item of items">
+        {{ item }}
+      </ion-item>
+    </ion-list>-->
+
+  <ion-list>
+    <ng-container class="list">
+      <ion-label text-center class="addItem-text-content">Ironing</ion-label>
+      <ion-item *ngFor="let ironItem of quickOrder; let i = index">
+        <ion-row>
+          <ion-col width-15>{{ironItem.itemName}}</ion-col>
+          <ion-col width-25>{{ironItem.itemPrice}}</ion-col>
+          <ion-col width-25 class="add">
+            <button clear (click)="incrementQty(ironItem)"><ion-icon name="add-circle" ></ion-icon></button>{{qty}}
+            <button clear (click)="decrementQty(ironItem)"><ion-icon name="remove-circle" ></ion-icon></button>
+          </ion-col>
+          <ion-col width-15>{{ironItem.serviceType}}</ion-col>
+          <ion-col width-20><button clear (click)="delete(i)"><ion-icon name="close-circle"></ion-icon></button></ion-col>
+        </ion-row>
+      </ion-item>
+    </ng-container>
+
+    <ng-container class="list">
+      <ion-label text-center class="addItem-text-content">DryCleaning</ion-label>
+      <ion-item *ngFor="let item of dryCleanItems; let i = index">
+
+        <ion-row>
+          <ion-col width-15>{{item.itemName}}</ion-col>
+          <ion-col width-25>{{item.itemPrice}}</ion-col>
+          <ion-col width-25 class="add">
+            <button clear (click)="incrementQty()"><ion-icon name="add-circle" ></ion-icon></button>{{qty}}
+            <button clear (click)="decrementQty()"><ion-icon name="remove-circle" ></ion-icon></button>
+          </ion-col>
+          <ion-col width-15>{{item.serviceType}}</ion-col>
+          <ion-col width-20><button clear (click)="delete(i)"><ion-icon name="close-circle"></ion-icon></button></ion-col>
+        </ion-row>
+      </ion-item>
+    </ng-container>
+
+
+  </ion-list>
+
+  <br><br><br><br><br><br><br>
+
+  <div class="addtocart">
+    <button padding (click)="addToCart();">Add to Cart</button>
+  </div>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <button
+          ion-button
+          block
+          color="danger"
+          (click)="onAbort()">Cancel</button>
+      </ion-col>
+      <ion-col>
+        <button
+          ion-button
+          block
+          color=navbar
+          (click)="onConfirm()">Confirm</button>
+      </ion-col>
+
+    </ion-row>
+  </ion-grid>
+</ion-content>

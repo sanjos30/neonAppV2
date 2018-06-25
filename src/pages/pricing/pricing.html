@@ -1,6 +1,6 @@
 <ion-header>
 
-  <ion-navbar class="global-top-navbar">
+  <ion-navbar class="global-top-navbar" color=navbar>
     <ion-title>PRICE LIST</ion-title>
   </ion-navbar>
 
@@ -23,10 +23,10 @@
   <div padding>
     <ion-toolbar class="pricing-segment">
       <ion-segment [(ngModel)]="service">
-        <ion-segment-button value="ironing">
+        <ion-segment-button value="ironing" class="global-text-content">
           Ironing
         </ion-segment-button>
-        <ion-segment-button value="dry-cleaning">
+        <ion-segment-button value="dry-cleaning" no-border>
           Dry-cleaning
         </ion-segment-button>
         <ion-segment-button value="wash-iron">
@@ -35,13 +35,14 @@
       </ion-segment>
     </ion-toolbar>
   </div>
+
   <div [ngSwitch]="service">
 
     <ion-list *ngSwitchCase="'ironing'">
       <ng-container *ngFor="let ironingItem of ironingItems">
         <ion-item *ngIf="ironingItem.isActive" no-lines>
           <ion-grid>
-            <ion-row>
+            <ion-row class="global-text-content">
               <ion-col text-center text-align="justify">
                 <h2>{{ironingItem.name.toUpperCase()}}</h2>
               </ion-col>
@@ -58,7 +59,7 @@
       <ng-container *ngFor="let dryCleanItem of dryCleanItems">
         <ion-item *ngIf="dryCleanItem.isActive" no-lines>
           <ion-grid no-border="false">
-            <ion-row>
+            <ion-row class="global-text-content">
               <ion-col text-center>
                 <h2>{{dryCleanItem.name.toUpperCase()}}</h2>
               </ion-col>
@@ -75,7 +76,7 @@
       <ng-container *ngFor="let washIronItem of washIronItems">
         <ion-item *ngIf="washIronItem.isActive" no-lines>
           <ion-grid>
-            <ion-row>
+            <ion-row class="global-text-content">
               <ion-col text-center>
                 <h2>{{washIronItem.name.toUpperCase()}}</h2>
               </ion-col>

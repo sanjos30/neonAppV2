@@ -38,9 +38,12 @@ $colors: (
   secondary:  #32db64,
   danger:     #f53d3d,
   light:      #f4f4f4,
-  dark:       #222
+  dark:       #222,
+  navbar:     #00A1D0
 );
 
+$tabs-md-tab-icon-color-active:#00A1D0;
+$tabs-md-tab-color-active:#00A1D0;
 
 // App iOS Variables
 // --------------------------------------------------

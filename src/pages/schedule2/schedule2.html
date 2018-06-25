@@ -1,18 +1,16 @@
 <ion-header>
-
-  <ion-navbar class="global-top-navbar">
+  <ion-navbar class="global-top-navbar" color=navbar>
     <ion-title>YOUR DETAILS</ion-title>
   </ion-navbar>
-
 </ion-header>
 
 
 <ion-content padding>
   <form #f="ngForm" [formGroup]="custDetailsForm" (ngSubmit)="createOrder(f)">
     <ion-list>
-      <ion-item-divider color="light" floating>
+      <h3 class="global-text-heading">
         Personal Details
-      </ion-item-divider>
+      </h3>
       <ion-item>
         <ion-label floating>Name</ion-label>
         <ion-input
@@ -21,7 +19,7 @@
           value="{{userProfileData.name}}"
           [(ngModel)]="userProfileData.name"
           required
-          ></ion-input>
+        ></ion-input>
       </ion-item>
       <ion-item>
         <ion-label floating>Phone</ion-label>
@@ -42,11 +40,24 @@
           required></ion-input>
       </ion-item>
     </ion-list>
-      <ion-item-group>
-        <ion-item-divider color="light">Add Items</ion-item-divider>
-        <ion-item>Shirts</ion-item>
-        <ion-item>Pants</ion-item>
-      </ion-item-group>
+
+    <ion-list padding-top="35px">
+      <h3 class="global-text-heading">
+        Add Items (Optional)
+      </h3>
+        <button
+          ion-button
+          block
+          outline
+          color=navbar
+          type="button"
+          icon-left
+          (click)="addItemsToOrder()">
+          <ion-icon name="cart"></ion-icon>
+          Select Items to order
+        </button>
+    </ion-list>
+
   </form>
 
 </ion-content>
@@ -56,6 +67,7 @@
 
   <button ion-button
           block type="submit"
+          color=navbar
           [disabled]="!f.valid"
           (click)="f.ngSubmit.emit()">PLACE ORDER
   </button>

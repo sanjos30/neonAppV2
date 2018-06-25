@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
-import {IonicPage, NavController, NavParams, LoadingController, AlertController} from 'ionic-angular';
+import {
+  IonicPage, NavController, NavParams, LoadingController, AlertController, Modal,
+  ModalController
+} from 'ionic-angular';
 import { NgForm } from "@angular/forms";
 import {Order} from "../../models/order";
 import {Customer} from "../../models/customer";
@@ -10,6 +13,8 @@ import 'rxjs/Rx';
 import firebase from "firebase";
 import {HistoryPage} from "../history/history";
 import {SchedulePage} from "../schedule/schedule";
+import {SetOrderTimePage} from "../set-order-time/set-order-time";
+import {AddItemsPage} from "../add-items/add-items";
 
 @IonicPage()
 @Component({
@@ -40,12 +45,17 @@ export class Schedule2Page {
   };
 
 
+  public orderItems = {
+
+  };
+
   //Constructor
   constructor(public navCtrl: NavController,
               private loadingCtrl: LoadingController,
               public navParams: NavParams,
               private alertCtrl: AlertController,
-              private authService: AuthService) {
+              private authService: AuthService,
+              private modalCtrl:ModalController) {
 
   }
 
@@ -176,7 +186,6 @@ export class Schedule2Page {
             handler: data => {
               console.log('Refer a friend');
               this.navCtrl.popToRoot();
-              //this.navCtrl.push(ProfilePage, {firebaseCustUid:this.firebaseCustUid});
             }
           },
           {
@@ -203,6 +212,23 @@ export class Schedule2Page {
       'email': new FormControl(email, Validators.required),
       'phone': new FormControl(phone, Validators.required)
     });
+  }
+
+  addItemsToOrder(){
+    const modal = this.modalCtrl.create(AddItemsPage,
+      {
+        order: this.newOrder,
+      });
+    modal.present();
+    modal.onDidDismiss(
+      data => {
+        if (data) {
+          this.orderItems = data.event;
+        } else {
+          //Todo DoNothing for now
+        }
+      }
+    );
   }
 
 }

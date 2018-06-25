@@ -1,14 +1,11 @@
 <ion-header>
-
-  <ion-navbar>
-    <ion-title>View Order</ion-title>
+  <ion-navbar class="global-top-navbar" color=navbar>
+    <ion-title>VIEW ORDER</ion-title>
   </ion-navbar>
-
 </ion-header>
 
 
 <ion-content padding>
-
   <ion-list>
     <button ion-item>
       Order Date - {{ selectedOrder.creationDate }}
@@ -58,22 +55,16 @@
 
   </ion-list>
 
-  <agm-map
-    [latitude]="selectedOrder.address.lat"
-    [longitude]="selectedOrder.address.lng"
-    [zoom]="16">
-    <agm-marker
-      [latitude]="selectedOrder.address.lat"
-      [longitude]="selectedOrder.address.lng"></agm-marker>
-  </agm-map>
-
 </ion-content>
 
 <ion-footer>
   <button
     ion-button
     full
+    color=navbar
+
     (click)="goToOrderHistoryPage()">
-    GO BACK
+    <ion-icon name='arrow-back' align="left"></ion-icon>
+      GO BACK
   </button>
 </ion-footer>

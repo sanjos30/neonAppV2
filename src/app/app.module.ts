@@ -24,6 +24,7 @@ import { AuthService } from "../services/auth";
 import { HttpModule } from '@angular/http';
 import {HelperService} from "../services/helper";
 import {ViewOrderPage} from "../pages/view-order/view-order";
+import {AddItemsPage} from "../pages/add-items/add-items";
 
 mobiscroll.apiKey = '0433483d';
 
@@ -40,7 +41,8 @@ mobiscroll.apiKey = '0433483d';
     Schedule2Page,
     WelcomePage,
     SetOrderTimePage,
-    ViewOrderPage
+    ViewOrderPage,
+    AddItemsPage
   ],
   imports: [
     FormsModule,
@@ -65,7 +67,8 @@ mobiscroll.apiKey = '0433483d';
     Schedule2Page,
     WelcomePage,
     SetOrderTimePage,
-    ViewOrderPage
+    ViewOrderPage,
+    AddItemsPage
   ],
   providers: [
     Geolocation,

@@ -1,6 +1,7 @@
 import {Order} from "../models/order";
 import {Customer} from "../models/customer";
 import {Address} from "../models/address";
+import {Items} from "../models/items";
 
 export class OrderService {
 
@@ -14,9 +15,10 @@ export class OrderService {
             dropTime: string,
             customerId:string,
             customer : Customer,
-            creationDate:string
+            creationDate:string,
+            itemsList:Array<Items>
             ) {
-    this.orders.push(new Order(orderType, address,pickupDate,pickupTime,dropDate,dropTime,customerId,null,creationDate));
+    this.orders.push(new Order(orderType, address,pickupDate,pickupTime,dropDate,dropTime,customerId,null,creationDate,itemsList));
   }
 
   getOrders() {
@@ -32,8 +34,9 @@ export class OrderService {
               dropTime: string,
               customerId : string,
               customer:Customer,
-              creationDate:string) {
-    this.orders[index] = new Order(orderType,address,pickupDate,pickupTime,dropDate,dropTime,customerId,customer,creationDate);
+              creationDate:string,
+              itemsList:Array<Items>) {
+    this.orders[index] = new Order(orderType,address,pickupDate,pickupTime,dropDate,dropTime,customerId,customer,creationDate,itemsList);
   }
 
   removeOrder(index: number) {

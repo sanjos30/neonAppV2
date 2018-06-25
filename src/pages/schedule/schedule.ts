@@ -102,7 +102,8 @@ export class SchedulePage {
       this.event.dropOffTime,
       this.helperService.getRandomStringId(),
       this.userProfileData,
-      new Date().toISOString()
+      new Date().toISOString(),
+      null
     );
     this.navCtrl.push(Schedule2Page, {
       newOrder: this.newOrder
@@ -231,6 +232,7 @@ export class SchedulePage {
       buttons: [
         {
           text: 'Cancel',
+          cssClass: 'buttoncss',
           handler: data => {
             if (data) {
               if (this.customer_fb.address == null) {

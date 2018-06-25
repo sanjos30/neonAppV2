@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar class="global-top-navbar">
+  <ion-navbar class="global-top-navbar" color=navbar>
     <ion-title>PLACE AN ORDER</ion-title>
   </ion-navbar>
 </ion-header>
@@ -21,7 +21,7 @@
           type="button"
           block
           (click)="toggleBackgroundColor()"
-          [color]="isExpressDelivery ? 'light' : 'primary'"
+          [color]="isExpressDelivery ? 'light' : 'navbar'"
         >Normal
         </button>
       </ion-col>
@@ -31,9 +31,14 @@
           type="button"
           block
           (click)="toggleBackgroundColor()"
-          [color]="!isExpressDelivery ? 'light' : 'primary'"
+          [color]="!isExpressDelivery ? 'light' : 'navbar'"
         >Express
         </button>
+      </ion-col>
+    </ion-row>
+    <ion-row justify-content-center  class="global-text-content">
+      <ion-col align-self-center>
+        {{orderTypeNote}}
       </ion-col>
     </ion-row>
   </ion-grid>
@@ -51,6 +56,7 @@
           ion-button
           block
           outline
+          color=navbar
           type="button"
           icon-left
           (click)="onInputAddress()">
@@ -63,6 +69,7 @@
           ion-button
           block
           outline
+          color=navbar
           type="button"
           icon-left
           (click)="onOpenMap()">
@@ -85,6 +92,7 @@
         ion-button
         block
         outline
+        color=navbar
         type="button"
         icon-left
         (click)="selectOrderDateTime()">
@@ -98,6 +106,7 @@
 
   <button
     ion-button
+    color=navbar
     icon-end
     full
     [disabled]='!locationIsSet || !event.pickupDate || !event.pickupTime || !event.dropOffDate || !event.dropOffTime'

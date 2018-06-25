@@ -1,9 +1,7 @@
 <ion-header>
-
-  <ion-navbar class="global-top-navbar">
+  <ion-navbar class="global-top-navbar" color=navbar>
     <ion-title>Choose Location</ion-title>
   </ion-navbar>
-
 </ion-header>
 
 
@@ -29,6 +27,7 @@
           ion-button
           block
           outline
+          color=navbar
           type="button"
           icon-left
           (click)="onLocate()">
@@ -43,17 +42,18 @@
           ion-button
           block
           color="danger"
-          (click)="onAbort()">Cancel</button>
+          (click)="onAbort()">Cancel
+        </button>
       </ion-col>
       <ion-col>
         <button
           ion-button
           block
-          color="secondary"
+          color=navbar
           (click)="onConfirm()"
-          [disabled]="!marker">Confirm</button>
+          [disabled]="!marker">Confirm
+        </button>
       </ion-col>
-
     </ion-row>
   </ion-grid>
 </ion-content>
