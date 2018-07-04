@@ -50,16 +50,6 @@ export class ProfilePage {
               private authService: AuthService) {
   }
 
-  /*
-    ionViewDidEnter() {
-      var fbUserProfileData =this.authService.getActiveUserProfile();
-      console.log('****************  '+fbUserProfileData);
-
-
-    }
-  */
-
-
   ionViewDidEnter() {
     this.isUserAuthenticated = this.authService.isUserLoggedIn();
     console.log(('User login info from profile page is ' + this.isUserAuthenticated));
@@ -210,8 +200,6 @@ export class ProfilePage {
               duration: 1500,
               position: 'bottom'
             });
-            //this.locationIsSet=true;
-            //console.log('location selected manually in schedule page ' +this.locationIsSet);
             console.log('Manually entered address is -  ' + this.address.street + '-' + this.address.city +
               '-' + this.address.postCode);
             this.userProfileData.address=this.address;

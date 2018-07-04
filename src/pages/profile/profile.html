@@ -1,12 +1,10 @@
 <ion-header>
-
   <ion-navbar class="global-top-navbar" color=navbar>
     <ion-title>PROFILE</ion-title>
   </ion-navbar>
-
 </ion-header>
 <ion-content padding>
-  <ion-list>
+  <ion-list no-lines>
     <ion-item *ngIf="!isUserAuthenticated" no-lines>
       <ion-label class="errorDisplay">Place your first order in order to register with us.</ion-label>
     </ion-item>
@@ -34,6 +32,12 @@
         value="{{userProfileData.email}}"
         [(ngModel)]="userProfileData.email"
         required></ion-input>
+    </ion-item>
+    <ion-item no-lines>
+      <ion-label floating>T</ion-label>
+      <ion-input
+        type="text"
+      ></ion-input>
     </ion-item>
   </ion-list>
   <ion-grid>
@@ -73,7 +77,7 @@
     ion-button
     full
     color=navbar
-    [disabled] = '!isUserAuthenticated'
+    [disabled]='!isUserAuthenticated'
     (click)="updateUserProfileInFirebase()">
     SAVE
   </button>

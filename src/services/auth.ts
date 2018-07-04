@@ -75,6 +75,7 @@ export class AuthService {
     return this.userProfileData;
   }
 
+  //Todo -- Firebase version sync issue needs to be fixed
   loadUserProfileFromFirebase(userToken: string) {
     if (this.customer == null) {
       console.log('auth.ts - loadUserProfileFromFirebase function - loading user from firebase');

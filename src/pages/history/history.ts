@@ -37,8 +37,6 @@ export class HistoryPage {
    }
 
   itemSelected(userSelectedOrder: Order) {
-    console.log("Selected Order is");
-    console.log(userSelectedOrder);
     const modal = this.modalCtrl.create(ViewOrderPage,
       {
         order: userSelectedOrder,

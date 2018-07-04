@@ -18,15 +18,15 @@ import {Items} from "../../models/items";
 export class AddItemsPage {
 
   quickOrder: [
-    { itemName: 'Shirt', itemPrice: 3.50, serviceType: 'Ironing',quantity:0,isActive:true },
-    { itemName: 'Pant', itemPrice: 2.50, serviceType: 'Ironing',quantity:0,isActive:true },
-    { itemName: 'Coat', itemPrice: 1.50, serviceType: 'Ironing',quantity:0,isActive:true },
-    { itemName: 'Jeans', itemPrice: 2.50, serviceType: 'Ironing',quantity:0,isActive:true }
+    { itemName: 'Shirt', itemPrice: 3.50, serviceType: 'Ironing', quantity: 0, isActive: true },
+    { itemName: 'Pant', itemPrice: 2.50, serviceType: 'Ironing', quantity: 0, isActive: true },
+    { itemName: 'Coat', itemPrice: 1.50, serviceType: 'Ironing', quantity: 0, isActive: true },
+    { itemName: 'Jeans', itemPrice: 2.50, serviceType: 'Ironing', quantity: 0, isActive: true }
     ];
 
-  orderItems:Items;
+  orderItems: Items;
 
-  itemList:Array<Items>=new Array<Items>();
+  itemList: Array<Items> = new Array<Items>();
   //Dry Cleaning items
   public dryCleanItems: Array<any> = [];
   public dryCleanItemsRef: firebase.database.Reference = firebase.database().ref('/pricing/dry-cleaning');
@@ -39,7 +39,7 @@ export class AddItemsPage {
   public washIronItems: Array<any> = [];
   public washIronItemsRef: firebase.database.Reference = firebase.database().ref('/pricing/wash-iron');
 
-  qty:any;
+  qty: any;
 
 
   constructor(public navCtrl: NavController,
@@ -51,10 +51,12 @@ export class AddItemsPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad AddItemsPage');
   }
+
   ionViewDidEnter() {
     this.loadDryCleanItemPriceList();
     this.loadIroningItemPriceList();
   }
+
   onAbort() {
     console.log('Aborted');
     this.viewCtrl.dismiss();
@@ -66,22 +68,22 @@ export class AddItemsPage {
   }
 
   // increment product qty
-  incrementQty(selectedItem:Items) {
-    console.log(this.qty+1);
+  incrementQty(selectedItem: Items) {
+    console.log(this.qty + 1);
     console.log(selectedItem);
     this.itemList.push(selectedItem);
     this.orderItems.quantity += 1;
   }
 
   // decrement product qty
-  decrementQty(ironItem:Array<any>) {
+  decrementQty(ironItem: Array<any>) {
     console.log(ironItem);
-    if(this.qty-1 < 1 ){
+    if (this.qty - 1 < 1) {
       this.qty = 1
-      console.log('1->'+this.qty);
-    }else{
+      console.log('1->' + this.qty);
+    } else {
       this.qty -= 1;
-      console.log('2->'+this.qty);
+      console.log('2->' + this.qty);
     }
   }
 
@@ -96,7 +98,7 @@ export class AddItemsPage {
     });
   }
 
-  loadDryCleanItemPriceList(){
+  loadDryCleanItemPriceList() {
     //Dry Cleaning
     this.dryCleanItemsRef.on('value', dryCleanItemSnapshot => {
       this.dryCleanItems = [];
@@ -107,7 +109,7 @@ export class AddItemsPage {
     });
   }
 
-  loadWashIronItemPriceList(){
+  loadWashIronItemPriceList() {
     //Dry Cleaning
     this.washIronItemsRef.on('value', washIronItemSnapshot => {
       this.washIronItems = [];

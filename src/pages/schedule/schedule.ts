@@ -30,8 +30,9 @@ export class SchedulePage {
   //Order type is normal by default
   public isExpressDelivery: boolean = false;
   orderType: string = 'Normal';
-  userToken: string;
   public orderTypeNote: string = "MIN 2 DAYS DELIVERY";
+
+  userToken: string;
   newOrder: Order;
   public customer_fb: any = new Customer('', '', '', null);
 
