@@ -172,7 +172,7 @@ export class ProfilePage {
           handler: data => {
             if ((data.street.trim() == '' || data.street == null)) {
               const toast = this.toastCtrl.create({
-                message: 'Please enter a valid street address !',
+                message: 'Please enter a valid street address!',
                 duration: 1500,
                 position: 'bottom'
               });
