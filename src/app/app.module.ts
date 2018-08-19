@@ -16,7 +16,6 @@ import {SetLocationPage} from "../pages/set-location/set-location";
 import { AgmCoreModule } from "@agm/core";
 import {OrderService} from "../services/orders";
 import {Schedule2Page} from "../pages/schedule2/schedule2";
-import {WelcomePage} from "../pages/welcome/welcome";
 import {SetOrderTimePage} from "../pages/set-order-time/set-order-time";
 import { DatePicker } from '@ionic-native/date-picker';
 import {Geolocation} from "@ionic-native/geolocation";
@@ -39,7 +38,6 @@ mobiscroll.apiKey = '0433483d';
     HelpPage,
     SetLocationPage,
     Schedule2Page,
-    WelcomePage,
     SetOrderTimePage,
     ViewOrderPage,
     AddItemsPage
@@ -65,7 +63,6 @@ mobiscroll.apiKey = '0433483d';
     HelpPage,
     SetLocationPage,
     Schedule2Page,
-    WelcomePage,
     SetOrderTimePage,
     ViewOrderPage,
     AddItemsPage

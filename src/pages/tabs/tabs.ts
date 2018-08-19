@@ -5,7 +5,6 @@ import {HistoryPage} from "../history/history";
 import {PricingPage} from "../pricing/pricing";
 import {ProfilePage} from "../profile/profile";
 import {HelpPage} from "../help/help";
-import {WelcomePage} from "../welcome/welcome";
 
 @Component({
   selector: 'page-tabs',
@@ -17,5 +16,4 @@ export class TabsPage {
   pricingPage = PricingPage;
   profilePage = ProfilePage;
   helpPage = HelpPage;
-  welcomePage=WelcomePage;
 }
