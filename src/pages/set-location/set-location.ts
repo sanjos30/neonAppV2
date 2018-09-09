@@ -43,10 +43,10 @@ export class SetLocationPage {
     if (this.navParams.get('locationIsSet')) {
       this.location = this.navParams.get('location');
       this.marker = this.location;
-      console.log('set-location.ts - ionViewDidEnter - The user previous location data is present ');
+      console.log('set-location.ts - ionViewDidEnter - The user previous location data is present.');
       this.locationIsSet = true;
     } else {
-      console.log('set-location.ts - ionViewDidEnter - NO Location data exists from past ');
+      console.log('set-location.ts - ionViewDidEnter - NO Location data exists from past.');
       this.locationIsSet = false;
       //this.marker=this.location;
     }
