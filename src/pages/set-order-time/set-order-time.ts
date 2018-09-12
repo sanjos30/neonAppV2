@@ -14,7 +14,7 @@ export class SetOrderTimePage {
   order:Order;
   alertText:string;
   public event = {
-    pickupDate: '',
+    pickupDate: new Date(),
     pickupTime: '',
     dropOffDate: '',
     dropOffTime: ''
@@ -42,6 +42,7 @@ export class SetOrderTimePage {
     console.log('pickup ' + this.event.pickupDate + ' - ' + this.event.pickupTime+' - '+
     this.event.dropOffDate + ' - ' + this.event.dropOffTime + ' - ' + this.alertText);
 
+    console.log(new Date().toLocaleDateString());
     if(this.event.pickupDate==null){
       this.alertText='Please select order pickup date';
     }else if(this.event.pickupTime.trim().length === 0){

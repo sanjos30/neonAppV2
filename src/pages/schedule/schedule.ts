@@ -44,11 +44,12 @@ export class SchedulePage {
     lng: 73.40927124023438
   };
 
+  //The default date selected from device.
   public event = {
-    pickupDate: '2018-05-01',
-    pickupTime: '10:00',
+    pickupDate: '2018-09-10',
+    pickupTime: '10:30',
     dropOffDate: '2018-05-04',
-    dropOffTime: '10:30'
+    dropOffTime: '10:45'
   }
 
   public userProfileData = {
