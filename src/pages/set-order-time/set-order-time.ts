@@ -20,6 +20,28 @@ export class SetOrderTimePage {
     dropOffTime: ''
   }
 
+  //The default date selected from device.
+  public eventList = [
+    {
+      pickupDate: '2018-09-12',
+      pickupTime: '10:30',
+      dropOffDate: '2018-05-04',
+      dropOffTime: '10:45'
+    },
+    {
+      pickupDate: '2018-05-04',
+      pickupTime: '10:30',
+      dropOffDate: '2018-05-04',
+      dropOffTime: '10:45'
+    },
+    {
+      pickupDate: '2018-05-04',
+      pickupTime: '10:30',
+      dropOffDate: '2018-05-04',
+      dropOffTime: '10:45'
+    }
+  ]
+
   ionViewDidLoad() {
     console.log('ionViewDidLoad Select Order Date and Time');
     this.alertText='';
@@ -32,6 +54,7 @@ export class SetOrderTimePage {
     console.log('Set Order Date and Time Page Constructor');
     this.orderType=this.navParams.get('isExpressDelivery');
     this.event=this.navParams.get('event');
+
     this.alertText='';
     console.log('SetLocationPage: Selected Order Type '+ this.event.dropOffDate+this.event.dropOffTime
                 +this.event.pickupDate+this.event.pickupTime);

@@ -44,9 +44,34 @@ export class SchedulePage {
     lng: 73.40927124023438
   };
 
+
+  //To handle eventList
+
+  //The default date selected from device.
+  public eventList = [
+    {
+    pickupDate: '2018-09-12',
+    pickupTime: '10:30',
+    dropOffDate: '2018-05-04',
+    dropOffTime: '10:45'
+  },
+    {
+      pickupDate: '2018-05-04',
+      pickupTime: '10:30',
+      dropOffDate: '2018-05-04',
+      dropOffTime: '10:45'
+    },
+    {
+      pickupDate: '2018-05-04',
+      pickupTime: '10:30',
+      dropOffDate: '2018-05-04',
+      dropOffTime: '10:45'
+    }
+]
+
   //The default date selected from device.
   public event = {
-    pickupDate: '2018-09-10',
+    pickupDate: new Date().getDate().toString(),
     pickupTime: '10:30',
     dropOffDate: '2018-05-04',
     dropOffTime: '10:45'
@@ -129,7 +154,7 @@ export class SchedulePage {
     const modal = this.modalCtrl.create(SetOrderTimePage,
       {
         orderType: this.isExpressDelivery,
-        event: this.event
+        event: this.event,
       });
     modal.present();
     modal.onDidDismiss(
