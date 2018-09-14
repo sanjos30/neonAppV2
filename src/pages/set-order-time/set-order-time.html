@@ -10,7 +10,19 @@
 <ion-content padding>
       <ion-list no-border>
 
+
+
+
+
         <ion-item-divider color="light">SCHEDULE PICKUP</ion-item-divider>
+
+        <ion-item>
+          <ion-label stacked>Superhero</ion-label>
+          <ion-select [(ngModel)]="mondays" name="day">
+            <ion-option *ngFor="let day of mondays" [value]="day" [selected]="false">{{day}}</ion-option>
+          </ion-select>
+        </ion-item>
+
 
         <ion-item>
           <ion-label>Pickup Date</ion-label>

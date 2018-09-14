@@ -13,6 +13,10 @@ export class SetOrderTimePage {
   orderType: boolean;
   order:Order;
   alertText:string;
+
+  mondays:Date[];
+
+
   public event = {
     pickupDate: new Date(),
     pickupTime: '',
@@ -46,6 +50,23 @@ export class SetOrderTimePage {
     console.log('ionViewDidLoad Select Order Date and Time');
     this.alertText='';
     this.event.dropOffDate='05-05-2018';
+    this.mondays=this.loadMonday();
+
+
+  }
+
+  loadMonday(){
+    var mondaysLocal = [];
+    var m=1000*60*60*24,
+      now=new Date(),
+      nowTime=now.getTime(),
+      mondayOffSet=7-(now.getDay()-1);
+
+    for(var i=0;i<8;i++){
+      mondaysLocal.push(new Date(nowTime+((m*mondayOffSet) + (m*7*i))));
+    };
+
+    return mondaysLocal;
   }
 
   constructor(public navParams: NavParams,
