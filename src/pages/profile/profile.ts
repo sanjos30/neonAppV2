@@ -55,7 +55,6 @@ export class ProfilePage {
     console.log(('User login info from profile page is ' + this.isUserAuthenticated));
     if (this.isUserAuthenticated) {
       console.log('User is logged in');
-      this.userProfileData = this.authService.getActiveUserProfile();
       this.firebaseCustUid = this.authService.getActiveUserId();
       console.log(this.userProfileData);
     } else {

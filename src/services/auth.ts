@@ -66,7 +66,7 @@ export class AuthService {
     return firebase.database().ref('users/' + uid);
   }
 
-  getActiveUserProfile() {
+  getActivegUserProfile() {
     var activeUserId = this.getActiveUserId();
     var userProfileDataFirebase = this.getCurrentUserDetails(activeUserId);
     userProfileDataFirebase.on('value', userSnapshot => {
