@@ -94,7 +94,7 @@ export class AuthService {
       }
       return this.customer;
     } else {
-      console.log(' auth.ts - loadUserProfileFromFirebase function -Using previously loaded Customer from Auth Service');
+      console.log(' auth.ts - loadUserProfileFromFirebase function - Using previously loaded Customer from Auth Service');
       return this.customer;
     }
   }
