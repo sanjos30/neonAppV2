@@ -15,6 +15,7 @@ import {HistoryPage} from "../history/history";
 import {SchedulePage} from "../schedule/schedule";
 import {SetOrderTimePage} from "../set-order-time/set-order-time";
 import {AddItemsPage} from "../add-items/add-items";
+import {Storage} from "@ionic/storage";
 
 @IonicPage()
 @Component({
@@ -38,9 +39,9 @@ export class Schedule2Page {
   };
 
   public userProfileData = {
-    name: '',
-    phone: '',
-    email: '',
+    name: ' ',
+    phone: ' ' ,
+    email: ' ',
     address: this.address
   };
 
@@ -55,7 +56,7 @@ export class Schedule2Page {
               public navParams: NavParams,
               private alertCtrl: AlertController,
               private authService: AuthService,
-              private modalCtrl:ModalController) {
+              private modalCtrl:ModalController,  private storage: Storage) {
 
   }
 
@@ -67,6 +68,8 @@ export class Schedule2Page {
   }
 
   ionViewDidEnter(){
+
+    console.log('The storage param is set as ' + this.storage.get('isRegistered'));
     this.isUserAuthenticated=this.authService.isUserLoggedIn();
     this.newOrder = this.navParams.get('newOrder');
     if(this.isUserAuthenticated) {

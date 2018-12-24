@@ -1,0 +1,23 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Verify OTP</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <h3>Type the OTP sent your mobile</h3>
+
+  <div class="otp_container">
+
+    <ion-item>
+      <ion-input type="text" placeholder="Enter OTP sent to your mobile" [(ngModel)]="otp"></ion-input>
+    </ion-item>
+  </div>
+</ion-content>
+
+<ion-footer no-shadow>
+  <button ion-button color="footer-button" block class="btn_login" (click)='verifyOTP()'>VERIFY</button>
+</ion-footer>

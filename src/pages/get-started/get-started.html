@@ -1,0 +1,95 @@
+<ion-header>
+</ion-header>
+
+<ion-content>
+  <ion-grid style="height: 100%" no-border="false">
+    <ion-row style="height: 90%">
+      <ion-col>
+        <img src="../assets/imgs/dhobi-slider-2.jpg" class="get-start-img"/>
+        <div id="recaptcha-container"></div>
+      </ion-col>
+    </ion-row>
+
+    <ion-row style="height: 10%" text-left padding-top="15px" style="font-size: 15px">
+      <ion-col>
+        <strong>
+          Get started with Dhobi
+        </strong>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<!--
+<ion-content padding>
+  <ion-grid style="height: 100%">
+    <ion-row style="height: 80%">
+      <ion-col style="height: 100%;width: 100%;">
+          <img src="../assets/imgs/dhobi-slider-1.jpg" class="login" />
+      </ion-col>
+    </ion-row>
+    <ion-row style="padding-top: 50%; font-size: 14px;">
+      <ion-col>
+          <p>
+            <strong>
+              Get started with Dhobi
+            </strong>
+          </p>
+
+      </ion-col>
+
+    </ion-row>
+  </ion-grid>
+</ion-content>
+-->
+
+
+<ion-footer>
+
+
+
+<!--  <form [formGroup]="slideOneForm">
+  <ion-item>
+    <ion-label>
+      +61
+    </ion-label>
+    <ion-input
+      full type="text"
+      formControlName="phone"
+      maxlength="9"
+      minlength="9"
+
+      placeholder="your mobile number"
+      name="mobile"
+    >
+    </ion-input>
+
+  </ion-item>
+  </form>-->
+
+  <ion-item>
+    <ion-label>
+      +61
+    </ion-label>
+    <ion-input
+      full type="text"
+      maxlength="9"
+      minlength="9"
+      placeholder="your mobile number"
+      name="mobile"
+      [(ngModel)]="phoneNumber"
+    >
+    </ion-input>
+
+  </ion-item>
+  <button
+    ion-button
+    color="footer-button"
+    icon-end
+    (click)="signIn()"
+    block
+    type="submit"
+  >
+    GET STARTED
+  </button>
+</ion-footer>

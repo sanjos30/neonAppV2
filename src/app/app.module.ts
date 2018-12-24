@@ -24,6 +24,11 @@ import { HttpModule } from '@angular/http';
 import {HelperService} from "../services/helper";
 import {ViewOrderPage} from "../pages/view-order/view-order";
 import {AddItemsPage} from "../pages/add-items/add-items";
+import {GetStartedPage} from "../pages/get-started/get-started";
+import { Storage } from '@ionic/storage';
+import { IonicStorageModule } from '@ionic/storage';
+import {OtpVerifyPage} from "../pages/otp-verify/otp-verify";
+
 
 mobiscroll.apiKey = '0433483d';
 
@@ -40,7 +45,9 @@ mobiscroll.apiKey = '0433483d';
     Schedule2Page,
     SetOrderTimePage,
     ViewOrderPage,
-    AddItemsPage
+    AddItemsPage,
+    GetStartedPage,
+    OtpVerifyPage
   ],
   imports: [
     FormsModule,
@@ -48,6 +55,10 @@ mobiscroll.apiKey = '0433483d';
     BrowserModule,
     HttpModule,
     IonicModule.forRoot(MyApp),
+    IonicStorageModule.forRoot({
+      name: '__mydb',
+      driverOrder: ['indexeddb', 'sqlite', 'websql']
+    }),
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyDrY4TNNseW0m1Lpw4h9COEx4eA2RFaZkI'
     })
@@ -65,7 +76,9 @@ mobiscroll.apiKey = '0433483d';
     Schedule2Page,
     SetOrderTimePage,
     ViewOrderPage,
-    AddItemsPage
+    AddItemsPage,
+    GetStartedPage,
+    OtpVerifyPage
   ],
   providers: [
     Geolocation,

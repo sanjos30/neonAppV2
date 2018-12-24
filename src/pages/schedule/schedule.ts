@@ -17,6 +17,7 @@ import {Customer} from "../../models/customer";
 import firebase from "firebase";
 import {Address} from "../../models/address";
 import {HelperService} from "../../services/helper";
+import { Storage } from '@ionic/storage';
 
 @IonicPage()
 @Component({
@@ -78,9 +79,9 @@ export class SchedulePage {
   }
 
   public userProfileData = {
-    name: '',
-    phone: '',
-    email: '',
+    name: ' ',
+    phone: ' ',
+    email: ' ',
     address: this.address
   };
 
@@ -95,7 +96,8 @@ export class SchedulePage {
               private loadingCtrl: LoadingController,
               private navCtrl: NavController,
               private authService: AuthService,
-              private helperService: HelperService) {
+              private helperService: HelperService,
+              private storage:Storage) {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         this.isUserAuthenticated = true;
@@ -109,6 +111,7 @@ export class SchedulePage {
   }
 
   ionViewDidEnter() {
+    console.log('The localDB flag is : ' + this.storage.get('isRegistered'))
     this.isUserAuthenticated = this.authService.isUserLoggedIn();
     if (this.isUserAuthenticated) {
       this.userToken = this.authService.getActiveUserId();

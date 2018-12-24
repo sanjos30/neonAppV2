@@ -17,14 +17,6 @@
         <ion-item-divider color="light">SCHEDULE PICKUP</ion-item-divider>
 
         <ion-item>
-          <ion-label stacked>Superhero</ion-label>
-          <ion-select [(ngModel)]="mondays" name="day">
-            <ion-option *ngFor="let day of mondays" [value]="day" [selected]="false">{{day}}</ion-option>
-          </ion-select>
-        </ion-item>
-
-
-        <ion-item>
           <ion-label>Pickup Date</ion-label>
           <ion-datetime displayFormat="MMM DD YYYY" [(ngModel)]="event.pickupDate" value="event.pickupDate">{{event.pickupDate}}</ion-datetime>
         </ion-item>
