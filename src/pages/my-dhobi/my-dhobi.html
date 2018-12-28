@@ -1,0 +1,39 @@
+<!--<ion-header>
+  <ion-navbar class="global-top-navbar" color=navbar>
+    <ion-title>DHOBI APP</ion-title>
+  </ion-navbar>
+</ion-header>-->
+<ion-content padding>
+  <ion-grid style="height:100%">
+    <ion-row style="height:60%">
+      <ion-col>
+        <ion-slides>
+          <ion-slide style="background-color: blue">
+            <h2>Slide 1</h2>
+          </ion-slide>
+          <ion-slide style="background-color: pink">
+            <h2>Slide 2</h2>
+          </ion-slide>
+          <ion-slide style="background-color: red">
+            <h2>Slide 3</h2>
+          </ion-slide>
+        </ion-slides>
+      </ion-col>
+    </ion-row>
+
+    <ion-row style="height:50%">
+      <ion-col>
+
+        <button (click)="toggle()" class="collapsible" >$15 OFF
+          <span style="float: right;">{{expanderRightSideSign}}</span>
+          <div *ngIf="chooseTypeClicked" class="content" id="collapsible">
+            <p>Order now and save upto $15 on your first order with us.</p>
+            <button ion-button class="non-action-button" clear>Okay</button>
+
+          </div>
+        </button>
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

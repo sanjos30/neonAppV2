@@ -28,6 +28,8 @@ import {GetStartedPage} from "../pages/get-started/get-started";
 import { Storage } from '@ionic/storage';
 import { IonicStorageModule } from '@ionic/storage';
 import {OtpVerifyPage} from "../pages/otp-verify/otp-verify";
+import {MyDhobiPage} from "../pages/my-dhobi/my-dhobi";
+import {ExpandableComponent} from "../components/expandable/expandable";
 
 
 mobiscroll.apiKey = '0433483d';
@@ -47,7 +49,9 @@ mobiscroll.apiKey = '0433483d';
     ViewOrderPage,
     AddItemsPage,
     GetStartedPage,
-    OtpVerifyPage
+    OtpVerifyPage,
+    MyDhobiPage,
+    ExpandableComponent
   ],
   imports: [
     FormsModule,
@@ -78,7 +82,9 @@ mobiscroll.apiKey = '0433483d';
     ViewOrderPage,
     AddItemsPage,
     GetStartedPage,
-    OtpVerifyPage
+    OtpVerifyPage,
+    MyDhobiPage,
+    ExpandableComponent
   ],
   providers: [
     Geolocation,
