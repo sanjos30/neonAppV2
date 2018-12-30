@@ -29,7 +29,8 @@ import { Storage } from '@ionic/storage';
 import { IonicStorageModule } from '@ionic/storage';
 import {OtpVerifyPage} from "../pages/otp-verify/otp-verify";
 import {MyDhobiPage} from "../pages/my-dhobi/my-dhobi";
-import {ExpandableComponent} from "../components/expandable/expandable";
+import {MyAccountPage} from "../pages/my-account/my-account";
+import {UserService} from "../services/user";
 
 
 mobiscroll.apiKey = '0433483d';
@@ -51,7 +52,7 @@ mobiscroll.apiKey = '0433483d';
     GetStartedPage,
     OtpVerifyPage,
     MyDhobiPage,
-    ExpandableComponent
+    MyAccountPage
   ],
   imports: [
     FormsModule,
@@ -84,7 +85,7 @@ mobiscroll.apiKey = '0433483d';
     GetStartedPage,
     OtpVerifyPage,
     MyDhobiPage,
-    ExpandableComponent
+    MyAccountPage
   ],
   providers: [
     Geolocation,
@@ -94,6 +95,7 @@ mobiscroll.apiKey = '0433483d';
     DatePicker,
     AuthService,
     HelperService,
+    UserService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

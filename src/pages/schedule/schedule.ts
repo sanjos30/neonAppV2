@@ -100,6 +100,7 @@ export class SchedulePage {
               private storage:Storage) {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
+        console.log('User is authenticated');
         this.isUserAuthenticated = true;
         this.userToken = this.authService.getActiveUserId();
         this.userProfileData = this.authService.getActiveUserProfile();
@@ -111,9 +112,11 @@ export class SchedulePage {
   }
 
   ionViewDidEnter() {
-    console.log('The localDB flag is : ' + this.storage.get('isRegistered'))
+    this.storage.get('isRegistered').then(isRegistered =>
+    console.log('The user is registered ' + isRegistered));
     this.isUserAuthenticated = this.authService.isUserLoggedIn();
     if (this.isUserAuthenticated) {
+      console.log('The token obtained from firebase is: ' + this.userToken);
       this.userToken = this.authService.getActiveUserId();
       this.userProfileData = this.authService.getActiveUserProfile();
       Object.assign(this.customer_fb, this.authService.loadUserProfileFromFirebase(this.userToken));

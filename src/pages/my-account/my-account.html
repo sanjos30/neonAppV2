@@ -1,0 +1,95 @@
+<ion-header>
+  <ion-navbar [hideBackButton]="true" class="global-top-navbar" color=navbar>
+    <ion-title>MY ACCOUNT</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list no-lines>
+    <ion-item no-lines>
+      <ion-label style="color: #ea6153">Place your first order in order to register with us.</ion-label>
+    </ion-item>
+    <ion-item no-lines>
+      <ion-label floating>Name</ion-label>
+      <ion-input
+        type="text"
+        required
+        value="{{userProfile.name}}"
+        [(ngModel)]="userProfile.name"
+      ></ion-input>
+    </ion-item>
+    <ion-item no-lines>
+      <ion-label floating>Phone</ion-label>
+      <ion-input
+        type="text"
+        required
+        value="{{userProfile.phone}}"
+        [(ngModel)]="userProfile.phone"
+      ></ion-input>
+    </ion-item>
+    <ion-item no-lines>
+      <ion-label floating>Email</ion-label>
+      <ion-input
+        type="text"
+        required
+        value="{{userProfile.email}}"
+        [(ngModel)]="userProfile.email"
+
+      ></ion-input>
+    </ion-item>
+
+    <ion-item no-lines>
+      <ion-label floating>Street</ion-label>
+      <ion-input
+        type="text"
+        required
+        value="{{userProfile.address.street}}"
+        [(ngModel)]="userProfile.address.street"
+      ></ion-input>
+    </ion-item>
+
+    <ion-item no-lines>
+      <ion-label floating>City</ion-label>
+      <ion-input
+        type="text"
+        required
+        value="{{userProfile.address.city}}"
+        [(ngModel)]="userProfile.address.city"
+      ></ion-input>
+    </ion-item>
+
+
+
+    <ion-item no-lines>
+      <ion-label floating>Lng</ion-label>
+      <ion-input
+        type="text"
+        required
+        value="{{userProfile.address.lng}}"
+        [(ngModel)]="userProfile.address.lng"
+      ></ion-input>
+    </ion-item>
+      <ion-item no-lines>
+        <ion-label floating>Lat</ion-label>
+        <ion-input
+          type="text"
+          required
+          value="{{userProfile.address.lat}}"
+          [(ngModel)]="userProfile.address.lat"
+        ></ion-input>
+    </ion-item>
+  </ion-list>
+
+</ion-content>
+<ion-footer>
+
+  <button
+    ion-button
+    full
+    color=navbar
+  >
+    SAVE
+  </button>
+</ion-footer>

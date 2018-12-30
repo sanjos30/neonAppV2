@@ -6,6 +6,7 @@ import {PricingPage} from "../pricing/pricing";
 import {ProfilePage} from "../profile/profile";
 import {HelpPage} from "../help/help";
 import {MyDhobiPage} from "../my-dhobi/my-dhobi";
+import {MyAccountPage} from "../my-account/my-account";
 
 @Component({
   selector: 'page-tabs',
@@ -17,5 +18,7 @@ export class TabsPage {
   historyPage = HistoryPage;
   pricingPage = PricingPage;
   profilePage = ProfilePage;
+  accountPage = MyAccountPage;
   helpPage = HelpPage;
+
 }

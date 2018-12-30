@@ -69,7 +69,6 @@ export class Schedule2Page {
 
   ionViewDidEnter(){
 
-    console.log('The storage param is set as ' + this.storage.get('isRegistered'));
     this.isUserAuthenticated=this.authService.isUserLoggedIn();
     this.newOrder = this.navParams.get('newOrder');
     if(this.isUserAuthenticated) {
@@ -78,9 +77,16 @@ export class Schedule2Page {
       var userProfileDataFirebase = this.authService.getCurrentUserDetails(this.firebaseCustUid);
       //For users who are registered but haven't ordered yet or their first order with us failed.
       if(userProfileDataFirebase!=null){
-        console.log(userProfileDataFirebase);
+
         userProfileDataFirebase.on('value', userSnapshot => {
-          this.userProfileData = userSnapshot.val();
+          if(userSnapshot.val()!=null)
+            this.userProfileData = userSnapshot.val();
+          else {
+            console.log('schedule.ts - ionViewDidEnter - This is the first time a user is ordering with us');
+            //Since the phone number is already available, use it to prepopulate the form
+            this.userProfileData.phone=this.authService.getUserPhone();
+
+          }
         });
       }
 

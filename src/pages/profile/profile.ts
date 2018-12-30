@@ -56,7 +56,22 @@ export class ProfilePage {
     if (this.isUserAuthenticated) {
       console.log('User is logged in');
       this.firebaseCustUid = this.authService.getActiveUserId();
-      console.log(this.userProfileData);
+      console.log(this.authService.getUserPhone() + ': is the user phone number and id is: ' + this.firebaseCustUid);
+      var userProfileDataFirebase = this.authService.getCurrentUserDetails(this.firebaseCustUid);
+      //For users who are registered but haven't ordered yet or their first order with us failed.
+      if(userProfileDataFirebase!=null){
+
+        userProfileDataFirebase.on('value', userSnapshot => {
+          if(userSnapshot.val()!=null)
+            this.userProfileData = userSnapshot.val();
+          else {
+            console.log('schedule.ts - ionViewDidEnter - This is the first time a user is ordering with us');
+            //Since the phone number is already available, use it to prepopulate the form
+            this.userProfileData.phone=this.authService.getUserPhone();
+
+          }
+        });
+      }
     } else {
       console.log('User is not logged in');
     }

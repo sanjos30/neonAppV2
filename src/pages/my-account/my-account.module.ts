@@ -1,14 +1,13 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
-import { MyDhobiPage } from './my-dhobi';
+import { MyAccountPage } from './my-account';
 
 @NgModule({
   declarations: [
-    MyDhobiPage
-
+    MyAccountPage,
   ],
   imports: [
-    IonicPageModule.forChild(MyDhobiPage),
+    IonicPageModule.forChild(MyAccountPage),
   ],
 })
-export class MyDhobiPageModule {}
+export class MyAccountPageModule {}

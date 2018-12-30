@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {AuthService} from "../../services/auth";
+import {UserService} from "../../services/user";
 
 
 @IonicPage()
@@ -14,25 +16,17 @@ export class MyDhobiPage {
 
   expanderRightSideSign:String='+';
 
+
   constructor(public navCtrl: NavController) {
-
-    this.items = [
-      {expanded: false},
-      {expanded: false},
-      {expanded: false},
-      {expanded: false},
-      {expanded: false},
-      {expanded: false},
-      {expanded: false},
-      {expanded: false},
-      {expanded: false}
-    ];
-
   }
   ionViewDidLoad() {
     console.log('ionViewDidLoad MyDhobiPage');
+
   }
 
+  ionViewDidEnter(){
+    console.log('ionViewDidEnter MyDhobiPage');
+  }
 
   toggle(){
     console.log('Toggling');
