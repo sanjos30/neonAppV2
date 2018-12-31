@@ -51,7 +51,7 @@ export class SetOrderTimePage {
     this.alertText='';
     this.event.dropOffDate='05-05-2018';
     this.mondays=this.loadMonday();
-
+  console.log('The order Type is '  + this.orderType);
 
   }
 
@@ -72,10 +72,8 @@ export class SetOrderTimePage {
   constructor(public navParams: NavParams,
               private viewCtrl: ViewController,
               private alertCtrl: AlertController) {
-    console.log('Set Order Date and Time Page Constructor');
-    this.orderType=this.navParams.get('isExpressDelivery');
+    this.orderType=this.navParams.get('orderType');
     this.event=this.navParams.get('event');
-
     this.alertText='';
     console.log('SetLocationPage: Selected Order Type '+ this.event.dropOffDate+this.event.dropOffTime
                 +this.event.pickupDate+this.event.pickupTime);
@@ -83,8 +81,8 @@ export class SetOrderTimePage {
 
 
   onConfirm() {
-    console.log('pickup ' + this.event.pickupDate + ' - ' + this.event.pickupTime+' - '+
-    this.event.dropOffDate + ' - ' + this.event.dropOffTime + ' - ' + this.alertText);
+    console.log('pickup date: ' + this.event.pickupDate + ' - pickupTime:' + this.event.pickupTime+' - DropDate: '+
+    this.event.dropOffDate + ' - DropTime: ' + this.event.dropOffTime + ' - ' + this.alertText);
 
     console.log(new Date().toLocaleDateString());
     if(this.event.pickupDate==null){

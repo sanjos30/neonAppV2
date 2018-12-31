@@ -45,31 +45,6 @@ export class SchedulePage {
     lng: 73.40927124023438
   };
 
-
-  //To handle eventList
-
-  //The default date selected from device.
-  public eventList = [
-    {
-    pickupDate: '2018-09-12',
-    pickupTime: '10:30',
-    dropOffDate: '2018-05-04',
-    dropOffTime: '10:45'
-  },
-    {
-      pickupDate: '2018-05-04',
-      pickupTime: '10:30',
-      dropOffDate: '2018-05-04',
-      dropOffTime: '10:45'
-    },
-    {
-      pickupDate: '2018-05-04',
-      pickupTime: '10:30',
-      dropOffDate: '2018-05-04',
-      dropOffTime: '10:45'
-    }
-]
-
   //The default date selected from device.
   public event = {
     pickupDate: new Date().getDate().toString(),
@@ -151,12 +126,13 @@ export class SchedulePage {
       this.orderType = 'Normal';
     } else {
       this.isExpressDelivery = true;
-      this.orderTypeNote = "NEXT DAY DELIVERY";
+      this.orderTypeNote = "NEXT DAY DELIVERY -  $10 FEE APPLY";
       this.orderType = 'Express';
     }
   }
 
   selectOrderDateTime() {
+    console.log('Schedule page - SelectOrderDateTime  - Data - ' + this.isExpressDelivery);
     const modal = this.modalCtrl.create(SetOrderTimePage,
       {
         orderType: this.isExpressDelivery,

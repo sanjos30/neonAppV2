@@ -7,7 +7,7 @@
 
 
 <ion-content padding>
-  <ion-list no-lines>
+ <!-- <ion-list no-lines>
     <ion-item no-lines>
       <ion-label style="color: #ea6153">Place your first order in order to register with us.</ion-label>
     </ion-item>
@@ -82,6 +82,80 @@
     </ion-item>
   </ion-list>
 
+
+  <ion-list no-border>
+
+
+
+
+
+    <ion-item-divider color="light">SCHEDULE PICKUP</ion-item-divider>
+
+    <ion-item>
+      <ion-label>Pickup Date</ion-label>
+      <ion-datetime displayFormat="MMM DD YYYY" [(ngModel)]="event.pickupDate" value="event.pickupDate">{{event.pickupDate}}</ion-datetime>
+    </ion-item>
+
+
+    <ion-item>
+      <ion-label>Pickup Time</ion-label>
+      <ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" [(ngModel)]="event.pickupTime">{{event.pickupTime}}</ion-datetime>
+    </ion-item>
+  </ion-list>-->
+
+  <ion-list no-border>
+<ion-item >
+  {{date1 | date:'MM/dd/yyyy'}} </ion-item>
+    <ion-item>
+  {{date2}}
+</ion-item>
+    <ion-item-divider color="light">SCHEDULE DROPOFF</ion-item-divider>
+    <ion-item>
+      <ion-label>Dropoff Date</ion-label>
+      <ion-datetime displayFormat="MMM DD YYYY" (ionChange)="RefreshPickUpDate()" [(ngModel)]="event.dropOffDate" >{{event.dropOffDate}}</ion-datetime>
+    </ion-item>
+
+    <ion-item-divider color="light">SCHEDULE PICKUP</ion-item-divider>
+
+    <ion-item>
+      <ion-label>Pickup Date</ion-label>
+      <ion-datetime displayFormat="MMM DD YYYY"  [(ngModel)]="event.pickupDate" value="event.pickupDate">{{event.pickupDate}}</ion-datetime>
+    </ion-item>
+  </ion-list>
+
+
+  <ion-list no-border>
+
+    <ion-item-divider color="light">SCHEDULE DROPOFF</ion-item-divider>
+    <ion-item>
+      <ion-label>Dropoff Date</ion-label>
+      <ion-datetime displayFormat="MMM DD YYYY" (ionChange)="RefreshPickUpDate()" [(ngModel)]="date1" >{{date1}}</ion-datetime>
+    </ion-item>
+
+    <ion-item-divider color="light">SCHEDULE PICKUP</ion-item-divider>
+
+    <ion-item>
+      <ion-label>Pickup Date</ion-label>
+      <ion-datetime displayFormat="MMM DD YYYY"  [(ngModel)]="date2" value="date2">{{date2}}</ion-datetime>
+    </ion-item>
+  </ion-list>
+
+
+  <ion-list>
+    <ion-item class="item-select">
+      <span class="input-label">Country</span>
+      <select
+        ng-options="date1"
+        ng-model="date1"></select>
+    </ion-item>
+    <ion-item class="item-select" ng-class="{disabled: !form.selectedCountry}">
+      <span class="input-label">Zone</span>
+      <select
+        ng-options="date2"
+        ng-model="date2"
+        ></select>
+    </ion-item>
+  </ion-list>
 </ion-content>
 <ion-footer>
 
