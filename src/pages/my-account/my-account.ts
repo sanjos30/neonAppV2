@@ -21,6 +21,22 @@ export class MyAccountPage {
 
   userProfile: User;
 
+  pickUpDates = [
+    new Date(),
+    new Date(),
+    new Date(),
+    new Date()];
+
+
+  colors = [
+    {_id:1, name: 'Green', selected: true},
+    {_id:2, name: 'Red', selected: true},
+    {_id:3, name: 'Blue', selected: true},
+  ];
+
+  selectedColor = this.colors[2];
+
+
   public event = {
     pickupDate: new Date(),
     pickupTime: '',
@@ -45,6 +61,23 @@ export class MyAccountPage {
     console.log('MyAccountPage - IonicViewDidEnter');
     this.userProfile = this.authService.getCurrentUserProfileData();
   }
+
+
+/*
+  getAllDays() {
+    var e = moment();
+    var s = moment().subtract('months', 1);
+    var a = []
+    // While the updated start date is older, perform the loop.
+    while(s.isBefore(e)) {
+      // Update the format according to moment js documentations format().
+      a.push(s.format("MMM - DD"));
+      s = s.add('days', 1);
+    }
+    return a;
+  }
+*/
+
 
   ngOnInit() {
 

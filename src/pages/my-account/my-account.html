@@ -7,122 +7,29 @@
 
 
 <ion-content padding>
- <!-- <ion-list no-lines>
-    <ion-item no-lines>
-      <ion-label style="color: #ea6153">Place your first order in order to register with us.</ion-label>
-    </ion-item>
-    <ion-item no-lines>
-      <ion-label floating>Name</ion-label>
-      <ion-input
-        type="text"
-        required
-        value="{{userProfile.name}}"
-        [(ngModel)]="userProfile.name"
-      ></ion-input>
-    </ion-item>
-    <ion-item no-lines>
-      <ion-label floating>Phone</ion-label>
-      <ion-input
-        type="text"
-        required
-        value="{{userProfile.phone}}"
-        [(ngModel)]="userProfile.phone"
-      ></ion-input>
-    </ion-item>
-    <ion-item no-lines>
-      <ion-label floating>Email</ion-label>
-      <ion-input
-        type="text"
-        required
-        value="{{userProfile.email}}"
-        [(ngModel)]="userProfile.email"
 
-      ></ion-input>
-    </ion-item>
-
-    <ion-item no-lines>
-      <ion-label floating>Street</ion-label>
-      <ion-input
-        type="text"
-        required
-        value="{{userProfile.address.street}}"
-        [(ngModel)]="userProfile.address.street"
-      ></ion-input>
-    </ion-item>
-
-    <ion-item no-lines>
-      <ion-label floating>City</ion-label>
-      <ion-input
-        type="text"
-        required
-        value="{{userProfile.address.city}}"
-        [(ngModel)]="userProfile.address.city"
-      ></ion-input>
-    </ion-item>
+ <ion-card>
+    <ion-card-header>Select Object</ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item>
+          <ion-label></ion-label>
+          <ion-select [(ngModel)]="pickUpDates">
+            <ion-option *ngFor="let pickUpDate of pickUpDates" [value]="pickUpDate">{{pickUpDate}}</ion-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
 
 
 
-    <ion-item no-lines>
-      <ion-label floating>Lng</ion-label>
-      <ion-input
-        type="text"
-        required
-        value="{{userProfile.address.lng}}"
-        [(ngModel)]="userProfile.address.lng"
-      ></ion-input>
-    </ion-item>
-      <ion-item no-lines>
-        <ion-label floating>Lat</ion-label>
-        <ion-input
-          type="text"
-          required
-          value="{{userProfile.address.lat}}"
-          [(ngModel)]="userProfile.address.lat"
-        ></ion-input>
-    </ion-item>
-  </ion-list>
-
-
-  <ion-list no-border>
-
-
-
-
-
-    <ion-item-divider color="light">SCHEDULE PICKUP</ion-item-divider>
-
-    <ion-item>
-      <ion-label>Pickup Date</ion-label>
-      <ion-datetime displayFormat="MMM DD YYYY" [(ngModel)]="event.pickupDate" value="event.pickupDate">{{event.pickupDate}}</ion-datetime>
-    </ion-item>
-
-
-    <ion-item>
-      <ion-label>Pickup Time</ion-label>
-      <ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" [(ngModel)]="event.pickupTime">{{event.pickupTime}}</ion-datetime>
-    </ion-item>
-  </ion-list>-->
-
-  <ion-list no-border>
-<ion-item >
-  {{date1 | date:'MM/dd/yyyy'}} </ion-item>
-    <ion-item>
-  {{date2 | date}}
-</ion-item>
-    <ion-item-divider color="light">SCHEDULE DROPOFF</ion-item-divider>
-    <ion-item>
-      <ion-label>Dropoff Date</ion-label>
-      <ion-datetime displayFormat="MMM DD YYYY" (ionChange)="RefreshPickUpDate()" [(ngModel)]="event.dropOffDate" >{{event.dropOffDate}}</ion-datetime>
-    </ion-item>
-
-    <ion-item-divider color="light">SCHEDULE PICKUP</ion-item-divider>
-
-    <ion-item>
-      <ion-label>Pickup Date</ion-label>
-      <ion-datetime displayFormat="MMM DD YYYY"  [(ngModel)]="event.pickupDate" value="event.pickupDate">{{event.pickupDate}}</ion-datetime>
-    </ion-item>
-  </ion-list>
-
+  <ion-item>
+    <ion-label stacked>Colors</ion-label>
+    <ion-select ngControl="colorControl" [(ngModel)]="selectedColor">
+      <ion-option *ngFor="let color of colors" [value]="color">{{color.name}}</ion-option>
+    </ion-select>
+  </ion-item>
 
   <ion-list no-border>
 
@@ -141,21 +48,7 @@
   </ion-list>
 
 
-  <ion-list>
-    <ion-item class="item-select">
-      <span class="input-label">Country</span>
-      <select
-        ng-options="date1"
-        ng-model="date1"></select>
-    </ion-item>
-    <ion-item class="item-select" ng-class="{disabled: !form.selectedCountry}">
-      <span class="input-label">Zone</span>
-      <select
-        ng-options="date2"
-        ng-model="date2"
-        ></select>
-    </ion-item>
-  </ion-list>
+
 </ion-content>
 <ion-footer>
 
