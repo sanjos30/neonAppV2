@@ -27,7 +27,7 @@ export class MyApp {
 
 
     firebase.initializeApp({
-      apiKey: "AIzaSyC4b_qyg3xGPWXEdH4B-VLCRu1ClbjNBwk",
+      apiKey: "",
       authDomain: "neonappservertest.firebaseapp.com",
       databaseURL: "https://neonappservertest.firebaseio.com",
     });

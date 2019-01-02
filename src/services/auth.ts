@@ -1,4 +1,5 @@
 import firebase from 'firebase';
+
 import {Customer} from "../models/customer";
 import {User} from "../models/user";
 
