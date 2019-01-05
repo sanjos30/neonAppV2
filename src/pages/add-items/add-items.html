@@ -6,7 +6,7 @@
 
   <div class="header">
     <ion-item>
-      <ion-row >
+      <ion-row>
         <ion-col width-15>Item</ion-col>
         <ion-col width-25>Price</ion-col>
         <ion-col width-25>Quantity</ion-col>
@@ -32,11 +32,20 @@
           <ion-col width-15>{{ironItem.itemName}}</ion-col>
           <ion-col width-25>{{ironItem.itemPrice}}</ion-col>
           <ion-col width-25 class="add">
-            <button clear (click)="incrementQty(ironItem)"><ion-icon name="add-circle" ></ion-icon></button>{{qty}}
-            <button clear (click)="decrementQty(ironItem)"><ion-icon name="remove-circle" ></ion-icon></button>
+            <button clear (click)="incrementQty(ironItem)">
+              <ion-icon name="add-circle"></ion-icon>
+            </button>
+            {{qty}}
+            <button clear (click)="decrementQty(ironItem)">
+              <ion-icon name="remove-circle"></ion-icon>
+            </button>
           </ion-col>
           <ion-col width-15>{{ironItem.serviceType}}</ion-col>
-          <ion-col width-20><button clear (click)="delete(i)"><ion-icon name="close-circle"></ion-icon></button></ion-col>
+          <ion-col width-20>
+            <button clear (click)="delete(i)">
+              <ion-icon name="close-circle"></ion-icon>
+            </button>
+          </ion-col>
         </ion-row>
       </ion-item>
     </ng-container>
@@ -49,18 +58,26 @@
           <ion-col width-15>{{item.itemName}}</ion-col>
           <ion-col width-25>{{item.itemPrice}}</ion-col>
           <ion-col width-25 class="add">
-            <button clear (click)="incrementQty()"><ion-icon name="add-circle" ></ion-icon></button>{{qty}}
-            <button clear (click)="decrementQty()"><ion-icon name="remove-circle" ></ion-icon></button>
+            <button clear (click)="incrementQty()">
+              <ion-icon name="add-circle"></ion-icon>
+            </button>
+            {{qty}}
+            <button clear (click)="decrementQty()">
+              <ion-icon name="remove-circle"></ion-icon>
+            </button>
           </ion-col>
           <ion-col width-15>{{item.serviceType}}</ion-col>
-          <ion-col width-20><button clear (click)="delete(i)"><ion-icon name="close-circle"></ion-icon></button></ion-col>
+          <ion-col width-20>
+            <button clear (click)="delete(i)">
+              <ion-icon name="close-circle"></ion-icon>
+            </button>
+          </ion-col>
         </ion-row>
       </ion-item>
     </ng-container>
 
 
   </ion-list>
-
 
 
   <div class="addtocart">
@@ -74,14 +91,16 @@
           ion-button
           block
           color="danger"
-          (click)="onAbort()">Cancel</button>
+          (click)="onAbort()">Cancel
+        </button>
       </ion-col>
       <ion-col>
         <button
           ion-button
           block
           color=navbar
-          (click)="onConfirm()">Confirm</button>
+          (click)="onConfirm()">Confirm
+        </button>
       </ion-col>
 
     </ion-row>

@@ -63,21 +63,6 @@ export class MyAccountPage {
   }
 
 
-/*
-  getAllDays() {
-    var e = moment();
-    var s = moment().subtract('months', 1);
-    var a = []
-    // While the updated start date is older, perform the loop.
-    while(s.isBefore(e)) {
-      // Update the format according to moment js documentations format().
-      a.push(s.format("MMM - DD"));
-      s = s.add('days', 1);
-    }
-    return a;
-  }
-*/
-
 
   ngOnInit() {
 
