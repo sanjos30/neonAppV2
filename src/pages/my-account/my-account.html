@@ -23,6 +23,7 @@
   </ion-card>
   <ion-item>
     <ion-label stacked>Colors</ion-label>
+
     <ion-select ngControl="colorControl" [(ngModel)]="selectedColor">
       <ion-option *ngFor="let color of colors" [value]="color">{{color.name}}</ion-option>
     </ion-select>
