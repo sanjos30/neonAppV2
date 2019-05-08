@@ -15,7 +15,6 @@ import {GetStartedPage} from "../pages/get-started/get-started";
   templateUrl: 'app.html'
 })
 export class MyApp {
-  //rootPage:any = TabsPage;
   rootPage:any;
   loader: any;
 
