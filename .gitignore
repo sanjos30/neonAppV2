@@ -12,6 +12,8 @@ log.txt
 .vscode/
 npm-debug.log*
 push.bat
+logger.bat
+ionic-my-app.log
 
 .idea/
 .sourcemaps/
