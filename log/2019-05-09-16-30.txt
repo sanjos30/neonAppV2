@@ -1,4 +1,4 @@
-2019-05-09-11-03 
+2019-05-09-16-30 
 index.cjs.js:125 
 It looks like you're using the development build of the Firebase JS SDK.
 When deploying Firebase apps to production, it is advisable to only import
