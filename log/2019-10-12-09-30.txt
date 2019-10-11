@@ -1,0 +1,98 @@
+2019-10-12-09-30 
+User is authenticated
+auth.ts:97 auth.ts - loadUserProfileFromFirebase function - loading user from firebase with token aSASDA122FsS@wtEYasd26eK8f2s
+auth.ts:49 The phone number of the user is :null
+auth.ts:55 auth.ts isUserLoggedIn Returning True
+auth.ts:49 The phone number of the user is :null
+auth.ts:55 auth.ts isUserLoggedIn Returning True
+schedule.ts:87 The token obtained from firebase is: aSASDA122FsS@wtEYasd26eK8f2s
+auth.ts:97 auth.ts - loadUserProfileFromFirebase function - loading user from firebase with token aSASDA122FsS@wtEYasd26eK8f2s
+auth.ts:49 The phone number of the user is :null
+auth.ts:55 auth.ts isUserLoggedIn Returning True
+schedule.ts:91 Schedule.ts - ionViewDidEnter - User logged in name from FB is 
+schedule.ts:84 The user is registered true
+my-dhobi.ts:28 ionViewDidEnter MyDhobiPage
+auth.ts:49 The phone number of the user is :null
+auth.ts:55 auth.ts isUserLoggedIn Returning True
+schedule.ts:87 The token obtained from firebase is: aSASDA122FsS@wtEYasd26eK8f2s
+auth.ts:113  auth.ts - loadUserProfileFromFirebase function - Using previously loaded Customer from Auth Service
+schedule.ts:91 Schedule.ts - ionViewDidEnter - User logged in name from FB is  ABC DOF
+schedule.ts:84 The user is registered true
+pricing.ts:87 []
+auth.ts:49 The phone number of the user is :null
+auth.ts:55 auth.ts isUserLoggedIn Returning True
+profile.ts:52 User login info from profile page is true
+profile.ts:54 User is logged in
+profile.ts:56 null: is the user phone number and id is: aSASDA122FsS@wtEYasd26eK8f2s
+help.ts:22 ionViewCanEnter()
+help.ts:26 ionViewDidLoad()
+help.ts:30 Help Page - ionViewDidEnter()
+help.ts:38 ionViewCanLeave()
+my-account.ts:18 MyAccountPage - constructor
+my-account.ts:71 MyAccountPage - ngOnInit - The user Id is: aSASDA122FsS@wtEYasd26eK8f2s
+datetime-util.js:229 Error parsing date: "Tue May 14 2019 08:39:24 GMT+1000 (Australian Eastern Standard Time)". Please provide a valid ISO 8601 datetime format: https://www.w3.org/TR/NOTE-datetime
+updateDate @ datetime-util.js:229
+DateTime._inputNormalize @ datetime.js:315
+BaseInput._writeValue @ base-input.js:117
+BaseInput.writeValue @ base-input.js:97
+(anonymous) @ forms.js:2347
+(anonymous) @ forms.js:3919
+FormControl.setValue @ forms.js:3919
+(anonymous) @ forms.js:6209
+t.invoke @ polyfills.js:3
+onInvoke @ core.js:4629
+t.invoke @ polyfills.js:3
+r.run @ polyfills.js:3
+(anonymous) @ polyfills.js:3
+t.invokeTask @ polyfills.js:3
+onInvokeTask @ core.js:4620
+t.invokeTask @ polyfills.js:3
+r.runTask @ polyfills.js:3
+o @ polyfills.js:3
+e.invokeTask @ polyfills.js:3
+p @ polyfills.js:2
+v @ polyfills.js:2
+datetime-util.js:229 Error parsing date: "Invalid Date". Please provide a valid ISO 8601 datetime format: https://www.w3.org/TR/NOTE-datetime
+updateDate @ datetime-util.js:229
+DateTime._inputNormalize @ datetime.js:315
+BaseInput._writeValue @ base-input.js:117
+BaseInput.writeValue @ base-input.js:97
+(anonymous) @ forms.js:2347
+(anonymous) @ forms.js:3919
+FormControl.setValue @ forms.js:3919
+(anonymous) @ forms.js:6209
+t.invoke @ polyfills.js:3
+onInvoke @ core.js:4629
+t.invoke @ polyfills.js:3
+r.run @ polyfills.js:3
+(anonymous) @ polyfills.js:3
+t.invokeTask @ polyfills.js:3
+onInvokeTask @ core.js:4620
+t.invokeTask @ polyfills.js:3
+r.runTask @ polyfills.js:3
+o @ polyfills.js:3
+e.invokeTask @ polyfills.js:3
+p @ polyfills.js:2
+v @ polyfills.js:2
+my-account.ts:61 MyAccountPage - IonicViewDidEnter
+auth.ts:120 AUTH SERVICE aSASDA122FsS@wtEYasd26eK8f2s
+auth.ts:122 User is logged in
+auth.ts:127 {address: {…}, email: "sa@gmail.com", name: " ABC DOF", phone: "+61999998224"}
+help.ts:42 ionViewCanLeave()
+auth.ts:49 The phone number of the user is :null
+auth.ts:55 auth.ts isUserLoggedIn Returning True
+schedule.ts:87 The token obtained from firebase is: aSASDA122FsS@wtEYasd26eK8f2s
+auth.ts:113  auth.ts - loadUserProfileFromFirebase function - Using previously loaded Customer from Auth Service
+schedule.ts:91 Schedule.ts - ionViewDidEnter - User logged in name from FB is  ABC DOF
+schedule.ts:84 The user is registered true
+my-dhobi.ts:28 ionViewDidEnter MyDhobiPage
+my-dhobi.ts:32 Toggling
+auth.ts:49 The phone number of the user is :null
+auth.ts:55 auth.ts isUserLoggedIn Returning True
+schedule.ts:87 The token obtained from firebase is: aSASDA122FsS@wtEYasd26eK8f2s
+auth.ts:113  auth.ts - loadUserProfileFromFirebase function - Using previously loaded Customer from Auth Service
+schedule.ts:91 Schedule.ts - ionViewDidEnter - User logged in name from FB is  ABC DOF
+schedule.ts:84 The user is registered true
+auth.ts:49 The phone number of the user is :null
+auth.ts:55 auth.ts isUserLoggedIn Returning True
+history.ts:28 History Page - ionViewDidEnter(). Active user is - aSASDA122FsS@wtEYasd26eK8f2s
